@@ -16,3 +16,4 @@ use App\Http\Controllers\MemberController;
 Route::get('/', function () {
     return view('welcome');
 });
+ 

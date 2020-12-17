@@ -65,7 +65,7 @@ class FingerprintController extends Controller
 
     foreach ($data as $value) {
       $value['imgPathFingerprint'] = 'http://127.0.0.1:8000/storage/uploads/image-fingerprint/' . $value->fingerprint;
-      $value['imgPathProFile'] = 'http://127.0.0.1:8000/storage/uploads/image-fingerprint/' . $value->imguser;
+      $value['imgPathProFile'] = 'http://127.0.0.1:8000/storage/uploads/image-Porfile/' . $value->imguser;
     }
     return response()->json($data, 200);
   
