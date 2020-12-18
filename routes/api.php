@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FingerprintController;
 use App\Http\Controllers\MemberController;
+use App\Models\Models\Fingerprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,3 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::post('/save', [FingerprintController::class, 'save']);
 Route::get('/get-data', [FingerprintController::class, 'getData']);
+Route::get('/get-lastest-data', [FingerprintController::class, 'getDataLastest']);
+Route::post('/edit-data', [FingerprintController::class, 'editData']);
