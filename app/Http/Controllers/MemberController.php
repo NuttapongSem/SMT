@@ -8,7 +8,7 @@ class MemberController extends Controller
 {
     public function show()
     {
-        dd('1111111111111111');
+        // dd('1111111111111111');
     }
 
     public function saveUser(Request $request) {

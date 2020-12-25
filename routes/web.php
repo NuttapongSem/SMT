@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactControlloer;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Models\Models\Fingerprint;
@@ -16,10 +17,25 @@ use Illuminate\Support\Facades\Http;
 |
 */
 
-Route::get('/', function () {
-  return view('welcome');
+Route::get('/create', function () {
+  return view('fingpint.create');
 });
+Route::get('/edit', function () {
+  return view('fingpint.edit');
+});
+Route::get('/delete', function () {
+  return view('fingpint.delete');
+});
+Route::get('/finger', function () {
+  $data = Fingerprint::get();
 
+  foreach ($data as $value) {
+    $value['imgPathFingerprint'] = 'http://127.0.0.1:8000/storage/uploads/image-fingerprint/' . $value->fingerprint;
+    $value['imgPathProFile'] = 'http://127.0.0.1:8000/storage/uploads/image-Porfile/' . $value->imguser;
+  }
+  return view('fingpint.index', ["data" => $data]);
+});
+Route::post('/update', [FingerprintController::class, 'update']);
 Route::get('/video/{id}', function ($id) {
   $response = Http::get("https://ta.kisrateam.com/api/get-lastest-data");
   $data = $response->json()[0];
