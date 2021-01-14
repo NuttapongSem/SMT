@@ -14,6 +14,7 @@ class Video extends Model
     protected $fillable = 
     [
         'videoTags',
-        'id_video'
+        'id_video',
+        'views'
     ];
 }

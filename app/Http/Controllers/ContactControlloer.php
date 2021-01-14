@@ -8,13 +8,14 @@ use Illuminate\Http\Request;
 class ContactControlloer extends Controller
 {
     /**
+     * 
      * Handle the incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
-    {dd('1235');
+    {
     return view('contact.index');
     
     }

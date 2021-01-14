@@ -22,6 +22,7 @@ class VideoController extends Controller
     public function getVideo(Request $request)
     {
         $filevideo = Video::get();
+        
 
         return response($filevideo);
     }
@@ -30,5 +31,13 @@ class VideoController extends Controller
         $data = Video::where('videoTags', 'like', "%{$request->videoTags}%")->get();
 
         return response()->json($data, 200);
+    }
+    public function numview(Request $request)
+    {
+        $query = Video::find($request->id);
+        $query->view = $query->view + 1;
+        $query->save();
+
+        return response()->json(['massege' => "save view"], 200);
     }
 }

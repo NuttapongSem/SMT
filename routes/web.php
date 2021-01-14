@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\ContactControlloer;
+use App\Http\Controllers\FingerprintController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\SuperadminController;
 use App\Models\Models\Fingerprint;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,26 +20,9 @@ use Illuminate\Support\Facades\Http;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('/edit-data', [FingerprintController::class, 'editData']);
 
-Route::get('/create', function () {
-  return view('fingpint.create');
-});
-Route::get('/edit', function () {
-  return view('fingpint.edit');
-});
-Route::get('/delete', function () {
-  return view('fingpint.delete');
-});
-Route::get('/finger', function () {
-  $data = Fingerprint::get();
 
-  foreach ($data as $value) {
-    $value['imgPathFingerprint'] = 'http://127.0.0.1:8000/storage/uploads/image-fingerprint/' . $value->fingerprint;
-    $value['imgPathProFile'] = 'http://127.0.0.1:8000/storage/uploads/image-Porfile/' . $value->imguser;
-  }
-  return view('fingpint.index', ["data" => $data]);
-});
-Route::post('/update', [FingerprintController::class, 'update']);
 Route::get('/video/{id}', function ($id) {
   $response = Http::get("https://ta.kisrateam.com/api/get-lastest-data");
   $data = $response->json()[0];
@@ -56,4 +43,36 @@ Route::get('/video/{id}', function ($id) {
   mt_srand(time());
   $index_random = mt_rand(0, count($videoList) - 1);
   return view('video', ["video" =>  $videoList[$index_random], 'data' => $data]);
+});
+
+
+
+
+Route::post('/check-login', [SuperadminController::class, 'login']);
+Route::get('/login', function () {
+  return view('login');
+});
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/history', [FingerprintController::class, 'getHistory']);
+
+Route::group(['middleware' => 'admin'], function () {
+
+  Route::get('/form-create', [FingerprintController::class, 'createAdmin']);
+
+  Route::post('/save-edit', [FingerprintController::class, 'saveEdit']);
+
+  Route::post('/save-finger', [FingerprintController::class, 'saveFinger']);
+
+  Route::get('/edit/{id}',  [FingerprintController::class, 'edit']);
+
+  Route::get('/delete/{id}',  [FingerprintController::class, 'delete']);
+
+  Route::get('/', [FingerprintController::class, 'index']);
+
+  Route::get('/logout', [SuperadminController::class, 'logout']);
+
+  Route::post('/update', [FingerprintController::class, 'update']);
 });

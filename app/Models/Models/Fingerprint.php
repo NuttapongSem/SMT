@@ -10,7 +10,7 @@ class Fingerprint extends Model
     use HasFactory;
 
     protected $table = 'fingerprint';
-     
+
     protected $fillable = [
         'name',
         'age',
@@ -18,4 +18,8 @@ class Fingerprint extends Model
         'imguse',
         'fingerprint'
     ];
+    public function date()
+    {
+        return $this->hasMany(Date::class, 'fingerprint_id', 'id')->orderBy('created_at','DESC');
+    }
 }
