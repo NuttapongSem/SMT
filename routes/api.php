@@ -26,10 +26,6 @@ Route::post('/save', [FingerprintController::class, 'save']);
 
 Route::get('/get-data', [FingerprintController::class, 'getData']);
 
-Route::get('/get-lastest-data', [FingerprintController::class, 'getDataLastest']);
-
-Route::post('/edit-data', [FingerprintController::class, 'editData']);
-
 Route::post('/save-Video', [VideoController::class, 'saveVideo']);
 
 Route::get('/get-Videco', [VideoController::class, 'getVideo']);
@@ -38,10 +34,12 @@ Route::get('/search', [VideoController::class, 'searchinterest']);
 
 Route::post('/status', [FingerprintController::class, 'status']);
 
-Route::post('/date', [FingerprintController::class, 'date']);
+Route::post('/date', [FingerprintController::class, 'attenDance']);
 
 Route::get('/allData', [FingerprintController::class, 'allData']);
 
 Route::post('/numview', [VideoController::class, 'numview']);
 
-// Route::('/contact',[contactControlloer::class,'create']);s
+// Route::('/contact',[contactControlloer::class,'create']);
+
+// Route::get('/get-lastest-data', [FingerprintController::class, 'getDataLastest']);

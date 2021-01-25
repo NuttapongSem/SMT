@@ -27,6 +27,8 @@ class SuperadminController extends Controller
     
 
     }
+
+    
     protected function logout(Request $request)
     {
         

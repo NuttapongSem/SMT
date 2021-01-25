@@ -14,12 +14,81 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script> -->
+    <!-- นำเข้า  CSS จาก Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- นำเข้า  CSS จาก dataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
+
+    <!-- นำเข้า  Javascript จาก  Jquery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- นำเข้า  Javascript  จาก   dataTables -->
+    <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script> -->
+
+    <script type="text/javascript">
+        $(function() {
+            $('#example').dataTable();
+        });
+    </script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+
+        /* HTML5 display-role reset for older browsers */
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        hgroup,
+        menu,
+        nav,
+        section {
+            display: block;
+        }
+
+        body {
+            line-height: 1;
+        }
+
+        ol,
+        ul {
+            list-style: none;
+        }
+
+        blockquote,
+        q {
+            quotes: none;
+        }
+
+        blockquote:before,
+        blockquote:after,
+        q:before,
+        q:after {
+            content: '';
+            content: none;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+    </style>
+
 </head>
 <style>
     #nav2 {
@@ -49,16 +118,27 @@
     </script>
 
     @endif
+    <style>
+        body {
+            background-color: lightgray;
+            ;
+        }
+
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        
+    </style>
 
 
-
-
-    <div class="row card-header">
+    <div class="row card-header" style="background-color: #F3C35D;">
 
         <div class="col-lg-4"></div>
 
-        <div class="col-lg-4 col-6" style="text-align: center;">
-            <h5>Information</h5>
+        <div class="col-lg-4 col-6" style="text-align:center;">
+
+            <h2>Information</h2>
         </div>
 
         <div class="col-lg-4 col-6" style="text-align: end;">
@@ -106,78 +186,92 @@
 
         </div>
 
-    </div>
+    </div><br>
 
 
-    <div class="container">
+    <div class="container" style="background-color:#FDFDFD;">
 
-        <!-- <div style="margin-top:1rem;margin-bottom:1rem;">
+        <div style="margin-top:1rem;margin-bottom:1rem;"><br>
 
-            <a href="{{url('/form-create')}}">
-                <button type="button" style="width:150px;height:40px;background-color: #17a2b8;color:aliceblue" class="btn"><i class="bi bi-box-arrow-down"></i></button>
+
+            <a href="{{ url('/datauser')}}">
+                <button type="button" class="btn btn-danger mx-0" style="width:125px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;Profile</button>
             </a>
-        </div> -->
+            <a href="{{ url('/checkin')}}">
+                <button type="button" class="btn btn-warning mx-0" style="width:125px;height:35px;background-color:#239B56 ;color:aliceblue"><i class="bi bi-hand-index-thumb-fill"></i>&#160;<i class="bi bi-person-check-fill"></i>Attendance</button>
+            </a>
+        </div>
 
 
 
         <div class="table-responsive-xl">
             <table class="table">
 
-                <thead>
-                    <tr>
-                        <th scope="col-6 col-md-4">Name</th>
-                        <th scope="col-6 col-md-4">Age</th>
-                        <th scope="col-6 col-md-4">Interest</th>
-                        <th scope="col-6 col-md-4">Time</th>
-                        <th scope="col-6 col-md-4">Status</th>
-                        <th scope="col-6 col-md-4">Edit</th>
-                        <th scope="col-6 col-md-4">Delete</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($data as $row)
+                <table class="table table-bordered" id="example" >
+                    <thead>
+                        <tr style="background-color: #F3C35D;">
+                            <th scope="col-6 col-md-4">Name</th>
+                            <th scope="col-6 col-md-4">Age</th>
+                            <th scope="col-6 col-md-4">Interest</th>
+                            <th scope="col-6 col-md-4">Time</th>
+                            <th scope="col-6 col-md-4">Status</th>
+                            <th scope="col-6 col-md-4">Edit</th>
+                            <th scope="col-6 col-md-4">Delete</th>
 
 
-                    <tr>
-                        <th scope="row">
-                            {{$row->name}}
-                        </th>
-                        <td>
-                            {{$row->age}}
-                        </td>
-                        <td>
-                            {{$row->interest}}
-                        </td>
-                        <td>
-                            {{$row->date->first()->updated_at ?? '-'}}
-                        </td>
-                        <td>
-                            <p>{{ $row->date->first()->status ?? '-' }}</p>
-                        </td>
-                        <td>
-                            <a href="{{url('/edit/'.$row->id)}}">
-                                <button type="button" class="btn btn-secondary" class="btn btn-danger">
-                                    <i class="bi bi-hammer"></i>
-                                </button>
-                            </a>
 
-                        <td>
-                            <a href="{{url('/delete/'.$row->id)}}" onclick="return confirm('delete confirm?')">
-                                <button type="button" style="width:150px;height:40px" class="btn btn-danger">ลบ
-                                    <i class="bi bi-x-circle"></i>
-                                </button>
-                            </a>
-                        </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($data as $row)
 
 
-                    </tr>
-                    @endforeach
-                </tbody>
+                        <tr>
+                            <th scope="row">
+                                {{$row->name}}
+                            </th>
+                            <td>
+                                {{$row->age}}
+                            </td>
+                            <td>
+                                <?php $arr = json_decode($row->interest) ?>
+                                @foreach($arr as $interest)
+                                @if($loop->last)
+                                {{$interest}}
+                                @else
+                                {{$interest}},
+                                @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                {{$row->attendance->first()->updated_at ?? '-'}}
+                            </td>
+                            <td>
+                                <p>{{$row->attendance->first()->status ?? '-' }}</p>
+                            </td>
+                            <td>
+                                <a href="{{url('/edit/'.$row->id)}}">
+                                    <button type="button" class="btn btn-secondary" class="btn btn-danger" style="background-color: #006ABE;">
+                                        <i class="bi bi-pencil-fill"></i>
+                                    </button>
+                                </a>
 
+                            <td>
+                                <a href="{{url('/delete/'.$row->id)}}" onclick="return confirm('delete confirm?')">
+                                    <button type="button" style="width:150px;height:40px" class="btn btn-danger">ลบ
+                                        <i class="bi bi-x-circle"></i>
+                                    </button>
+                                </a>
+                            </td>
+
+
+                        </tr>
+                        @endforeach
+                    </tbody>
+
+                </table>
             </table>
-
-        </div>
+        </div><br>
 
 </body>
 

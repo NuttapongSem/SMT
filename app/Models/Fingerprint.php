@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models\Models;
+namespace App\Models;
 
+use Database\Factories\AttendanceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,8 +19,8 @@ class Fingerprint extends Model
         'imguse',
         'fingerprint'
     ];
-    public function date()
+    public function attendance()
     {
-        return $this->hasMany(Date::class, 'fingerprint_id', 'id')->orderBy('created_at','DESC');
+        return $this->hasMany(Attendance::class, 'fingerprint_id', 'id')->orderBy('created_at','DESC');
     }
 }

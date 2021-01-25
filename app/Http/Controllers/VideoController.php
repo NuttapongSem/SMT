@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Models\Video;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class VideoController extends Controller
@@ -19,6 +19,7 @@ class VideoController extends Controller
         ], 200);
     }
 
+
     public function getVideo(Request $request)
     {
         $filevideo = Video::get();
@@ -26,12 +27,16 @@ class VideoController extends Controller
 
         return response($filevideo);
     }
+
+
     public function searchinterest(Request $request)
     {
         $data = Video::where('videoTags', 'like', "%{$request->videoTags}%")->get();
 
         return response()->json($data, 200);
     }
+
+    
     public function numview(Request $request)
     {
         $query = Video::find($request->id);

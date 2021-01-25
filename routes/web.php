@@ -58,6 +58,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/history', [FingerprintController::class, 'getHistory']);
 
+
 Route::group(['middleware' => 'admin'], function () {
 
   Route::get('/form-create', [FingerprintController::class, 'createAdmin']);
@@ -70,9 +71,14 @@ Route::group(['middleware' => 'admin'], function () {
 
   Route::get('/delete/{id}',  [FingerprintController::class, 'delete']);
 
+  Route::get('/datauser', [FingerprintController::class, 'dataUser']);
+
+  Route::get('/checkin', [FingerprintController::class, 'Checkin']);
+
   Route::get('/', [FingerprintController::class, 'index']);
 
   Route::get('/logout', [SuperadminController::class, 'logout']);
 
   Route::post('/update', [FingerprintController::class, 'update']);
+
 });
