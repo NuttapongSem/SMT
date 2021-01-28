@@ -81,4 +81,5 @@ Route::group(['middleware' => 'admin'], function () {
 
   Route::post('/update', [FingerprintController::class, 'update']);
 
+  Route::get('/chartuser', [FingerprintController::class, 'chartUser']);
 });

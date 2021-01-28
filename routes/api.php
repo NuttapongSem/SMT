@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FingerprintController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\VideoController;
 use App\Models\Models\Fingerprint;
 use App\Models\Models\Video;
@@ -39,6 +40,8 @@ Route::post('/date', [FingerprintController::class, 'attenDance']);
 Route::get('/allData', [FingerprintController::class, 'allData']);
 
 Route::post('/numview', [VideoController::class, 'numview']);
+
+Route::post('/login-Mobile', [SuperadminController::class, 'loginMobile']);
 
 // Route::('/contact',[contactControlloer::class,'create']);
 

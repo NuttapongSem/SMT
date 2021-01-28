@@ -13,11 +13,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
-    <script type="text/javascript">
-        $(function() {
-            $('#example').dataTable();
-        });
-    </script>
+
     <style>
         html,
         body {
@@ -72,11 +68,12 @@
         }
 
         img.a {
-            -ms-transform: rotate(90deg);
+            -ms-transform: rotate(0deg);
             /* IE 9 */
-            transform: rotate(90deg);
+            transform: rotate(0deg);
         }
-        tr td img{
+
+        tr td img {
             margin: 10px;
         }
     </style>
@@ -93,18 +90,18 @@
             ;
         }
     </style>
+    <h2 class="card-header" style="background-color: #F3C35D; text-align : center">Profile</h2><br>
 
-    <div class="container" style="background-color:#FDFDFD;">
+    <div class="container">
 
         <div class="table-responsive-xl" style="text-align : center">
 
 
 
-            <h2 class="card-header" style="background-color: #F3C35D;">Profile</h2><br>
 
 
 
-            <table class="table table-bordered" id="example">
+            <table class="table table-bordered" id="example" style="background-color:#FDFDFD;">
                 <thead style="background-color: #F3C35D;">
                     <tr>
 
@@ -116,12 +113,15 @@
 
                         <th scope="col-6 col-md-4">Porfile</th>
 
+                        <th scope="col-6 col-md-4">Chart</th>
+
+
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach($data as $row)
-                    <tr >
+                    <tr>
                         <th scope="row" style="vertical-align:middle">
                             {{$row->name}}
                         </th>
@@ -137,12 +137,21 @@
                             {{$interest}},
                             @endif
                             @endforeach
-                        </td >
-                        
-                            <td style="width: 200px;padding:20px">
-                                <img class="a" style="width: 100%;height: auto;" src="data:image/jpeg;base64,{{$row->imguser}}"  alt="">
-                            </td> 
-                      
+                        </td>
+
+                        <td style="width: 200px;padding:20px">
+                            <img class="a" style="width: 100%;height: auto;" src="data:image/jpeg;base64,{{$row->imguser}}" alt="">
+                        </td>
+
+                        <td><br><br><br>
+                            <div class="text-center">
+                                <a href=" {{url('//'.$row->id)}}">
+                                    <button type="button" class="btn btn-info"><i class="bi bi-graph-up"></i>&#160;Chartuser</button>
+                                </a>
+                            </div>
+
+                        </td>
+
                     </tr>
 
                     @endforeach

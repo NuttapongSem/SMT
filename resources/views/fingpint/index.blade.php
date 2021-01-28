@@ -22,19 +22,12 @@
     <!-- นำเข้า  CSS จาก Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <!-- นำเข้า  CSS จาก dataTables -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
 
     <!-- นำเข้า  Javascript จาก  Jquery -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <!-- นำเข้า  Javascript  จาก   dataTables -->
-    <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script> -->
 
-    <script type="text/javascript">
-        $(function() {
-            $('#example').dataTable();
-        });
-    </script>
+
+
     <style>
         html,
         body {
@@ -46,7 +39,7 @@
             vertical-align: baseline;
         }
 
-        /* HTML5 display-role reset for older browsers */
+
         article,
         aside,
         details,
@@ -128,7 +121,6 @@
             border-collapse: collapse;
             border-spacing: 0;
         }
-        
     </style>
 
 
@@ -207,10 +199,10 @@
         <div class="table-responsive-xl">
             <table class="table">
 
-                <table class="table table-bordered" id="example" >
+                <table class="table table-bordered">
                     <thead>
                         <tr style="background-color: #F3C35D;">
-                            <th scope="col-6 col-md-4">Name</th>
+                            <th scope="col-6 col-md-4" style="text-align : center">Name</th>
                             <th scope="col-6 col-md-4">Age</th>
                             <th scope="col-6 col-md-4">Interest</th>
                             <th scope="col-6 col-md-4">Time</th>
@@ -226,8 +218,8 @@
                         @foreach($data as $row)
 
 
-                        <tr>
-                            <th scope="row">
+                        <tr style="text-align : center">
+                            <th scope="row" style="text-align : center">
                                 {{$row->name}}
                             </th>
                             <td>
@@ -270,6 +262,8 @@
                     </tbody>
 
                 </table>
+                {{$data->links("pagination::bootstrap-4")}}
+
             </table>
         </div><br>
 

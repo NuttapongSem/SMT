@@ -28,6 +28,23 @@ class SuperadminController extends Controller
 
     }
 
+    public function loginMobile(Request $request)
+    {
+        $auth = User::where("email", $request->email)->where("password", $request->password)->first();
+
+        if ($auth) {
+            Auth::login($auth);
+            $auth->update(["type"=>1]);
+            Session::flash("save", "เข้าสู่ระบบเรียบร้อย");
+            return response()->json($auth,200);
+            
+        }else {
+            return response()->json("ข้อมูลไม่ถูกต้อง",400);
+        }
+    
+
+    }
+
     
     protected function logout(Request $request)
     {

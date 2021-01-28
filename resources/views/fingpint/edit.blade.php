@@ -82,15 +82,15 @@
     }
   </style>
 </head>
+<h3 class="card-header" style=" text-align: center; background-color: #F3C35D;">EditInformation</h2>
 
 
+<br>
 <div class="container" style="background-color:#FDFDFD;">
 
 
-  <h3 class="card-header" style=" text-align: center; background-color: #F3C35D;">EditInformation</h2>
 
 
-    <br>
 
     <body>
       <style>
@@ -169,7 +169,7 @@
         if (input.files && input.files[0]) {
           var reader = new FileReader();
           reader.onload = function(e) {
-            $('#profileImg').attr('src', e.target.result);
+            $('#profileImg').attr('src', e.target.result)
           }
           reader.readAsDataURL(input.files[0]);
         }
