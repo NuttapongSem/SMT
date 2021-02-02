@@ -200,10 +200,24 @@ class FingerprintController extends Controller
 
   public function dataUser(Request $request)
   {
-    $data = Fingerprint::orderByDesc('created_at')->get();
+    $name = $request->name;
+
+
+    $data = Fingerprint::orderByDesc('created_at',)
+
+      ->when($name, function ($query, $name) {
+        return $query->where('name', 'like', '%' . $name . '%');
+      })
+
+      ->paginate(5)->withQueryString();
+    $data->searchName = $name;
+
+
+
 
     return view('fingpint.datauser', compact('data'));
   }
+
 
 
   public function Checkin(Request $request)
@@ -281,17 +295,19 @@ class FingerprintController extends Controller
 
 
 
-  public function chartUser()
-  {
+  public function chartUser(Request $request)
 
+  {
     $idfinger = Fingerprint::get('id');
     $status = [];
     $xy = [];
     $dataforchart = [];
     $listforname = [];
     $index = 1;
+    $date = \Carbon\Carbon::now()->format('d-m-Y');
     foreach ($idfinger as $value) {
-      $data = Attendance::where('fingerprint_id', $value["id"])->where('date', "21-01-2021")->with('fingerprint')->orderBy('updated_at')->get();
+      $data = Attendance::where('fingerprint_id', $value["id"])->where('date', $date)->with('fingerprint')->orderBy('updated_at')->get();
+
       if (sizeof($data) != 0) {
         $start = $data[0];
         $end = $data[sizeof($data) - 1];
@@ -314,7 +330,93 @@ class FingerprintController extends Controller
     }
     $status['data'] = $dataforchart;
     $status['name'] = $listforname;
+    $status['datenow'] = $date;
+
     return view('fingpint.chartuser', ["data" => $status]);
+  }
+
+
+
+
+
+  public function getDate(Request $request)
+
+  {
+    $idfinger = Fingerprint::get('id');
+    $status = [];
+    $xy = [];
+    $dataforchart = [];
+    $listforname = [];
+    $index = 1;
+    $date = \Carbon\Carbon::parse($request->data)->format('d-m-Y');
+    foreach ($idfinger as $value) {
+      $data = Attendance::where('fingerprint_id', $value["id"])->where('date', $date)->with('fingerprint')->orderBy('updated_at')->get();
+
+      if (sizeof($data) != 0) {
+        $start = $data[0];
+        $end = $data[sizeof($data) - 1];
+        $listforname[$index] = $start->fingerprint->name;
+        for ($i = 1; $i <= 3; $i++) {
+          if ($i == 1) {
+            $xy['x'] = \Carbon\Carbon::parse($start->date . $start->Time)->format('Y-m-d h:i:s');
+            $xy['y'] = $index;
+          } else if ($i == 2) {
+            $xy['x'] = \Carbon\Carbon::parse($end->date . $end->Time)->format('Y-m-d h:i:s');
+            $xy['y'] = $index;
+          } else {
+            $xy['x'] = \Carbon\Carbon::parse($start->date . $start->Time)->format('Y-m-d h:i:s');;
+            $xy['y'] = null;
+          }
+          array_push($dataforchart, $xy);
+        }
+        $index++;
+      }
+    }
+    $status['data'] = $dataforchart;
+    $status['name'] = $listforname;
+    $status['datenow'] = $date;
+    return response()->json(["data" => $status]);
+  }
+
+
+  public function chartOne($id)
+  {
+
+    $dataChart = [];
+
+    $name = Fingerprint::where('id', $id)->get()[0]['name'];
+    $attendance = Attendance::where('fingerprint_id', $id)->orderBy('num')->get();
+    $firstDate = new DateTime();
+    $firstDate->setISODate($firstDate->format('Y'), $firstDate->format('W'));
+    $lastDate = new DateTime($attendance[sizeof($attendance) - 1]['date']);
+    $lastDate->setISODate($lastDate->format('Y'), $lastDate->format('W'));
+
+    $interval = $lastDate->diff($firstDate);
+    for ($i = 0; $i < intval($interval->days / 7) + 1; $i++) {
+      $week = [];
+      $dto = new DateTime();
+      $dto->setISODate($dto->format('Y'), $dto->format('W') - $i);
+      $dto->modify('-1 days');
+
+      for ($j = 0; $j <= 7; $j++) {
+        $attendance = Attendance::where('date', $dto->format('d-m-Y'))
+          ->where('fingerprint_id', $id)
+          ->orderBy('num')
+          ->get();
+
+        if (sizeof($attendance) != 0) {
+          $point['start'] = "2021-01-01 " . $attendance[0]['Time'];
+          $point['end'] = "2021-01-01 " . $attendance[sizeof($attendance) - 1]['Time'];
+          $point['y'] = date("Y-m-d", strtotime($attendance[0]['date'])) . " 00:00";
+          $point['date'] = $attendance[0]['date'];
+          $week[] = $point;
+        }
+        $dto->modify('+1 days');
+      }
+      $dataChart[] = $week;
+    }
+
+    return view('fingpint.chartOne', ['dataChart' => $dataChart, 'name' => $name]);
   }
 }
 

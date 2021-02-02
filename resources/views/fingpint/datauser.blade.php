@@ -95,14 +95,31 @@
     <div class="container">
 
         <div class="table-responsive-xl" style="text-align : center">
+            <form action="/datauser?page=1">
+                <div class="row" style="text-align: center;justify-content: center;display:flex;align-items: center;">
+                    <div>
+                        Name::&#160;
+                    </div>
 
 
+                    <div>
 
+                        <input type=" text" name="name" value="{{$data->searchName}}" class="form-control" id="floatingInput" placeholder="text" style="width: 150px; height: 45px;">
+
+                    </div>&#160;
+
+                    <input class="btn btn-primary" type="submit" value="Submit" style="width:80px;height:35px">
+
+                </div><br>
+            </form>
 
 
 
             <table class="table table-bordered" id="example" style="background-color:#FDFDFD;">
+
+
                 <thead style="background-color: #F3C35D;">
+
                     <tr>
 
                         <th scope="col-6 col-md-4" style="text-align : center">name</th>
@@ -145,7 +162,7 @@
 
                         <td><br><br><br>
                             <div class="text-center">
-                                <a href=" {{url('//'.$row->id)}}">
+                                <a href=" {{'/chartuser/'.$row->id}}">
                                     <button type="button" class="btn btn-info"><i class="bi bi-graph-up"></i>&#160;Chartuser</button>
                                 </a>
                             </div>
@@ -158,20 +175,20 @@
 
                 </tbody>
 
-
             </table>
-
+            {{$data->links("pagination::bootstrap-4")}}
 
         </div><br>
-        <center>
+
+        <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
             <a href="/">
                 <button type="/" class="btn btn-primary" style="width:150px;height:50px">
                     <i class="bi bi-arrow-left-circle"></i>
                 </button>
-            </a><br><br><br>
-        </center>
+            </a>
 
-    </div>
+
+        </div><br><br><br>
 
 
 </body>

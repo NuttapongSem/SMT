@@ -98,17 +98,19 @@
     <div class="container" style="background-color:#FDFDFD;">
         <div class="table-responsive-xl"><br>
 
+            <div>
 
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                <i class="bi bi-search">&#160;</i>Filter
-            </button>
-
-            <a href="chartuser">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" style="float : right;">
-                    <i class="bi bi-bar-chart-steps"></i>Chartuser
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    <i class="bi bi-search"></i>&#160;Filter
                 </button>
-            </a>
+
+                <a href="chartuser">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" style="float : right;">
+                        <i class="bi bi-bar-chart-steps"></i>&#160;Chartuser
+                    </button>
+                </a>
+            </div>
+
 
 
             <!-- Modal -->
@@ -240,17 +242,16 @@
 
 
     </div><br>
-    <center>
-        <div>
-            <a href="/">
-                <button type="/" class="btn btn-primary" style="width:150px;height:50px">
-                    <i class="bi bi-arrow-left-circle"></i>
-                </button>
-            </a><br><br>
-        </div>
-    </center>
 
-    </div>
+    <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
+        <a href="/">
+            <button type="/" class="btn btn-primary" style="width:150px;height:50px">
+                <i class="bi bi-arrow-left-circle"></i>
+            </button>
+        </a>
+    </div><br><br>
+
+
 
 
 </body>

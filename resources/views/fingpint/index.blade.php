@@ -262,7 +262,7 @@
                     </tbody>
 
                 </table>
-                {{$data->links("pagination::bootstrap-4")}}
+
 
             </table>
         </div><br>
