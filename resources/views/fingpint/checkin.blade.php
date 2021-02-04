@@ -17,11 +17,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script> -->
-    <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script> -->
-
 
 
 
@@ -106,7 +101,7 @@
 
                 <a href="chartuser">
                     <button type="button" class="btn btn-primary" data-toggle="modal" style="float : right;">
-                        <i class="bi bi-bar-chart-steps"></i>&#160;Chartuser
+                        <i class="bi bi-graph-up"></i>&#160;Chartuser
                     </button>
                 </a>
             </div>

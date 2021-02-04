@@ -55,11 +55,10 @@
             <div class="container">
 
                 <div style="text-align: center;">
-                    <div>
-                        <h4>Name: {{$name}}</h4>
-                    </div>
-                    <button type="button" class="btn btn-info" onclick="prev()" style="width: 80px;height: 20;"><i class="bi bi-chevron-compact-left"></i>&#160;prev</button>
-                    <button type="button" class="btn btn-info" onclick="next()" style="width: 80px;height: 20;">next&#160;<i class="bi bi-chevron-compact-right"></i></button>
+
+                    <h3 id="week"></h3><br>
+                    <button type="button" class="btn btn-info" onclick="prev()" style="width: 80px;height: 20;"><i class="bi bi-arrow-left-circle"></i>&#160;</button>
+                    <button type="button" class="btn btn-info" onclick="next()" style="width: 80px;height: 20;">&#160;<i class="bi bi-arrow-right-circle"></i></button>
                 </div><br>
                 <div class="row">
                     <canvas id="myChart" width="100" height="40"></canvas>
@@ -71,7 +70,7 @@
                         curr = new Date(curr.setDate(curr.getDate() - 7))
                         firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
                         lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
-
+                        document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
 
                         chart.options.scales.yAxes[0].time = {
                             unit: 'day',
@@ -83,7 +82,7 @@
                         } else {
                             chart.data.datasets = [{
                                 label: "No Data",
-                                borderColor: '#ff0f0f',
+                                borderColor: '#0421FF ',
                                 fill: false
                             }]
                         }
@@ -95,6 +94,7 @@
                         curr = new Date(curr.setDate(curr.getDate() + 7))
                         firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
                         lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
+                        document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
                         chart.options.scales.yAxes[0].time = {
                             unit: 'day',
                             min: firstday.setHours(-12),
@@ -105,7 +105,7 @@
                         } else {
                             chart.data.datasets = [{
                                 label: "No Data",
-                                borderColor: '#ff0f0f',
+                                borderColor: '#0421FF ',
                                 fill: false
                             }]
                         }
@@ -116,29 +116,31 @@
                     let week = 0;
                     let dataRaw = JSON.parse('<?php echo json_encode($dataChart); ?>');
                     let dataChart = [];
-                    console.log(dataRaw)
                     for (let i = 0; i < dataRaw.length; i++) {
                         let dataWeek = [];
                         for (let j = 0; j < dataRaw[i].length; j++) {
+                            console.log(dataRaw[i])
 
                             dataWeek.push({
                                 label: "วันที่::" + dataRaw[i][j]['date'],
-                                borderColor: 'rgb(76, 175, 54)',
+                                borderColor: '#0421FF ',
                                 data: [{
-                                    x: new Date(dataRaw[i][j]['start']),
-                                    y: new Date(dataRaw[i][j]['y']),
-                                }, {
-                                    x: new Date(dataRaw[i][j]['end']),
-                                    y: new Date(dataRaw[i][j]['y']),
+                                        x: new Date(dataRaw[i][j]['start']),
+                                        y: new Date(dataRaw[i][j]['y']),
+                                    },
+                                    {
+                                        x: new Date(dataRaw[i][j]['end']),
+                                        y: new Date(dataRaw[i][j]['y']),
 
-                                }],
+                                    }
+                                ],
                                 fill: false
                             })
                         }
                         if (dataWeek.length == 0) {
                             dataWeek.push({
                                 label: "No Data",
-                                borderColor: '#ff0f0f',
+                                borderColor: '#0421FF ',
                                 fill: false
                             })
                         }
@@ -146,8 +148,9 @@
                     }
                     let curr = new Date();
                     let firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-                    // console.log(curr)
+
                     let lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
+                    document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
                     let ctx = document.getElementById('myChart').getContext('2d');
                     let chart = new Chart(ctx, {
                         type: 'line',

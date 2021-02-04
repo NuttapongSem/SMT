@@ -52,7 +52,8 @@
 
             <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
 
-                <h4>Date::</h4><input id="date" type="date" name="date_start" data-open="picker2" class="form-control date-time picker-opener" style="width: 200px; height: 50px; ">
+
+                <h4>Date::&#160</h4><input id="date" type="date" name="date_start" data-open="picker2" class="form-control date-time picker-opener" placeholder="D/M/Y" style="width: 200px; height: 50px; ">
 
             </div><br>
 
@@ -72,17 +73,20 @@
                     let status = JSON.parse('<?php echo json_encode($data); ?>');
                     var yLabels = status['name'];
                     let text = document.getElementById('datenow');
-                    text.innerHTML = 'วันที่ : ' + status['datenow'];
-                    console.log(status);
+                    text.innerHTML = 'วันที่ : ' + "" + status['datenow'];
                     var canvas = document.getElementById('myChart');
+                    console.log(status);
                     var config = {
                         "options": {
                             "scales": {
                                 "xAxes": [{
                                     "type": 'time',
                                     "time": {
-                                        "unit": 'minute',
-                                        "unitStepSize": 60,
+                                        "unit": 'hour',
+                                        "displayFormats": {
+                                            "hour": "HH:mm"
+                                        },
+                                        "unitStepSize": 0.5,
 
                                     },
                                     "distribution": 'linear',
@@ -90,7 +94,8 @@
                                     "ticks": {
                                         "source": 'auto',
                                         "autoSkip": true,
-                                        "stepSize": 1
+                                        "stepSize": 1,
+
                                     },
                                 }],
                                 "yAxes": [{
@@ -108,10 +113,10 @@
                         "data": {
                             "labels": [],
                             "datasets": [{
-                                "label": "line",
+                                "label": "List_user ",
                                 "type": "line",
-                                "backgroundColor": "#00b",
-                                "borderColor": "#00b",
+                                "backgroundColor": "#0421FF ",
+                                "borderColor": "#0421FF ",
                                 "borderWidth": 1,
                                 "fill": false,
                                 "data": status['data']
@@ -121,17 +126,23 @@
                     };
                     var myBarChart = Chart.Line(canvas, config);
                 })
-            </script><br>
-        </div><br>
+            </script>
 
-        <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
-            <a href="checkin">
-                <button type="checkin" class="btn btn-primary" style="width:150px;height:50px">
-                    <i class="bi bi-arrow-left-circle"></i>
-                </button>
-            </a>
-        </div>
-        <br>
+        </div><br><br>
+
+    </div><br>
+
+    <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
+
+        <a href="checkin">
+            <button type="checkin" class="btn btn-primary" style="width:150px;height:50px">
+                <i class="bi bi-arrow-left-circle"></i>
+            </button>
+        </a>
+
+    </div><br>
+
+
 
 </body>
 <script type=text/javascript>
@@ -146,8 +157,11 @@
                     "xAxes": [{
                         "type": 'time',
                         "time": {
-                            "unit": 'minute',
-                            "unitStepSize": 60,
+                            "unit": 'hour',
+                            "displayFormats": {
+                                "hour": "HH:mm"
+                            },
+                            "unitStepSize": 0.5,
 
                         },
                         "distribution": 'linear',
@@ -173,7 +187,7 @@
             "data": {
                 "labels": [],
                 "datasets": [{
-                    "label": "line",
+                    "label": "List_user",
                     "type": "line",
                     "backgroundColor": "#00b",
                     "borderColor": "#00b",
@@ -182,7 +196,6 @@
                     "data": status['data']
                 }, ]
             },
-
         };
         var myBarChart = Chart.Line(canvas, config);
     }
@@ -199,7 +212,8 @@
                     // console.log(data.data);
                     chart(data.data);
                     let text = document.getElementById('datenow');
-                    text.innerHTML = 'วันที่ : ' + data.data.datenow;
+                    text.innerHTML = 'วันที่ :' +
+                        "" + data.data.datenow;
                 }
             });
         });

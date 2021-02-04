@@ -104,8 +104,8 @@
 
                     <div>
 
-                        <input type=" text" name="name" value="{{$data->searchName}}" class="form-control" id="floatingInput" placeholder="text" style="width: 150px; height: 45px;">
-
+                        <input type=" text" name="name" value="{{$data->searchName}}" class="form-control" id="floatingInput" style="width: 150px; height: 45px;">
+                        <!-- placeholder="D/M/Y" -->
                     </div>&#160;
 
                     <input class="btn btn-primary" type="submit" value="Submit" style="width:80px;height:35px">

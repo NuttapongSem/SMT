@@ -23,25 +23,32 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/save', [FingerprintController::class, 'save']);
-
 Route::get('/get-data', [FingerprintController::class, 'getData']);
-
-Route::post('/save-Video', [VideoController::class, 'saveVideo']);
-
-Route::get('/get-Videco', [VideoController::class, 'getVideo']);
-
-Route::get('/search', [VideoController::class, 'searchinterest']);
-
-Route::post('/status', [FingerprintController::class, 'status']);
 
 Route::post('/date', [FingerprintController::class, 'attenDance']);
 
-Route::get('/allData', [FingerprintController::class, 'allData']);
+Route::post('/login-mobile', [SuperadminController::class, 'loginMobile']);
 
-Route::post('/numview', [VideoController::class, 'numview']);
 
-Route::post('/login-Mobile', [SuperadminController::class, 'loginMobile']);
+Route::group(
+    ['middleware' => 'admin'],
+    function () {
+        Route::post('/save', [FingerprintController::class, 'save']);
+
+        Route::post('/save-Video', [VideoController::class, 'saveVideo']);
+
+        Route::get('/get-Videco', [VideoController::class, 'getVideo']);
+
+        Route::get('/search', [VideoController::class, 'searchinterest']);
+
+        Route::post('/status', [FingerprintController::class, 'status']);
+
+        Route::get('/allData', [FingerprintController::class, 'allData']);
+
+        Route::post('/numview', [VideoController::class, 'numview']);
+    }
+);
+
 
 // Route::('/contact',[contactControlloer::class,'create']);
 

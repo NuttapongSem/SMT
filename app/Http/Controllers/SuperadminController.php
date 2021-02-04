@@ -13,55 +13,52 @@ class SuperadminController extends Controller
     protected function login(Request $request)
     {
         $auth = User::where("email", $request->email)->where("password", $request->password)->first();
-
         if ($auth) {
-            Auth::login($auth);
-            $auth->update(["type"=>1]);
-            Session::flash("save", "เข้าสู่ระบบเรียบร้อย");
-            return redirect('/');
-            
-        }else {
-            Session::flash("error", "ผิดมึงดูดีๆๆ!!เว้ย");
-           return redirect()->back()->withInput();
+            if ($auth->admin == "superadmin") {
+                Auth::login($auth);
+                $auth->update(["type" => 1]);
+                Session::flash("save", "เข้าสู่ระบบเรียบร้อย");
+                return redirect('/');
+            } else {
+                Session::flash("error", "คุณไม่สิทธิ์เข้าถึง");
+                return redirect()->back()->withInput();
+            }
+        } else {
+            Session::flash("error", "ข้อมูลไม่ถูกต้อง");
+            return redirect()->back()->withInput();
         }
-    
-
     }
 
     public function loginMobile(Request $request)
     {
         $auth = User::where("email", $request->email)->where("password", $request->password)->first();
-
         if ($auth) {
-            Auth::login($auth);
-            $auth->update(["type"=>1]);
-            Session::flash("save", "เข้าสู่ระบบเรียบร้อย");
-            return response()->json($auth,200);
-            
-        }else {
-            return response()->json("ข้อมูลไม่ถูกต้อง",400);
+            if ($auth->admin == "adminmobile" || $auth->admin == "superadmin") {
+                Auth::login($auth);
+                $auth->update(["type" => 1]);
+                Session::flash("save", "เข้าสู่ระบบเรียบร้อย");
+                return response()->json($auth, 200);
+            } else {
+                return response()->json("คุณไม่สิทธิ์เข้าถึง", 400);
+            }
+        } else {
+            return response()->json("ข้อมูลไม่ถูกต้อง", 400);
         }
-    
-
     }
 
-    
     protected function logout(Request $request)
     {
-        
+
         $auth = User::where("email",  Auth::user()->email)->first();
 
         if ($auth) {
             Auth::logout($auth);
-            $auth->update(["type"=>0]);
+            $auth->update(["type" => 0]);
             Session::flash("save", "ไปดีๆนะ");
             return view('login');
-            
-        }else {
+        } else {
             Session::flash("error", "อย่าพึ่งออกนะ");
-           return redirect()->back()->withInput();
+            return redirect()->back()->withInput();
         }
-    
-
     }
 }
