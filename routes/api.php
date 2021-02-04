@@ -25,6 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('/get-data', [FingerprintController::class, 'getData']);
 
+Route::post('/deleteToken', [SuperadminController::class, 'deleteToken']);
+
 Route::post('/date', [FingerprintController::class, 'attenDance']);
 
 Route::post('/login-mobile', [SuperadminController::class, 'loginMobile']);
@@ -48,8 +50,3 @@ Route::group(
         Route::post('/numview', [VideoController::class, 'numview']);
     }
 );
-
-
-// Route::('/contact',[contactControlloer::class,'create']);
-
-// Route::get('/get-lastest-data', [FingerprintController::class, 'getDataLastest']);

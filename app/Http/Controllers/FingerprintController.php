@@ -314,13 +314,13 @@ class FingerprintController extends Controller
         $listforname[$index] = $start->fingerprint->name;
         for ($i = 1; $i <= 3; $i++) {
           if ($i == 1) {
-            $xy['x'] = \Carbon\Carbon::parse($start->date . $start->Time)->format('d-m-Y H:i:s');
+            $xy['x'] = \Carbon\Carbon::parse($start->date . $start->Time)->format('Y-m-d H:i:s');
             $xy['y'] = $index;
           } else if ($i == 2) {
-            $xy['x'] = \Carbon\Carbon::parse($end->date . $end->Time)->format('d-m-Y H:i:s');
+            $xy['x'] = \Carbon\Carbon::parse($end->date . $end->Time)->format('Y-m-d H:i:s');
             $xy['y'] = $index;
           } else {
-            $xy['x'] = \Carbon\Carbon::parse($start->date . $start->Time)->format('d-m-Y H:i:s');
+            $xy['x'] = \Carbon\Carbon::parse($start->date . $start->Time)->format('Y-m-d H:i:s');
             $xy['y'] = null;
           }
           array_push($dataforchart, $xy);

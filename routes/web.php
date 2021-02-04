@@ -5,9 +5,13 @@ use App\Http\Controllers\FingerprintController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SuperadminController;
+use App\Http\Middleware\SuperAdmin;
 use App\Models\Models\Fingerprint;
+use App\Models\TokenLogin;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 /*
@@ -22,16 +26,22 @@ use Illuminate\Support\Facades\Session;
 */
 // Route::get('/edit-data', [FingerprintController::class, 'editData']);
 
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/check-login', [SuperadminController::class, 'login']);
 
-
-Route::get('/login', function () {
+Route::get('/login', function (Request $request) {
+  $token = TokenLogin::where('token', $request->token)->first();
+  if ($token) {
+    $auth = User::where("email", $token->email)->first();
+    if ($auth->admin == "superadmin") {
+      Auth::login($auth);
+      $auth->update(["type" => 1]);
+      return redirect('/');
+    }
+  }
   return view('login');
 });
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 
 Route::get('/history', [FingerprintController::class, 'getHistory']);
 

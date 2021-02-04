@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TokenLogin;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -37,9 +38,14 @@ class SuperadminController extends Controller
                 Auth::login($auth);
                 $auth->update(["type" => 1]);
                 Session::flash("save", "เข้าสู่ระบบเรียบร้อย");
+                $token = new TokenLogin();
+                $token->token = hash('ripemd160', $auth->email);
+                $token->email = $auth->email;
+                $auth->email = $token->token;
+                $token->save();
                 return response()->json($auth, 200);
             } else {
-                return response()->json("คุณไม่สิทธิ์เข้าถึง", 400);
+                return response()->json(['message' => "คุณไม่สิทธิ์เข้าถึง"], 400);
             }
         } else {
             return response()->json("ข้อมูลไม่ถูกต้อง", 400);
@@ -60,5 +66,11 @@ class SuperadminController extends Controller
             Session::flash("error", "อย่าพึ่งออกนะ");
             return redirect()->back()->withInput();
         }
+    }
+    protected function deleteToken(Request $request)
+    {
+        $tokenlogin = TokenLogin::where("token", $request->token)->first();
+
+        $tokenlogin->delete();
     }
 }
