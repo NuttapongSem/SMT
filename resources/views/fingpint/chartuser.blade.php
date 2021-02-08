@@ -17,6 +17,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
     <style>
         body {
@@ -42,7 +48,11 @@
             background-color: lightgray;
         }
     </style>
-
+    <script>
+        $(function() {
+            $(".datepicker").datepicker();
+        });
+    </script>
 
 
 
@@ -53,7 +63,8 @@
             <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
 
 
-                <h4>Date::&#160</h4><input id="date" type="date" name="date_start" data-open="picker2" class="form-control date-time picker-opener" placeholder="D/M/Y" style="width: 200px; height: 50px; ">
+                <h4>Date ::&#160</h4>
+                <input id="date" name="date_start" readonly="readonly" data-open="picker2" class="datepicker  date-time picker-opener" style="width: 200px; height: 50px; ">
 
             </div><br>
 

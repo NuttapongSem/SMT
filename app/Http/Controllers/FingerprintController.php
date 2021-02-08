@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Database\Factories\AttendanceFactory;
 use DateTime;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -160,7 +161,7 @@ class FingerprintController extends Controller
 
     Session::flash("save", "เเก้ไขเรียบร้อย");
 
-    return redirect('/');
+    return redirect('/datauser');
   }
 
 
@@ -194,7 +195,7 @@ class FingerprintController extends Controller
     } else {
       Session::flash("save", "ไม่พบข้อมูล");
     }
-    return redirect('/');
+    return Redirect::back();
   }
 
 
@@ -230,21 +231,15 @@ class FingerprintController extends Controller
     $timeEnd = $request->time_end;
     $dateStart = '';
     $dateEnd = '';
-    // dd($timeStart, $timeEnd);
+
 
 
     if ($searchDateStart) {
-      $year = substr($searchDateStart, 0, 4);
-      $month = substr($searchDateStart, 5, 2);
-      $day = substr($searchDateStart, 8, 2);
-      $dateStart = $day . '-' . $month . '-' . $year;
+      $dateStart = \Carbon\Carbon::make($searchDateStart)->format('d-m-Y');
     }
 
     if ($searchDateEnd) {
-      $dateEndyear = substr($searchDateEnd, 0, 4);
-      $dateEndmonth = substr($searchDateEnd, 5, 2);
-      $dateEndday = substr($searchDateEnd, 8, 2);
-      $dateEnd = $dateEndday . '-' .  $dateEndmonth . '-' . $dateEndyear;
+      $dateEnd = \Carbon\Carbon::make($searchDateEnd)->format('d-m-Y');
     }
 
     $status = $request->status;
@@ -267,9 +262,9 @@ class FingerprintController extends Controller
         return $query->whereBetween('date', [$dateStart, $dateEnd]);
       })
 
-      ->when($timeStart && $timeEnd === '', function ($query) use ($timeStart) {
+      ->when($timeStart && $timeEnd == null, function ($query) use ($timeStart) {
         // dump('when date', $datetart);
-        return $query->where('Time',  $timeStart);
+        return $query->where('Time', '>=',  $timeStart);
       })
 
       ->when($timeStart && $timeEnd, function ($query) use ($timeStart, $timeEnd) {

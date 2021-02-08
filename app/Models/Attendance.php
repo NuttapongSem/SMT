@@ -18,6 +18,7 @@ class Attendance extends Model
         'Time',
         'status'
 
+
     ];
     public function fingerprint()
     {

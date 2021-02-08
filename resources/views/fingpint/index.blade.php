@@ -201,14 +201,13 @@
 
                 <table class="table table-bordered">
                     <thead>
-                        <tr style="background-color: #F3C35D;">
+                        <tr style=" background-color: #F3C35D;text-align : center">
                             <th scope="col-6 col-md-4" style="text-align : center">Name</th>
-                            <th scope="col-6 col-md-4">Age</th>
-                            <th scope="col-6 col-md-4">Interest</th>
-                            <th scope="col-6 col-md-4">Time</th>
-                            <th scope="col-6 col-md-4">Status</th>
-                            <th scope="col-6 col-md-4">Edit</th>
-                            <th scope="col-6 col-md-4">Delete</th>
+                            <th scope="col-6 col-md-4" style="text-align : center">Age</th>
+                            <th scope="col-6 col-md-4" style="text-align : center">Interest</th>
+                            <th scope="col-6 col-md-4" style="text-align : center">Time</th>
+                            <th scope="col-6 col-md-4" style="text-align : center">Status</th>
+
 
 
 
@@ -240,20 +239,6 @@
                             </td>
                             <td>
                                 <p>{{$row->attendance->first()->status ?? '-' }}</p>
-                            </td>
-                            <td>
-                                <a href="{{url('/edit/'.$row->id)}}">
-                                    <button type="button" class="btn btn-secondary" class="btn btn-danger" style="background-color: #006ABE;">
-                                        <i class="bi bi-pencil-fill"></i>
-                                    </button>
-                                </a>
-
-                            <td>
-                                <a href="{{url('/delete/'.$row->id)}}" onclick="return confirm('delete confirm?')">
-                                    <button type="button" style="width:150px;height:40px" class="btn btn-danger">ลบ
-                                        <i class="bi bi-x-circle"></i>
-                                    </button>
-                                </a>
                             </td>
 
 

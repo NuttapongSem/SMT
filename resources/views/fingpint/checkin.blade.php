@@ -8,15 +8,13 @@
     <meta name="description" content="Simple CMS" />
     <meta name="author" content="Sheikh Heera" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
 
 
@@ -79,14 +77,26 @@
 
 
 </head>
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+<script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 <body>
+
 
     <style>
         body {
             background-color: lightgray;
         }
     </style>
+
+
+
+
 
 
     <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Attendance</h2><br>
@@ -148,44 +158,49 @@
                                 <div class="md-form mx-5 my-1">
                                     <div class="row">
                                         <div class="col-6">
-                                            <label for="floatingInput">DateStart</label>
-                                            <input type="date" name="date_start" value="{{$data->searchdateStart}}" data-open="picker2" class="form-control date-time picker-opener">
-
+                                            <label for="datepicker">DateStart</label>
+                                            <!-- <input name="date_start" value="{{$data->searchdateStart}}" readonly="readonly" data-open="picker2" class="datepicker form-control date-time picker-opener" autocomplete="off" style="background-color:#FDFDFD;"> -->
+                                            <input id="datepicker1" name="date_start" value="{{$data->searchdateStart}}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
                                         </div>
                                         <div class="col-6">
-                                            <label for="floatingInput">DateEnd</label>
-                                            <input type="date" name="date_end" value="{{$data->searchdateEnd}}" data-open="picker2" class="form-control date-time picker-opener">
+                                            <label for="datepicker">DateEnd</label>
+                                            <!-- <input name="date_end" value="{{$data->searchdateEnd}}" readonly="readonly" data-open="picker2" class="datepicker form-control date-time picker-opener" autocomplete="off" style="background-color:#FDFDFD;"> -->
 
+                                            <input id="datepicker2" name="date_end" value="{{$data->searchdateEnd}}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
                                         </div>
                                     </div>
 
                                 </div>
 
                                 <div class="md-form mx-5 my-1">
-                                    <label for="floatingInput">TimeStart</label>
-                                    <input type="time" name="time_start" value="{{$data->searchTimeto}}" data-open="picker3" class="form-control date-time-2 picker-opener">
-                                </div>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="floatingInput">TimeStart</label>
+                                            <!-- <input name="time_start" id="datetimepicker3" value="{{$data->searchTimeto}}"> -->
 
-                                <div class="md-form mx-5 my-1">
-                                    <label for="floatingInput">TimeEnd</label>
-                                    <input type="time" name="time_end" value="{{$data->searchTimein}}" data-open="picker3" class="form-control date-time-2 picker-opener">
+                                            <input id="timepicker1" name="time_start" value="{{$data->searchTimeto}}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label for="floatingInput">TimeEnd</label>
+                                            <!-- <input type="time" name="time_end" value="{{$data->searchTimein}}" data-open="picker3" class="stepExample2 form-control date-time-2 picker-opener"> -->
+
+                                            <input id="timepicker2" name="time_end" value="{{$data->searchTimein}}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
+
+                                        </div>
+                                    </div>
                                 </div><br>
-
                                 <div class="text-center">
-
 
                                     <a class="btn btn-primary" href="checkin" role="button"><i class="bi bi-arrow-left-circle-fill"></i></a>
 
-
                                     <input class="btn btn-primary" type="submit" value="Submit" style="width:100px;height:40px">
 
-
                                 </div>
-
-
                         </div>
 
-                        </form>
+
+
                     </div>
 
                 </div>
@@ -240,14 +255,26 @@
 
     <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
         <a href="/">
-            <button type="/" class="btn btn-primary" style="width:150px;height:50px">
+            <button type="button" class="btn btn-primary" style="width:150px;height:50px">
                 <i class="bi bi-arrow-left-circle"></i>
             </button>
         </a>
     </div><br><br>
 
+    <script>
+        $('#datepicker1').datepicker();
 
+        $('#datepicker2').datepicker();
 
+        $('#timepicker1').timepicker({
+            uiLibrary: 'bootstrap4',
+            mode: '24hr'
+        });
+        $('#timepicker2').timepicker({
+            uiLibrary: 'bootstrap4',
+            mode: '24hr'
+        });
+    </script>
 
 </body>
 

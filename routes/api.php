@@ -31,22 +31,18 @@ Route::post('/date', [FingerprintController::class, 'attenDance']);
 
 Route::post('/login-mobile', [SuperadminController::class, 'loginMobile']);
 
+Route::post('/save', [FingerprintController::class, 'save']);
 
-Route::group(
-    ['middleware' => 'admin'],
-    function () {
-        Route::post('/save', [FingerprintController::class, 'save']);
 
-        Route::post('/save-Video', [VideoController::class, 'saveVideo']);
 
-        Route::get('/get-Videco', [VideoController::class, 'getVideo']);
+Route::post('/save-Video', [VideoController::class, 'saveVideo']);
 
-        Route::get('/search', [VideoController::class, 'searchinterest']);
+Route::get('/get-Videco', [VideoController::class, 'getVideo']);
 
-        Route::post('/status', [FingerprintController::class, 'status']);
+Route::get('/search', [VideoController::class, 'searchinterest']);
 
-        Route::get('/allData', [FingerprintController::class, 'allData']);
+Route::post('/status', [FingerprintController::class, 'status']);
 
-        Route::post('/numview', [VideoController::class, 'numview']);
-    }
-);
+Route::get('/allData', [FingerprintController::class, 'allData']);
+
+Route::post('/numview', [VideoController::class, 'numview']);

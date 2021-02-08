@@ -83,6 +83,11 @@
 </head>
 
 <body>
+    @if (Session::has('save'))
+    <script language="javascript">
+        alert('{{Session::get("save")}}')
+    </script>
+    @endif
 
     <style>
         body {
@@ -118,7 +123,7 @@
             <table class="table table-bordered" id="example" style="background-color:#FDFDFD;">
 
 
-                <thead style="background-color: #F3C35D;">
+                <thead style="background-color: #F3C35D;text-align : center">
 
                     <tr>
 
@@ -130,13 +135,16 @@
 
                         <th scope="col-6 col-md-4">Porfile</th>
 
-                        <th scope="col-6 col-md-4">Chart</th>
+                        <th scope="col-6 col-md-4">Edit</th>
 
+                        <th scope="col-6 col-md-4">Delete</th>
+
+                        <th scope="col-6 col-md-4">Chart</th>
 
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody style="vertical-align:middle">
                     @foreach($data as $row)
                     <tr>
                         <th scope="row" style="vertical-align:middle">
@@ -160,7 +168,23 @@
                             <img class="a" style="width: 100%;height: auto;" src="data:image/jpeg;base64,{{$row->imguser}}" alt="">
                         </td>
 
-                        <td><br><br><br>
+                        <td style="vertical-align:middle">
+                            <a href="{{url('/edit/'.$row->id)}}">
+                                <button type="button" class="btn btn-secondary" class="btn btn-danger" style="background-color: #006ABE;">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                            </a>
+
+                        <td style="vertical-align:middle">
+
+                            <a href="{{url('/delete/'.$row->id)}}" onclick="return confirm('delete confirm?')">
+                                <button type="button" style="width:100px;height:40px" class="btn btn-danger">ลบ
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </a>
+                        </td>
+
+                        <td style="vertical-align:middle">
                             <div class="text-center">
                                 <a href=" {{'/chartuser/'.$row->id}}">
                                     <button type="button" class="btn btn-info"><i class="bi bi-graph-up"></i>&#160;Chartuser</button>
@@ -168,6 +192,7 @@
                             </div>
 
                         </td>
+
 
                     </tr>
 
