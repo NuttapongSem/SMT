@@ -170,6 +170,7 @@ class FingerprintController extends Controller
   {
 
     $data = Fingerprint::orderByDesc('created_at')->paginate(10);
+
     return view('fingpint.index', compact('data'));
   }
 
@@ -276,8 +277,8 @@ class FingerprintController extends Controller
         // dump('when status');0
         return $query->where('status', $status);
       })
+      ->paginate(10)->withQueryString();
 
-      ->paginate('10')->withQueryString();
     $data->searchName = $name;
     $data->searchdateStart = $dateStart;
     $data->searchdateEnd = $dateEnd;
@@ -323,11 +324,40 @@ class FingerprintController extends Controller
         $index++;
       }
     }
+    $time = 0;
+    $timelist = [];
+    $date = \Carbon\Carbon::now()->format('d-m-Y');
+
+    for ($i = 0; $i < 24; $i++) {
+      $timelist[] = [date("H:m", $time + (60 * 60 * $i)), date("H:m", $time + ((60 * 60 * ($i + 1))))];
+    }
+    $datastatusin = [['Task', 'Hours per Day']];
+    $datastatusout = [['Task', 'Hours per Day1']];
+    $paginatein = Attendance::where([['status', "เข้า"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
+    $paginateout = Attendance::where([['status', "ออก"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
+
+    foreach ($timelist as $timeming) {
+      $attendancein = Attendance::where([['status', "เข้า"], ['date', $date]])->whereBetween('Time', [$timeming[0], $timeming[1]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
+      $attendanceout = Attendance::where([['status', "ออก"], ['date', $date]])->whereBetween('Time', [$timeming[0], $timeming[1]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
+      if (sizeof($attendancein) != 0) {
+        array_push($datastatusin, [$timeming[0] . " - " . $timeming[1], sizeof($attendancein)]);
+      }
+      if (sizeof($attendanceout) != 0) {
+        array_push($datastatusout, [$timeming[0] . " - " . $timeming[1], sizeof($attendanceout)]);
+      }
+    }
+
     $status['data'] = $dataforchart;
     $status['name'] = $listforname;
     $status['datenow'] = $date;
+    $status['datastatusin'] = $datastatusin;
+    $status['datastatusout'] = $datastatusout;
 
-    return view('fingpint.chartuser', ["data" => $status]);
+    $paginateinstatus['in'] = $paginatein;
+    $paginateinstatus['out'] = $paginateout;
+
+
+    return view('fingpint.chartuser', ["data" => $status, 'paginate' => $paginateinstatus]);
   }
 
 
@@ -414,12 +444,6 @@ class FingerprintController extends Controller
     return view('fingpint.chartOne', ['dataChart' => $dataChart, 'name' => $name]);
   }
 }
-
-
-
-
-
-
 
 
 

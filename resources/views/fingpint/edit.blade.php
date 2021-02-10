@@ -7,22 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Simple CMS" />
   <meta name="author" content="Sheikh Heera" />
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxE721u19sVFLVSA4hf/rRt6PrZTmiPltdZcI7q7PXQBYTKyf" crossorigin="anonymous"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script> -->
 
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://unpkg.com/popper.js@1.14.3/dist/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -85,8 +75,8 @@
 <h3 class="card-header" style=" text-align: center; background-color: #F3C35D;">EditInformation</h2>
 
 
-<br>
-<div class="container" style="background-color:#FDFDFD;">
+  <br>
+  <div class="container" style="background-color:#FDFDFD;">
 
 
 
@@ -112,7 +102,7 @@
         @csrf
         <input hidden value="{{$data->id}}" name="id" type="text" class="form-control" id="exampleFormControlInput1">
 
-        <div class="table-responsive" >
+        <div class="table-responsive">
           <div class="card-body">
 
             <div class="form-group">
@@ -149,31 +139,36 @@
         </div><br>
 
       </form>
+  </div><br>
+  <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
+    <a href="/datauser">
+      <button type="/datauser" class="btn btn-primary" style="width:150px;height:50px">
+        <i class="bi bi-arrow-left-circle"></i>
+      </button>
+    </a>
+  </div>
+  </body>
 
-    </body>
+  <script type="text/javascript">
+    $(document).ready(function() {
 
-    <script type="text/javascript">
-      $(document).ready(function() {
-
-        var dataOption = <?php echo json_encode($data->interest); ?>;
-        var jsonData = JSON.parse(dataOption)
-        let arr = [];
-        for(let i=0;i<jsonData.length;i++){
-          arr.push(jsonData[i]);
-        }
-        $('#selectpicker').selectpicker('val', arr);
-      })
-
-
-      function readURL(input) {
-        if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function(e) {
-            $('#profileImg').attr('src', e.target.result)
-          }
-          reader.readAsDataURL(input.files[0]);
-        }
+      var dataOption = <?php echo json_encode($data->interest); ?>;
+      var jsonData = JSON.parse(dataOption)
+      let arr = [];
+      for (let i = 0; i < jsonData.length; i++) {
+        arr.push(jsonData[i]);
       }
-      
-      
-    </script>
+      $('#selectpicker').selectpicker('val', arr);
+    })
+
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          $('#profileImg').attr('src', e.target.result)
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>

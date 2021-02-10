@@ -9,22 +9,16 @@
     <meta name="description" content="Simple CMS" />
     <meta name="author" content="Sheikh Heera" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- นำเข้า  CSS จาก Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-    <!-- นำเข้า  Javascript จาก  Jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+
+
 
 
 
@@ -155,21 +149,13 @@
 
             <div class="row" id="nav2">
                 <div class="col-12" style="text-align: end;">
-                    <!-- <a href="{{url('/logout')}}">
-                        <button type="button" style="width:50px;height:40px;background-color: #dc3545;color:aliceblue" class="btn">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </a> -->
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{Auth::user()->name}} |
                             <i class="fas fa-sign-out-alt"></i>
-
                         </button>
                         <button class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
                             <a class="dropdown-item" href="{{url('/logout')}}">ไปชะ</a>
-
                         </button>
                     </div>
                 </div>
@@ -179,7 +165,6 @@
         </div>
 
     </div><br>
-
 
     <div class="container" style="background-color:#FDFDFD;">
 
@@ -208,15 +193,10 @@
                             <th scope="col-6 col-md-4" style="text-align : center">Time</th>
                             <th scope="col-6 col-md-4" style="text-align : center">Status</th>
 
-
-
-
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($data as $row)
-
-
                         <tr style="text-align : center">
                             <th scope="row" style="text-align : center">
                                 {{$row->name}}
@@ -240,17 +220,14 @@
                             <td>
                                 <p>{{$row->attendance->first()->status ?? '-' }}</p>
                             </td>
-
-
                         </tr>
                         @endforeach
                     </tbody>
 
                 </table>
-
-
             </table>
         </div><br>
+    </div>
 
 </body>
 

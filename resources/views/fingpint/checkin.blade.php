@@ -81,6 +81,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
 <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
@@ -141,18 +142,19 @@
 
                                 </div>
                                 <div class="md-form mx-5 my-1">
+
                                     <label for="floatingInput">Satus</label>
                                     <div class="input-group-prepend">
-                                        <select name="status" class="custom-select" id="inputGroupSelect01">
-                                            <!-- <option value="เข้า">เข้า</option> -->
+                                        <select name="status" id="dropdown" class="custom-select" width="150px">
                                             <option value=""></option>
                                             <option value="เข้า">เข้า</option>
                                             <option value="ออก">ออก</option>
                                         </select>
                                     </div>
-
-
                                 </div>
+
+
+
 
 
                                 <div class="md-form mx-5 my-1">
@@ -160,13 +162,13 @@
                                         <div class="col-6">
                                             <label for="datepicker">DateStart</label>
                                             <!-- <input name="date_start" value="{{$data->searchdateStart}}" readonly="readonly" data-open="picker2" class="datepicker form-control date-time picker-opener" autocomplete="off" style="background-color:#FDFDFD;"> -->
-                                            <input id="datepicker1" name="date_start" value="{{$data->searchdateStart}}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
+                                            <input id="datepicker1" name="date_start" value="{{$data->searchdateStart}}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
                                         </div>
                                         <div class="col-6">
                                             <label for="datepicker">DateEnd</label>
                                             <!-- <input name="date_end" value="{{$data->searchdateEnd}}" readonly="readonly" data-open="picker2" class="datepicker form-control date-time picker-opener" autocomplete="off" style="background-color:#FDFDFD;"> -->
 
-                                            <input id="datepicker2" name="date_end" value="{{$data->searchdateEnd}}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
+                                            <input id="datepicker2" name="date_end" value="{{$data->searchdateEnd}}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
                                         </div>
                                     </div>
 
@@ -251,30 +253,31 @@
         <br>
 
 
-    </div><br>
+        <br>
 
-    <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
-        <a href="/">
-            <button type="button" class="btn btn-primary" style="width:150px;height:50px">
-                <i class="bi bi-arrow-left-circle"></i>
-            </button>
-        </a>
-    </div><br><br>
+        <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
+            <a href="/">
+                <button type="button" class="btn btn-primary" style="width:150px;height:50px">
+                    <i class="bi bi-arrow-left-circle"></i>
+                </button>
+            </a>
+        </div><br><br>
 
-    <script>
-        $('#datepicker1').datepicker();
+        <script>
+            $('#datepicker1').datepicker();
 
-        $('#datepicker2').datepicker();
+            $('#datepicker2').datepicker();
 
-        $('#timepicker1').timepicker({
-            uiLibrary: 'bootstrap4',
-            mode: '24hr'
-        });
-        $('#timepicker2').timepicker({
-            uiLibrary: 'bootstrap4',
-            mode: '24hr'
-        });
-    </script>
+            $('#timepicker1').timepicker({
+                uiLibrary: 'bootstrap4',
+                mode: '24hr'
+            });
+            $('#timepicker2').timepicker({
+                uiLibrary: 'bootstrap4',
+                mode: '24hr'
+            });
+            $('#dropdown').dropdown();
+        </script>
 
 </body>
 
