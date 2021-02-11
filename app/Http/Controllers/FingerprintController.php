@@ -17,68 +17,53 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use stdClass;
+use Throwable;
 
 class FingerprintController extends Controller
 {
 
-
-  public function saveFinger(Request $request)
-  {
-
-    $check = Fingerprint::where('name', $request->name)->first();
-    if ($check) {
-      Session::flash("error", "มันช้ำเว้ย");
-
-      return redirect()->back()->withInput();
-    }
-    $data = new Fingerprint();
-    $data->name =  $request->name;
-    $data->age =  intval($request->age);
-    $data->interest = $request->interest;
-    $data->imguser = $request->imguser;
-    $data->save();
-    Session::flash("save", "เสร็จเเลัวเว้ย");
-
-
-    return redirect('/');
-  }
-
-
   public function save(Request $request)
   {
-    $save_image = new Fingerprint();
-    $data_name = $request->name;
-    $data_age = intval($request->age);
-    $data_fingerprint = $request->fingerprint;
-    $data_imguser = $request->imguser;
-    $data_interest = $request->interest;
 
-    $arr = [];
-    $arrget = explode(',', $request->interest);
-    if ($request->has('interest')) {
-      foreach ($arrget as $item) {
-        if (end($arrget) != $item) {
-          $arr[] = $item;
+    try {
+
+      $save_image = new Fingerprint();
+      $data_name = $request->name;
+      $data_age = intval($request->age);
+      $data_fingerprint = $request->fingerprint;
+      $data_imguser = $request->imguser;
+      $data_interest = $request->interest;
+
+      $arr = [];
+      $arrget = explode(',', $request->interest);
+      if ($request->has('interest')) {
+        foreach ($arrget as $item) {
+          if (end($arrget) != $item) {
+            $arr[] = $item;
+          }
         }
       }
-    }
 
-    if ($data_fingerprint && $data_imguser) {
-      $save_image->name = $data_name;
-      $save_image->age = $data_age;
-      $save_image->interest = json_encode($arr);
-      // $save_image->interest = $data_interest ;
-      $save_image->fingerprint = $data_fingerprint;
-      $save_image->imguser =  $data_imguser;
-      $save_image->save();
-      return response()->json([
-        'status' => "success"
-      ], 200);
-    } else {
-      return response()->json(['message' => 'imguser not found!'], 400);
+
+      if ($data_fingerprint && $data_imguser) {
+        $save_image->name = $data_name;
+        $save_image->age = $data_age;
+        $save_image->interest = json_encode($arr);
+        // $save_image->interest = $data_interest ;
+        $save_image->fingerprint = $data_fingerprint;
+        $save_image->imguser =  $data_imguser;
+        $save_image->save();
+        return response()->json([
+          'status' => "success"
+        ], 200);
+      } else {
+        return response()->json(['message' => 'imguser not found!'], 400);
+      }
+    } catch (Throwable $e) {
+      report($e);
+      return false;
     }
   }
-
 
   public function getData()
   {
@@ -324,10 +309,12 @@ class FingerprintController extends Controller
         $index++;
       }
     }
+
+
+
     $time = 0;
     $timelist = [];
     $date = \Carbon\Carbon::now()->format('d-m-Y');
-
     for ($i = 0; $i < 24; $i++) {
       $timelist[] = [date("H:m", $time + (60 * 60 * $i)), date("H:m", $time + ((60 * 60 * ($i + 1))))];
     }
@@ -352,7 +339,6 @@ class FingerprintController extends Controller
     $status['datenow'] = $date;
     $status['datastatusin'] = $datastatusin;
     $status['datastatusout'] = $datastatusout;
-
     $paginateinstatus['in'] = $paginatein;
     $paginateinstatus['out'] = $paginateout;
 
@@ -397,10 +383,37 @@ class FingerprintController extends Controller
         $index++;
       }
     }
+
+    $time = 0;
+    $timelist = [];
+    for ($i = 0; $i < 24; $i++) {
+      $timelist[] = [date("H:m", $time + (60 * 60 * $i)), date("H:m", $time + ((60 * 60 * ($i + 1))))];
+    }
+    $datastatusin = [['Task', 'Hours per Day']];
+    $datastatusout = [['Task', 'Hours per Day1']];
+    $paginatein = Attendance::where([['status', "เข้า"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
+    $paginateout = Attendance::where([['status', "ออก"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
+
+    foreach ($timelist as $timeming) {
+      $attendancein = Attendance::where([['status', "เข้า"], ['date', $date]])->whereBetween('Time', [$timeming[0], $timeming[1]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
+      $attendanceout = Attendance::where([['status', "ออก"], ['date', $date]])->whereBetween('Time', [$timeming[0], $timeming[1]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
+      if (sizeof($attendancein) != 0) {
+        array_push($datastatusin, [$timeming[0] . " - " . $timeming[1], sizeof($attendancein)]);
+      }
+      if (sizeof($attendanceout) != 0) {
+        array_push($datastatusout, [$timeming[0] . " - " . $timeming[1], sizeof($attendanceout)]);
+      }
+    }
+
     $status['data'] = $dataforchart;
     $status['name'] = $listforname;
     $status['datenow'] = $date;
-    return response()->json(["data" => $status]);
+
+    $status['datastatusin'] = $datastatusin;
+    $status['datastatusout'] = $datastatusout;
+    $paginateinstatus['in'] = $paginatein;
+    $paginateinstatus['out'] = $paginateout;
+    return response()->json(["data" => $status, 'paginate' => $paginateinstatus]);
   }
 
 

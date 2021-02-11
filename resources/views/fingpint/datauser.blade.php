@@ -95,6 +95,7 @@
             ;
         }
     </style>
+
     <h2 class="card-header" style="background-color: #F3C35D; text-align : center">Profile</h2><br>
 
     <div class="container">

@@ -2,19 +2,20 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8">
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta name="description" content="Simple CMS" />
     <meta name="author" content="Sheikh Heera" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 
 
@@ -84,7 +85,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
-<link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
 <body>
 
@@ -110,11 +110,7 @@
                     <i class="bi bi-search"></i>&#160;Filter
                 </button>
 
-                <a href="chartuser">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" style="float : right;">
-                        <i class="bi bi-graph-up"></i>&#160;Chartuser
-                    </button>
-                </a>
+
             </div>
 
 
@@ -253,32 +249,30 @@
         <br>
 
 
-        <br>
+    </div><br>
+    <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
+        <a href="/">
+            <button type="button" class="btn btn-primary" style="width:150px;height:50px">
+                <i class="bi bi-arrow-left-circle"></i>
+            </button>
+        </a>
+    </div><br><br>
 
-        <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
-            <a href="/">
-                <button type="button" class="btn btn-primary" style="width:150px;height:50px">
-                    <i class="bi bi-arrow-left-circle"></i>
-                </button>
-            </a>
-        </div><br><br>
+    <script>
+        $('#datepicker1').datepicker();
 
-        <script>
-            $('#datepicker1').datepicker();
+        $('#datepicker2').datepicker();
 
-            $('#datepicker2').datepicker();
-
-            $('#timepicker1').timepicker({
-                uiLibrary: 'bootstrap4',
-                mode: '24hr'
-            });
-            $('#timepicker2').timepicker({
-                uiLibrary: 'bootstrap4',
-                mode: '24hr'
-            });
-            $('#dropdown').dropdown();
-        </script>
-
+        $('#timepicker1').timepicker({
+            uiLibrary: 'bootstrap4',
+            mode: '24hr'
+        });
+        $('#timepicker2').timepicker({
+            uiLibrary: 'bootstrap4',
+            mode: '24hr'
+        });
+        $('#dropdown').dropdown();
+    </script>
 </body>
 
 

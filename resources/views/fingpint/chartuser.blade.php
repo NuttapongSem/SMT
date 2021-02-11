@@ -30,6 +30,99 @@
             font: inherit;
             vertical-align: baseline;
         }
+
+        body {
+            background-color: lightgreen;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .row::after {
+            content: "";
+            clear: both;
+            display: block;
+        }
+
+        [class*="col-"] {
+            float: left;
+            padding: 15px;
+        }
+
+        html {
+            font-family: "Lucida Sans", sans-serif;
+        }
+
+        .header {
+            color: #ffffff;
+            padding: 15px;
+        }
+
+        .menu ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu li {
+            padding: 8px;
+            margin-bottom: 7px;
+
+            color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+
+        .aside {
+
+            padding: 15px;
+            color: #ffffff;
+            text-align: center;
+            font-size: 14px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        }
+
+        .footer {
+
+            color: #ffffff;
+            text-align: center;
+            font-size: 12px;
+            padding: 15px;
+        }
+
+        /* For desktop: */
+        .col-1 {
+            width: 8.33%;
+        }
+
+        .col-2 {
+            width: 16.66%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 33.33%;
+        }
+
+        .col-5 {
+            width: 41.66%;
+        }
+
+        .col-6 {
+            width: 50%;
+        }
+
+        @media only screen and (max-width: 768px) {
+
+            /* For mobile phones: */
+            [class*="col-"] {
+                width: 100%;
+            }
+        }
     </style>
 
 </head>
@@ -50,7 +143,19 @@
         body {
             background-color: lightgray;
         }
+
+        .chart {
+            width: 100%;
+            min-height: 450px;
+            border-style: ridge;
+        }
+
+        .row {
+            margin: 0 !important;
+        }
     </style>
+
+
     <script>
         $(function() {
             $(".datepicker").datepicker();
@@ -59,149 +164,158 @@
 
 
 
+
     <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Dashboard</h2><br>
 
-    <div class="container" style="background-color:#FDFDFD;">
-        <div class="table-responsive-xl"><br>
+    <div class="container" style="background-color:#FDFDFD;"><br>
 
-            <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
-                <h4>Date ::&#160</h4>
-                <input id="date" name="date_start" readonly="readonly" data-open="picker2" class="datepicker  date-time picker-opener" style="width: 200px; height: 50px; ">
-            </div><br>
 
-            <!-- <button type="button" class="btn btn-dark">Dark</button> -->
+        <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
+            <h4>Date ::&#160</h4>
+            <input id="date" name="date_start" readonly="readonly" data-open="picker2" class="datepicker  date-time picker-opener" style="width: 150px; height: 30px; ">
+        </div><br>
 
-            <div class="row">
+        <div class="row" style="padding-top:5;">
 
-                <div id="datenow"></div>
-                <div class="col-12">
-                    <canvas id="myChart" width="100" height="40"></canvas>
-                    <script>
-                        $(document).ready(function() {
+            <div id="datenow"></div>
+            <div class="col-12 chart">
+                <canvas id="myChart" width="100" height="40"></canvas>
+                <script>
+                    $(document).ready(function() {
 
-                            let status = JSON.parse('<?php echo json_encode($data); ?>');
-                            var yLabels = status['name'];
-                            let text = document.getElementById('datenow');
-                            text.innerHTML = 'วันที่ : ' + "" + status['datenow'];
-                            var canvas = document.getElementById('myChart');
-                            console.log(status);
-                            var config = {
-                                "options": {
-                                    "scales": {
-                                        "xAxes": [{
-                                            "type": 'time',
-                                            "time": {
-                                                "unit": 'hour',
-                                                "displayFormats": {
-                                                    "hour": "HH:mm"
-                                                },
-                                                "unitStepSize": 0.5,
+                        let status = JSON.parse('<?php echo json_encode($data); ?>');
+                        var yLabels = status['name'];
+                        let text = document.getElementById('datenow');
+                        text.innerHTML = 'วันที่ : ' + "" + status['datenow'];
 
+                        var canvas = document.getElementById('myChart');
+                        var config = {
+                            "options": {
+                                "scales": {
+                                    "xAxes": [{
+                                        "type": 'time',
+                                        "time": {
+                                            "unit": 'hour',
+                                            "displayFormats": {
+                                                "hour": "HH:mm"
                                             },
-                                            "distribution": 'linear',
-                                            "bounds": 'ticks',
-                                            "ticks": {
-                                                "source": 'auto',
-                                                "autoSkip": true,
-                                                "stepSize": 1,
+                                            "unitStepSize": 0.5,
 
+                                        },
+                                        "distribution": 'linear',
+                                        "bounds": 'ticks',
+                                        "ticks": {
+                                            "source": 'auto',
+                                            "autoSkip": true,
+                                            "stepSize": 1,
+
+                                        },
+                                    }],
+                                    "yAxes": [{
+                                        "display": true,
+                                        "ticks": {
+                                            callback: function(value, index, values) {
+                                                return yLabels[value];
                                             },
-                                        }],
-                                        "yAxes": [{
-                                            "display": true,
-                                            "ticks": {
-                                                callback: function(value, index, values) {
-                                                    return yLabels[value];
-                                                },
-                                                "stepSize": 1,
-                                                "min": 1
-                                            }
-                                        }]
-                                    },
+                                            "stepSize": 1,
+                                            "min": 1
+                                        }
+                                    }]
                                 },
-                                "data": {
-                                    "labels": [],
-                                    "datasets": [{
-                                        "label": "List_user ",
-                                        "type": "line",
-                                        "backgroundColor": "#0421FF ",
-                                        "borderColor": "#0421FF ",
-                                        "borderWidth": 1,
-                                        "fill": false,
-                                        "data": status['data']
-                                    }, ]
-                                },
+                            },
+                            "data": {
+                                "labels": [],
+                                "datasets": [{
+                                    "label": "Data",
+                                    "type": "line",
+                                    "backgroundColor": "#0421FF ",
+                                    "borderColor": "#0421FF ",
+                                    "borderWidth": 1,
+                                    "fill": false,
+                                    "data": status['data']
+                                }, ]
+                            },
 
-                            };
-                            var myBarChart = Chart.Line(canvas, config);
-                        })
-                    </script>
-                </div>
-            </div><br><br>
-            <div class="row">
-                <div class="col-6">
-
-                    <div id="Checkinchart_3d" style="width: 500px; height: 500px;">
-                    </div>
-                    <script type="text/javascript">
-                        let dataIn = JSON.parse('<?php echo json_encode($data['datastatusin']); ?>');
-                        google.charts.load("current", {
-                            packages: ["corechart"]
-                        });
-                        google.charts.setOnLoadCallback(drawChart);
-                        if (dataIn.length == 1) {
-                            dataIn = [
-                                ['Task', 'Hours per Day'],
-                                ['No data', 1]
-                            ]
-                        }
-
-                        function drawChart() {
-                            var data = google.visualization.arrayToDataTable(dataIn);
-
-                            var options = {
-                                title: 'Status(in)',
-                                is3D: true,
-                                'width': 550,
-                                'height': 550
-                            };
-
-                            var chart = new google.visualization.PieChart(document.getElementById('Checkinchart_3d'));
-                            chart.draw(data, options);
-                        }
-                    </script>
-                </div>
-                <div class="col-6" style="padding: 5rem;">
-                    <table class=" table">
-                        <thead>
-                            <tr style="text-align : center">
-                                <th scope="col-6">Name</th>
-                                <th scope="col-6">Time</th>
-                            </tr>
-                        </thead>
-                        @foreach( $paginate['in'] as $row)
-                        <tbody>
-                            <tr style="text-align : center">
-                                <td scope="col-6 row">{{$row->name}}</td>
-                                <td scope="col-6 row">{{$row->Time}}</td>
-                            </tr>
-                        </tbody>
-                        @endforeach
-
-                    </table>
-                </div>
-
+                        };
+                        var myBarChart = Chart.Line(canvas, config);
+                    })
+                </script>
             </div>
         </div>
+
         <div class="row">
             <div class="col-6">
-                <div id="Checkoutchart_3d" style="width: 500px; height: 500px;"></div>
+                <div id="Checkinchart_3d" class="chart">
+                </div>
+                <script type="text/javascript">
+                    let dataIn = JSON.parse('<?php echo json_encode($data['datastatusin']); ?>');
+                    google.charts.load("current", {
+                        packages: ["corechart"]
+                    });
+                    google.charts.setOnLoadCallback(drawChart1);
+                    if (dataIn.length == 1) {
+                        dataIn = [
+                            ['Task', 'Hours per Day'],
+                            ['No data', 1]
+
+                        ]
+                    }
+
+                    function drawChart1() {
+                        var data = google.visualization.arrayToDataTable(dataIn);
+
+                        var options = {
+                            title: 'Status(in)',
+                            is3D: true,
+                            // pieSliceText: 'value',
+
+                        };
+
+                        var chart = new google.visualization.PieChart(document.getElementById('Checkinchart_3d'));
+                        chart.draw(data, options);
+                    }
+                </script>
+            </div>
+
+            <div class="col-6 right" style="padding: 5rem;">
+                <div class="aside">
+                    <table class=" table" id="rows_in">
+                        <thead>
+                            <tr style="text-align : center">
+                                <th>Name</th>
+                                <th>Time</th>
+                            </tr>
+                            @foreach($paginate['in'] as $row)
+                            <tr style="text-align : center">
+                                <td>
+                                    {{$row->name}}
+                                </td>
+                                <td>
+                                    {{$row->Time}}
+                                </td>
+                            </tr>
+
+                            @endforeach
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    {{$paginate['in']->links("pagination::bootstrap-4")}}
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-6">
+                <div id="Checkoutchart_3d" class="chart"></div>
                 <script type="text/javascript">
                     let dataOut = JSON.parse('<?php echo json_encode($data['datastatusout']); ?>');
                     google.charts.load("current", {
                         packages: ["corechart"]
                     });
-                    google.charts.setOnLoadCallback(drawChart);
+                    google.charts.setOnLoadCallback(drawChart2);
                     if (dataOut.length == 1) {
                         dataOut = [
                             ['Task', 'Hours per Day'],
@@ -209,14 +323,14 @@
                         ]
                     }
 
-                    function drawChart() {
+                    function drawChart2() {
                         var data = google.visualization.arrayToDataTable(dataOut);
 
                         var options = {
                             title: 'Status(Out)',
                             is3D: true,
-                            'width': 550,
-                            'height': 550
+                            pieSliceText: 'value',
+
                         };
 
                         var chart = new google.visualization.PieChart(document.getElementById('Checkoutchart_3d'));
@@ -225,29 +339,38 @@
                 </script>
             </div>
 
-            <div class="col-6" style="padding: 5rem;">
-                <table class=" table">
-                    <thead>
-                        <tr style="text-align : center">
-                            <th scope="col-6">Name</th>
-                            <th scope="col-6">Time</th>
-                        </tr>
-                    </thead>
-                    @foreach( $paginate['out'] as $row)
-                    <tbody>
-                        <tr style="text-align : center">
-                            <td scope="col-6 row">{{$row->name}}</td>
-                            <td scope="col-6 row">{{$row->Time}}</td>
-                        </tr>
-                    </tbody>
-                    @endforeach
+            <div class="col-6 right" style="padding: 5rem;">
+                <div class="aside">
+                    <table class=" table" id="rows_out">
+                        <thead>
+                            <tr style="text-align : center">
+                                <th scope="col-6">Name</th>
+                                <th scope="col-6">Time</th>
+                            </tr>
+                        </thead>
 
-                </table>
+                        @foreach($paginate['out'] as $row)
+                        <tr style="text-align : center">
+                            <td>
+                                {{$row->name}}
+
+                            </td>
+                            <td>
+                                {{$row->Time}}
+                            </td>
+                        </tr>
+
+                        @endforeach
+
+                    </table>
+                    {{$paginate['out']->links("pagination::bootstrap-4")}}
+
+                </div>
             </div>
         </div>
 
+    </div><br><br>
 
-    </div>
     <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
 
         <a href="checkin">
@@ -257,10 +380,68 @@
         </a>
 
     </div><br>
-    </div>
+
 
 </body>
+
 <script type=text/javascript>
+    function chartIn(data) {
+        let dataIn = data
+        google.charts.load("current", {
+            packages: ["corechart"]
+        });
+        google.charts.setOnLoadCallback(drawChart1);
+        if (dataIn.length == 1) {
+            dataIn = [
+                ['Task', 'Hours per Day'],
+                ['No data', 1]
+
+            ]
+        }
+
+        function drawChart1() {
+            var data = google.visualization.arrayToDataTable(dataIn);
+
+            var options = {
+                title: 'Status(in)',
+                is3D: true,
+                // pieSliceText: 'value',
+
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('Checkinchart_3d'));
+            chart.draw(data, options);
+        }
+    }
+
+    function chartOut(data) {
+        let dataOut = data
+        google.charts.load("current", {
+            packages: ["corechart"]
+        });
+        google.charts.setOnLoadCallback(drawChart2);
+        if (dataOut.length == 1) {
+            dataOut = [
+                ['Task', 'Hours per Day'],
+                ['No data', 1]
+            ]
+        }
+
+        function drawChart2() {
+            var data = google.visualization.arrayToDataTable(dataOut);
+
+            var options = {
+                title: 'Status(Out)',
+                is3D: true,
+                pieSliceText: 'value',
+
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('Checkoutchart_3d'));
+            chart.draw(data, options);
+        }
+    }
+
     function chart(data) {
 
         let status = data;
@@ -302,7 +483,7 @@
             "data": {
                 "labels": [],
                 "datasets": [{
-                    "label": "List_user",
+                    "label": "Data",
                     "type": "line",
                     "backgroundColor": "#00b",
                     "borderColor": "#00b",
@@ -314,6 +495,11 @@
         };
         var myBarChart = Chart.Line(canvas, config);
     }
+
+    // function setRows(val) {
+    //     console.log(val)
+    // }
+
     $(document).ready(function() {
         $("#date").change(function() {
 
@@ -324,17 +510,62 @@
                     data: $(this).val()
                 },
                 success: function(data) {
-                    // console.log(data.data);
+                    // console.log(data);
                     chart(data.data);
+                    chartIn(data.data.datastatusin);
+                    chartOut(data.data.datastatusout)
                     let text = document.getElementById('datenow');
                     text.innerHTML = 'วันที่ :' +
                         "" + data.data.datenow;
+
+                    while (document.getElementById('rows_in').rows.length > 0) {
+                        document.getElementById('rows_in').deleteRow(0);
+                    }
+
+                    var tableRef = document.getElementById('rows_in').getElementsByTagName('tbody')[0];
+                    var table = document.getElementById("rows_in");
+                    var header = table.createTHead();
+                    var row = header.insertRow(0);
+                    var cell0 = row.insertCell(0);
+                    var cell1 = row.insertCell(1);
+                    cell0.innerHTML = "<b>Name</b>";
+                    cell1.innerHTML = "<b>Time</b>";
+                    var use = data.paginate['in'].data;
+                    for (i = 0; i < use.length; i++) {
+                        tableRef.insertRow().innerHTML =
+                            "<tbody><tr style='text-align:center;'><td>" + use[i].name + "</td><td>" + use[i].Time + "</td></tr></tbody> ";
+                    }
+
+                    while (document.getElementById('rows_out').rows.length > 0) {
+                        document.getElementById('rows_out').deleteRow(0);
+                    }
+
+                    var tableoutRef = document.getElementById('rows_out').getElementsByTagName('tbody')[0];
+                    var tableout = document.getElementById("rows_out");
+                    var headerout = tableout.createTHead();
+                    var rowout = headerout.insertRow(0);
+                    var cellout0 = rowout.insertCell(0);
+                    var cellout1 = rowout.insertCell(1);
+                    cellout0.innerHTML = "<b>Name</b>";
+                    cellout1.innerHTML = "<b>Time</b>";
+                    var useout = data.paginate['out'].data;
+                    for (i = 0; i < use.length; i++) {
+                        tableoutRef.insertRow().innerHTML =
+                            "<tbody><tr style='text-align:center;'><td>" + useout[i].name + "</td><td>" + useout[i].Time + "</td></tr></tbody> ";
+                    }
                 }
             });
         });
+    });
 
+
+
+    $(window).resize(function() {
+        drawChart1();
+        drawChart2();
     });
 </script>
+
 
 
 </html>

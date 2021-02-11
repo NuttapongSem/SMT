@@ -33,6 +33,12 @@
             margin: 3rem auto;
         }
 
+        .chart {
+            width: 100%;
+            min-height: 450px;
+            border-style: ridge;
+        }
+
         html,
         body {
             margin: 0;
@@ -52,159 +58,214 @@
     <div class="container" style="background-color:#FDFDFD;">
         <div class="table-responsive-xl"><br>
 
-            <div class="container">
+            <div class="container chart">
 
-                <div style="text-align: center;">
+                <div style="text-align: center;"><br>
 
-                    <h3 id="week"></h3><br>
-                    <button type="button" class="btn btn-info" onclick="prev()" style="width: 80px;height: 20;"><i class="bi bi-arrow-left-circle"></i>&#160;</button>
-                    <button type="button" class="btn btn-info" onclick="next()" style="width: 80px;height: 20;">&#160;<i class="bi bi-arrow-right-circle"></i></button>
+                    <h5 id="week"></h5><br>
+                    <button type="button" class="btn btn-success" onclick="prev()" style="width: 80px;height: 20;"><i class="bi bi-arrow-left-circle"></i>&#160;</button>
+                    <button type="button" class="btn btn-warning" onclick="next()" style="width: 80px;height: 20;">&#160;<i class="bi bi-arrow-right-circle"></i></button>
                 </div><br>
                 <div class="row">
                     <canvas id="myChart" width="100" height="40"></canvas>
                 </div>
+                <div class="aside">
+                    <script>
+                        function prev() {
+                            week += 1;
+                            curr = new Date(curr.setDate(curr.getDate() - 7))
+                            firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+                            lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
+                            document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
 
-                <script>
-                    function prev() {
-                        week += 1;
-                        curr = new Date(curr.setDate(curr.getDate() - 7))
-                        firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-                        lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
+                            chart.options.scales.yAxes[0].time = {
+                                unit: 'day',
+                                min: firstday.setHours(-12),
+                                max: lastday.setHours(12)
+                            }
+                            if (week < dataChart.length && week >= 0) {
+                                chart.data.datasets = dataChart[week];
+                            } else {
+                                chart.data.datasets = [{
+                                    label: "No Data",
+                                    borderColor: '#0421FF ',
+                                    fill: false
+                                }]
+                            }
+                            chart.update();
+                        }
+
+                        function next() {
+                            week -= 1;
+                            curr = new Date(curr.setDate(curr.getDate() + 7))
+                            firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+                            lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
+                            document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
+                            chart.options.scales.yAxes[0].time = {
+                                unit: 'day',
+                                min: firstday.setHours(-12),
+                                max: lastday.setHours(12)
+                            }
+                            if (week < dataChart.length && week >= 0) {
+                                chart.data.datasets = dataChart[week];
+                            } else {
+                                chart.data.datasets = [{
+                                    label: "No Data",
+                                    borderColor: '#0421FF ',
+                                    fill: false
+                                }]
+                            }
+
+                            chart.update();
+
+                        }
+                        let week = 0;
+                        let dataRaw = JSON.parse('<?php echo json_encode($dataChart); ?>');
+                        let dataChart = [];
+                        for (let i = 0; i < dataRaw.length; i++) {
+                            let dataWeek = [];
+                            for (let j = 0; j < dataRaw[i].length; j++) {
+                                console.log(dataRaw[i])
+
+                                dataWeek.push({
+                                    label: "วันที่::" + dataRaw[i][j]['date'],
+                                    borderColor: '#0421FF ',
+                                    data: [{
+                                            x: new Date(dataRaw[i][j]['start']),
+                                            y: new Date(dataRaw[i][j]['y']),
+                                        },
+                                        {
+                                            x: new Date(dataRaw[i][j]['end']),
+                                            y: new Date(dataRaw[i][j]['y']),
+
+                                        }
+                                    ],
+                                    fill: false
+                                })
+                            }
+                            if (dataWeek.length == 0) {
+                                dataWeek.push({
+                                    label: "No Data",
+                                    borderColor: '#0421FF ',
+                                    fill: false
+                                })
+                            }
+                            dataChart.push(dataWeek);
+                        }
+                        let curr = new Date();
+                        let firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+
+                        let lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
                         document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
-
-                        chart.options.scales.yAxes[0].time = {
-                            unit: 'day',
-                            min: firstday.setHours(-12),
-                            max: lastday.setHours(12)
-                        }
-                        if (week < dataChart.length && week >= 0) {
-                            chart.data.datasets = dataChart[week];
-                        } else {
-                            chart.data.datasets = [{
-                                label: "No Data",
-                                borderColor: '#0421FF ',
-                                fill: false
-                            }]
-                        }
-                        chart.update();
-                    }
-
-                    function next() {
-                        week -= 1;
-                        curr = new Date(curr.setDate(curr.getDate() + 7))
-                        firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-                        lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
-                        document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
-                        chart.options.scales.yAxes[0].time = {
-                            unit: 'day',
-                            min: firstday.setHours(-12),
-                            max: lastday.setHours(12)
-                        }
-                        if (week < dataChart.length && week >= 0) {
-                            chart.data.datasets = dataChart[week];
-                        } else {
-                            chart.data.datasets = [{
-                                label: "No Data",
-                                borderColor: '#0421FF ',
-                                fill: false
-                            }]
-                        }
-
-                        chart.update();
-
-                    }
-                    let week = 0;
-                    let dataRaw = JSON.parse('<?php echo json_encode($dataChart); ?>');
-                    let dataChart = [];
-                    for (let i = 0; i < dataRaw.length; i++) {
-                        let dataWeek = [];
-                        for (let j = 0; j < dataRaw[i].length; j++) {
-                            console.log(dataRaw[i])
-
-                            dataWeek.push({
-                                label: "วันที่::" + dataRaw[i][j]['date'],
-                                borderColor: '#0421FF ',
-                                data: [{
-                                        x: new Date(dataRaw[i][j]['start']),
-                                        y: new Date(dataRaw[i][j]['y']),
-                                    },
-                                    {
-                                        x: new Date(dataRaw[i][j]['end']),
-                                        y: new Date(dataRaw[i][j]['y']),
-
+                        let ctx = document.getElementById('myChart').getContext('2d');
+                        let chart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                datasets: dataChart[week]
+                            },
+                            options: {
+                                tooltips: {
+                                    callbacks: {
+                                        title: (items, data) => data.datasets[items[0].datasetIndex].data[items[0].index].x.toString().split(' ')[4],
+                                        label: (item, data) => ''
                                     }
-                                ],
-                                fill: false
-                            })
-                        }
-                        if (dataWeek.length == 0) {
-                            dataWeek.push({
-                                label: "No Data",
-                                borderColor: '#0421FF ',
-                                fill: false
-                            })
-                        }
-                        dataChart.push(dataWeek);
-                    }
-                    let curr = new Date();
-                    let firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-
-                    let lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
-                    document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
-                    let ctx = document.getElementById('myChart').getContext('2d');
-                    let chart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            datasets: dataChart[week]
-                        },
-                        options: {
-                            tooltips: {
-                                callbacks: {
-                                    title: (items, data) => data.datasets[items[0].datasetIndex].data[items[0].index].x.toString().split(' ')[4],
-                                    label: (item, data) => ''
-                                }
-                            },
-                            legend: {
-                                labels: {
-                                    // This more specific font property overrides the global property
-                                    fontSize: 16
-                                }
-                            },
-                            scales: {
-                                yAxes: [{
-                                    type: 'time',
-                                    time: {
-                                        unit: 'day',
-                                        min: firstday.setHours(-12),
-                                        max: lastday.setHours(12)
-                                    },
-                                    ticks: {
+                                },
+                                legend: {
+                                    labels: {
+                                        // This more specific font property overrides the global property
                                         fontSize: 16
                                     }
-                                }],
-                                xAxes: [{
-                                    type: 'time',
-                                    time: {
-                                        displayFormats: {
-                                            hour: 'HH:mm',
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        type: 'time',
+                                        time: {
+                                            unit: 'day',
+                                            min: firstday.setHours(-12),
+                                            max: lastday.setHours(12)
                                         },
-                                        unit: 'hour',
-                                        min: new Date(2021, 0, 1, 6),
-                                        max: new Date(2021, 0, 1, 21),
-                                        unitStepSize: 0.5
-                                    },
-                                    ticks: {
-                                        fontSize: 14
-                                    }
-                                }]
-                            },
-                        }
-                    });
-                </script><br>
+                                        ticks: {
+                                            fontSize: 16
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        type: 'time',
+                                        time: {
+                                            displayFormats: {
+                                                hour: 'HH:mm',
+                                            },
+                                            unit: 'hour',
+                                            min: new Date(2021, 0, 1, 6),
+                                            max: new Date(2021, 0, 1, 21),
+                                            unitStepSize: 0.5
+                                        },
+                                        ticks: {
+                                            fontSize: 14
+                                        }
+                                    }]
+                                },
+                            }
+                        });
+                    </script><br>
 
+                </div>
             </div>
+        </div><br>
 
-        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
     <br><br>
     <div style="text-align: center;justify-content: center;display:flex;align-items: center;">

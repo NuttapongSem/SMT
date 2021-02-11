@@ -7,18 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <meta name="description" content="Simple CMS" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Sheikh Heera" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
 
 
 
@@ -74,9 +70,12 @@
             border-collapse: collapse;
             border-spacing: 0;
         }
+
+        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
     </style>
 
 </head>
+
 <style>
     #nav2 {
         display: none;
@@ -95,6 +94,21 @@
         #nav2 {
             display: flex;
         }
+    }
+
+
+    .block-1 {
+        width: 300px;
+        height: 120px;
+        margin: 10px;
+
+    }
+
+    .block-2 {
+        width: 300px;
+        height: 120px;
+        margin: 10px;
+
     }
 </style>
 
@@ -175,59 +189,95 @@
                 <button type="button" class="btn btn-danger mx-0" style="width:125px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;Profile</button>
             </a>
             <a href="{{ url('/checkin')}}">
-                <button type="button" class="btn btn-warning mx-0" style="width:125px;height:35px;background-color:#239B56 ;color:aliceblue"><i class="bi bi-hand-index-thumb-fill"></i>&#160;<i class="bi bi-person-check-fill"></i>Attendance</button>
+                <button type="button" class="btn btn-warning mx-0" style="width:125px;height:35px;background-color:#239B56 ;color:aliceblue"></i>&#160;<i class="bi bi-person-check-fill"></i>Attendance</button>
             </a>
-        </div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:125px;height:35px;">
+                <i class="bi bi-graph-up"></i>&#160 Chart
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Chart</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="block-1">
+                                <h5>Chart Per Day</h5>
+                                <a href="chartuser">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal">
+                                        <i class="bi bi-file-bar-graph-fill"></i>&#160;Chart Per Day
+                                    </button>
+                                </a>
+                            </div>
+                            <hr>
+                            <div class="block-2">
+                                <h5>Tooltips in a modal</h5>
+                                <a href="chartuser" button type="button" class="btn btn-primary" data-toggle="modal">
+                                    <i class="bi bi-graph-up"></i>&#160;Chartuser
+                                    </button>
+                                </a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
 
-        <div class="table-responsive-xl">
-            <table class="table">
+            <div class="table-responsive-xl">
+                <table class="table">
 
-                <table class="table table-bordered">
-                    <thead>
-                        <tr style=" background-color: #F3C35D;text-align : center">
-                            <th scope="col-6 col-md-4" style="text-align : center">Name</th>
-                            <th scope="col-6 col-md-4" style="text-align : center">Age</th>
-                            <th scope="col-6 col-md-4" style="text-align : center">Interest</th>
-                            <th scope="col-6 col-md-4" style="text-align : center">Time</th>
-                            <th scope="col-6 col-md-4" style="text-align : center">Status</th>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style=" background-color: #F3C35D;text-align : center">
+                                <th scope="col-6 col-md-4" style="text-align : center">Name</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">Age</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">Interest</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">Time</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">Status</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($data as $row)
-                        <tr style="text-align : center">
-                            <th scope="row" style="text-align : center">
-                                {{$row->name}}
-                            </th>
-                            <td>
-                                {{$row->age}}
-                            </td>
-                            <td>
-                                <?php $arr = json_decode($row->interest) ?>
-                                @foreach($arr as $interest)
-                                @if($loop->last)
-                                {{$interest}}
-                                @else
-                                {{$interest}},
-                                @endif
-                                @endforeach
-                            </td>
-                            <td>
-                                {{$row->attendance->first()->updated_at ?? '-'}}
-                            </td>
-                            <td>
-                                <p>{{$row->attendance->first()->status ?? '-' }}</p>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($data as $row)
+                            <tr style="text-align : center">
+                                <th scope="row" style="text-align : center">
+                                    {{$row->name}}
+                                </th>
+                                <td>
+                                    {{$row->age}}
+                                </td>
+                                <td>
+                                    <?php $arr = json_decode($row->interest) ?>
+                                    @foreach($arr as $interest)
+                                    @if($loop->last)
+                                    {{$interest}}
+                                    @else
+                                    {{$interest}},
+                                    @endif
+                                    @endforeach
+                                </td>
+                                <td>
+                                    {{$row->attendance->first()->updated_at ?? '-'}}
+                                </td>
+                                <td>
+                                    <p>{{$row->attendance->first()->status ?? '-' }}</p>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+
+                    </table>
+                    {{$data->links("pagination::bootstrap-4")}}
 
                 </table>
-            </table>
-        </div><br>
-    </div>
+            </div><br>
+        </div>
 
 </body>
 
