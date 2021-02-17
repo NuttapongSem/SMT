@@ -184,10 +184,23 @@
                     $(document).ready(function() {
 
                         let status = JSON.parse('<?php echo json_encode($data); ?>');
+                        let minTime;
+                        let maxTime;
+
+                        if (status.data.length > 0) {
+                            minTime = new Date(status.data[0].x.split(' ')[0] + " 06:00:00")
+                            maxTime = new Date(status.data[0].x.split(' ')[0] + " 23:00:00")
+                        } else {
+                            minTime = new Date("2021-01-01 06:00:00")
+                            maxTime = new Date("2021-01-01 23:00:00")
+                        }
                         var yLabels = status['name'];
+                        for (let i = 0; i < status.data.length; i++) {
+                            status.data[i].x = new Date(status.data[i].x);
+                        }
+
                         let text = document.getElementById('datenow');
                         text.innerHTML = 'วันที่ : ' + "" + status['datenow'];
-
                         var canvas = document.getElementById('myChart');
                         var config = {
                             "options": {
@@ -200,6 +213,8 @@
                                                 "hour": "HH:mm"
                                             },
                                             "unitStepSize": 0.5,
+                                            "min": minTime,
+                                            "max": maxTime,
 
                                         },
                                         "distribution": 'linear',
@@ -300,7 +315,6 @@
                         <tbody>
                         </tbody>
                     </table>
-                    {{$paginate['in']->links("pagination::bootstrap-4")}}
 
                 </div>
             </div>
@@ -344,30 +358,28 @@
                     <table class=" table" id="rows_out">
                         <thead>
                             <tr style="text-align : center">
-                                <th scope="col-6">Name</th>
-                                <th scope="col-6">Time</th>
+                                <th>Name</th>
+                                <th>Time</th>
                             </tr>
+                            @foreach($paginate['out'] as $row)
+                            <tr style="text-align : center">
+                                <td>
+                                    {{$row->name}}
+                                </td>
+                                <td>
+                                    {{$row->Time}}
+                                </td>
+                            </tr>
+                            @endforeach
                         </thead>
-
-                        @foreach($paginate['out'] as $row)
-                        <tr style="text-align : center">
-                            <td>
-                                {{$row->name}}
-
-                            </td>
-                            <td>
-                                {{$row->Time}}
-                            </td>
-                        </tr>
-
-                        @endforeach
-
+                        <tbody>
+                        </tbody>
                     </table>
-                    {{$paginate['out']->links("pagination::bootstrap-4")}}
 
                 </div>
             </div>
         </div>
+    </div>
 
     </div><br><br>
 
@@ -445,7 +457,23 @@
     function chart(data) {
 
         let status = data;
+        let minTime;
+        let maxTime;
+
+        if (status.data.length > 0) {
+            minTime = new Date(status.data[0].x.split(' ')[0] + " 06:00:00")
+            maxTime = new Date(status.data[0].x.split(' ')[0] + " 23:00:00")
+        } else {
+            minTime = new Date("2021-01-01 06:00:00")
+            maxTime = new Date("2021-01-01 23:00:00")
+        }
         var yLabels = status['name'];
+        for (let i = 0; i < status.data.length; i++) {
+            status.data[i].x = new Date(status.data[i].x);
+        }
+
+        let text = document.getElementById('datenow');
+        text.innerHTML = 'วันที่ : ' + "" + status['datenow'];
         var canvas = document.getElementById('myChart');
         var config = {
             "options": {
@@ -458,6 +486,8 @@
                                 "hour": "HH:mm"
                             },
                             "unitStepSize": 0.5,
+                            "min": minTime,
+                            "max": maxTime,
 
                         },
                         "distribution": 'linear',
@@ -465,7 +495,8 @@
                         "ticks": {
                             "source": 'auto',
                             "autoSkip": true,
-                            "stepSize": 1
+                            "stepSize": 1,
+
                         },
                     }],
                     "yAxes": [{
@@ -485,13 +516,14 @@
                 "datasets": [{
                     "label": "Data",
                     "type": "line",
-                    "backgroundColor": "#00b",
-                    "borderColor": "#00b",
+                    "backgroundColor": "#0421FF ",
+                    "borderColor": "#0421FF ",
                     "borderWidth": 1,
                     "fill": false,
                     "data": status['data']
                 }, ]
             },
+
         };
         var myBarChart = Chart.Line(canvas, config);
     }
@@ -510,13 +542,17 @@
                     data: $(this).val()
                 },
                 success: function(data) {
-                    // console.log(data);
+                    console.log(data);
                     chart(data.data);
                     chartIn(data.data.datastatusin);
                     chartOut(data.data.datastatusout)
+                    console.log(data.data)
                     let text = document.getElementById('datenow');
+                    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    let d = data.data.datenow.split('-')
+                    d = new Date(d[2], d[1] - 1, d[0])
                     text.innerHTML = 'วันที่ :' +
-                        "" + data.data.datenow;
+                        "" + d.getDate() + " " + months[d.getMonth()] + " " + d.getFullYear()
 
                     while (document.getElementById('rows_in').rows.length > 0) {
                         document.getElementById('rows_in').deleteRow(0);
@@ -530,10 +566,10 @@
                     var cell1 = row.insertCell(1);
                     cell0.innerHTML = "<b>Name</b>";
                     cell1.innerHTML = "<b>Time</b>";
-                    var use = data.paginate['in'].data;
+                    var use = data.paginate['in'];
                     for (i = 0; i < use.length; i++) {
                         tableRef.insertRow().innerHTML =
-                            "<tbody><tr style='text-align:center;'><td>" + use[i].name + "</td><td>" + use[i].Time + "</td></tr></tbody> ";
+                            "<tbody><tr style='text-align:center;'><td>" + use[i].name + "</td><td>" + use[i].Time + "</td></tr></tbody>";
                     }
 
                     while (document.getElementById('rows_out').rows.length > 0) {
@@ -548,10 +584,12 @@
                     var cellout1 = rowout.insertCell(1);
                     cellout0.innerHTML = "<b>Name</b>";
                     cellout1.innerHTML = "<b>Time</b>";
-                    var useout = data.paginate['out'].data;
-                    for (i = 0; i < use.length; i++) {
+                    var useout = data.paginate['out'];
+
+                    for (i = 0; i < useout.length; i++) {
+
                         tableoutRef.insertRow().innerHTML =
-                            "<tbody><tr style='text-align:center;'><td>" + useout[i].name + "</td><td>" + useout[i].Time + "</td></tr></tbody> ";
+                            "<tbody><tr style='text-align:center;'><td>" + useout[i].name + "</td><td>" + useout[i].Time + "</td></tr></tbody>";
                     }
                 }
             });
@@ -565,7 +603,5 @@
         drawChart2();
     });
 </script>
-
-
 
 </html>

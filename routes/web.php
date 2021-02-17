@@ -73,4 +73,6 @@ Route::group(['middleware' => 'admin'], function () {
   Route::get('/chartuser/{id}', [FingerprintController::class, 'chartOne']);
 
   Route::get('/getdate', [FingerprintController::class, 'getDate']);
+
+  Route::get('/get-position', [FingerprintController::class, 'getposition']);
 });

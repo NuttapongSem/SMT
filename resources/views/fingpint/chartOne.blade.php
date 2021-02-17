@@ -76,7 +76,7 @@
                             curr = new Date(curr.setDate(curr.getDate() - 7))
                             firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
                             lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
-                            document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
+                            document.getElementById("week").innerHTML = firstday.getDate() + " " + months[firstday.getMonth()] + " " + firstday.getFullYear() + " to " + lastday.getDate() + " " + months[lastday.getMonth()] + "-" + lastday.getFullYear();
 
                             chart.options.scales.yAxes[0].time = {
                                 unit: 'day',
@@ -100,7 +100,7 @@
                             curr = new Date(curr.setDate(curr.getDate() + 7))
                             firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
                             lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
-                            document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
+                            document.getElementById("week").innerHTML = firstday.getDate() + " " + months[firstday.getMonth()] + " " + firstday.getFullYear() + " to " + lastday.getDate() + " " + months[lastday.getMonth()] + "-" + lastday.getFullYear();
                             chart.options.scales.yAxes[0].time = {
                                 unit: 'day',
                                 min: firstday.setHours(-12),
@@ -154,9 +154,9 @@
                         }
                         let curr = new Date();
                         let firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-
+                        let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                         let lastday = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
-                        document.getElementById("week").innerHTML = ((firstday.getDate() >= 9) ? firstday.getDate() : '0' + (firstday.getDate())) + "-" + ((firstday.getMonth() >= 9) ? firstday.getMonth() + 1 : '0' + (firstday.getMonth() + 1)) + "-" + firstday.getFullYear() + " to " + ((lastday.getDate() >= 9) ? lastday.getDate() : '0' + (lastday.getDate())) + "-" + ((lastday.getMonth() >= 9) ? lastday.getMonth() + 1 : '0' + (lastday.getMonth() + 1)) + "-" + lastday.getFullYear();
+                        document.getElementById("week").innerHTML = firstday.getDate() + " " + months[firstday.getMonth()] + " " + firstday.getFullYear() + " to " + lastday.getDate() + " " + months[lastday.getMonth()] + "-" + lastday.getFullYear();
                         let ctx = document.getElementById('myChart').getContext('2d');
                         let chart = new Chart(ctx, {
                             type: 'line',
@@ -211,60 +211,6 @@
                 </div>
             </div>
         </div><br>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
     <br><br>

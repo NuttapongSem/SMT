@@ -216,6 +216,7 @@
                     <th scope="col-6 col-md-4">Date</th>
                     <th scope="col-6 col-md-4">Time</th>
                     <th scope="col-6 col-md-4">Status</th>
+                    <th scope="col-6 col-md-4">Late</th>
 
                 </tr>
             </thead>
@@ -235,6 +236,10 @@
 
                     <td>
                         <p>{{$row->status ?? '-' }}</p>
+                    </td>
+
+                    <td>
+                        <p style="color:red;">{{$row->late ?? '-' }}</p>
                     </td>
 
 

@@ -3,33 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Events\DataUpdate;
+use App\Http\Services\LineService;
 use App\Models\Attendance;
+use App\Models\Consolelog;
 use Illuminate\Http\Request;
 use App\Models\Fingerprint;
+use App\Models\Group_position;
+use App\Models\Job_position;
+use App\Models\Log_mobile;
 use App\Models\Video;
 use Attribute;
 use Carbon\Carbon;
 use Database\Factories\AttendanceFactory;
 use DateTime;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use stdClass;
-use Throwable;
 
 class FingerprintController extends Controller
 {
+  public function Line_Noti($message)
+  {
+    $lineService = new LineService();
+    $lineService->sendNotify($message);
+  }
+
+
 
   public function save(Request $request)
   {
-
     try {
-
       $save_image = new Fingerprint();
       $data_name = $request->name;
-      $data_age = intval($request->age);
+      $data_group = $request->group;
+      $data_jobposition = $request->jobposition;
+      $data_birthday = date('Y-m-d', strtotime($request->birthday));
       $data_fingerprint = $request->fingerprint;
       $data_imguser = $request->imguser;
       $data_interest = $request->interest;
@@ -44,14 +57,14 @@ class FingerprintController extends Controller
         }
       }
 
-
       if ($data_fingerprint && $data_imguser) {
         $save_image->name = $data_name;
-        $save_image->age = $data_age;
         $save_image->interest = json_encode($arr);
-        // $save_image->interest = $data_interest ;
+        $save_image->birthday = $data_birthday;
         $save_image->fingerprint = $data_fingerprint;
         $save_image->imguser =  $data_imguser;
+        $save_image->group = $data_group;
+        $save_image->jobposition = $data_jobposition;
         $save_image->save();
         return response()->json([
           'status' => "success"
@@ -59,9 +72,14 @@ class FingerprintController extends Controller
       } else {
         return response()->json(['message' => 'imguser not found!'], 400);
       }
-    } catch (Throwable $e) {
-      report($e);
-      return false;
+    } catch (Exception $e) {
+      $error = new Consolelog();
+      $error->user_id = Auth::user()->id;
+      $error->public = "attenDance";
+      $error->message = $e->getMessage();
+      $error->save();
+
+      return back()->withError($e->getMessage());
     }
   }
 
@@ -73,32 +91,72 @@ class FingerprintController extends Controller
   }
 
 
-
-
-  public function searchinterest(Request $request)
-  {
-    $data = Fingerprint::where('interest', 'like', "%{$request->interest}%")->get('interest');
-
-    return response()->json($data, 200);
-  }
-
-
   public function attenDance(Request $request)
   {
-    $date_save = new Attendance();
+    try {
+      $date_save = new Attendance();
 
-    $now_date = Carbon::now();
-    $date_save->fingerprint_id = $request->id;
-    $date_save->date =  date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date, '+7')->format('d-m-Y'));
-    $date_save->time =  date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date)->format('H:i'));
-    $date_save->status = $request->status;
-    event(new DataUpdate($request->id));
+      $now_date = Carbon::now();
+      $date_save->fingerprint_id = $request->id;
+      $date_save->date =  date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date, '+7')->format('d-m-Y'));
+      $date_save->time =  date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date)->format('H:i'));
+      $date_save->status = $request->status;
+      event(new DataUpdate($request->id));
+      $idgroup = Fingerprint::where('id', $request->id)->first();
 
-    $date_save->save();
 
-    return response()->json($now_date, 200);
+
+      if ($idgroup->group == 12) {
+        if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:30')->format('H:i'))) && $request->status == "เข้า") {
+          $date_save->late = "สายเเลัวจ้า";
+          $message = "\n" . "Name" . " " . $idgroup->name . "\n" . "Group" . " " . $idgroup->nameposition() . "\n" . "Status" . " มาสาย";
+          $this->Line_Noti($message);
+        }
+      } else {
+
+        if (($date_save->time > date(Carbon::createFromFormat('H:i', '10:00')->format('H:i'))) && $request->status == "เข้า") {
+          $date_save->late = "สายเเลัวจ้า";
+          $message = "\n" . "Name" . " " . $idgroup->name . "\n" . " Group" . " " . $idgroup->nameposition() . "\n" . "Status" . " มาสาย";
+          $this->Line_Noti($message);
+        }
+      }
+      $date_save->save();
+
+      if ($date_save->late == "สายเเลัวจ้า") {
+
+        $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 1);
+
+        return response()->json($res, 200);
+      }
+
+      $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 0);
+      if ($date_save->status == 'ออก') {
+        $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3);
+      }
+
+      return response()->json($res, 200);
+    } catch (Exception $e) {
+      $error = new Consolelog();
+      $error->user_id = Auth::user()->id;
+      $error->public = "attenDance";
+      $error->message = $e->getMessage();
+      $error->save();
+
+
+      return back()->withError($e->getMessage());
+    }
   }
 
+  public function saveLogmobile(request $request)
+  {
+
+    $save_error = new Log_mobile();
+
+    $save_error->screen = $request->screen;
+    $save_error->function = $request->function;
+    $save_error->message = $request->message;
+    $save_error->save();
+  }
 
   public function allData(Request $request)
   {
@@ -115,38 +173,51 @@ class FingerprintController extends Controller
 
   public  function saveEdit(Request $request)
   {
+    try {
 
-    $check = Fingerprint::find($request->id);
+      $check = Fingerprint::find($request->id);
+      if ($check->name !== $request->name) {
+        if (Fingerprint::where('name', $request->name)->exists()) {
 
-    if ($check->name !== $request->name) {
-      if (Fingerprint::where('name', $request->name)->exists()) {
+          Session::flash("error", "มันช้ำเว้ย");
 
-        Session::flash("error", "มันช้ำเว้ย");
-
-        return redirect()->back()->withInput();
+          return redirect()->back()->withInput();
+        }
       }
-    }
-    $query = Fingerprint::where("id", $request->id)->first();
-    $query->name =  $request->name;
-    $arr = [];
+      $query = Fingerprint::where("id", $request->id)->first();
+      $query->name =  $request->name;
+      $birthday = \Carbon\Carbon::make($request->birthday)->format('Y-m-d');
+      $query->birthday =  $birthday;
 
-    if ($request->has('interest')) {
-      foreach ($request->interest as $item) {
-        $arr[] = $item;
+
+      $arr = [];
+
+      if ($request->has('interest')) {
+        foreach ($request->interest as $item) {
+          $arr[] = $item;
+        }
       }
+      // $query->age =  intval($request->age);
+      $query->interest = json_encode($arr);
+      $query->group =  $request->group;
+      $query->jobposition =  $request->jobposition;
+
+      if ($request->file('imguser'))
+        $query->imguser = base64_encode(file_get_contents($request->file('imguser')));
+      $query->save();
+      $data = Fingerprint::get();
+
+      Session::flash("save", "เเก้ไขเรียบร้อย");
+      return redirect('/datauser');
+    } catch (Exception $e) {
+      $error = new Consolelog();
+      $error->user_id = Auth::user()->id;
+      $error->public = "saveEdit";
+      $error->message = $e->getMessage();
+      $error->save();
+
+      return back()->withError($e->getMessage());
     }
-    $query->age =  intval($request->age);
-
-    $query->interest = json_encode($arr);
-
-    if ($request->file('imguser'))
-      $query->imguser = base64_encode(file_get_contents($request->file('imguser')));
-    $query->save();
-    $data = Fingerprint::get();
-
-    Session::flash("save", "เเก้ไขเรียบร้อย");
-
-    return redirect('/datauser');
   }
 
 
@@ -162,116 +233,150 @@ class FingerprintController extends Controller
 
   public function edit($id)
   {
-    $query = Fingerprint::where("id", $id)->first();
+    try {
 
+      $query = Fingerprint::where("id", $id)->first();
+      $position = Group_position::with('job_position')->get();
 
-    return view('fingpint.edit', ["data" => $query, 'data_list']);
+      return view('fingpint.edit', ["data" => $query, 'data_list', 'position' => $position]);
+    } catch (Exception $e) {
+      $error = new Consolelog();
+      $error->user_id = Auth::user()->id;
+      $error->public = "attenDance";
+      $error->message = $e->getMessage();
+      $error->save();
+
+      return back()->withError($e->getMessage());
+    }
   }
 
 
   public function delete($id)
   {
-    $data = Fingerprint::find($id);
-    if (isset($data)) {
-      $data->delete();
+    try {
+      $data = Fingerprint::find($id);
+      if (isset($data)) {
+        $data->delete();
+        Session::flash("save", "ลบเรียบร้อย");
+      } else {
+        Session::flash("save", "ไม่พบข้อมูล");
+      }
+      return Redirect::back();
+    } catch (Exception $e) {
+      $error = new Consolelog();
+      $error->user_id = Auth::user()->id;
+      $error->public = "attenDance";
+      $error->message = $e->getMessage();
+      $error->save();
 
-
-
-      Session::flash("save", "ลบเรียบร้อย");
-    } else {
-      Session::flash("save", "ไม่พบข้อมูล");
+      return back()->withError($e->getMessage());
     }
-    return Redirect::back();
   }
 
 
   public function dataUser(Request $request)
   {
-    $name = $request->name;
+    try {
+      $name = $request->name;
 
+      $data = Fingerprint::orderByDesc('created_at',)
 
-    $data = Fingerprint::orderByDesc('created_at',)
+        ->when($name, function ($query, $name) {
+          return $query->where('name', 'like', '%' . $name . '%');
+        })
 
-      ->when($name, function ($query, $name) {
-        return $query->where('name', 'like', '%' . $name . '%');
-      })
+        ->paginate(5)->withQueryString();
+      $data->searchName = $name;
 
-      ->paginate(5)->withQueryString();
-    $data->searchName = $name;
+      return view('fingpint.datauser', compact('data'));
+    } catch (Exception $e) {
+      $error = new Consolelog();
+      $error->user_id = Auth::user()->id;
+      $error->public = "attenDance";
+      $error->message = $e->getMessage();
+      $error->save();
 
-
-
-
-    return view('fingpint.datauser', compact('data'));
+      return back()->withError($e->getMessage());
+    }
   }
 
 
 
   public function Checkin(Request $request)
   {
+    try {
 
-    $name = $request->name;
-    $searchDateStart = $request->date_start;
-    $searchDateEnd = $request->date_end;
-    $timeStart = $request->time_start;
-    $timeEnd = $request->time_end;
-    $dateStart = '';
-    $dateEnd = '';
+      $name = $request->name;
+      $searchDateStart = $request->date_start;
+      $searchDateEnd = $request->date_end;
+      $timeStart = $request->time_start;
+      $timeEnd = $request->time_end;
+      $dateStart = '';
+      $dateEnd = '';
 
 
 
-    if ($searchDateStart) {
-      $dateStart = \Carbon\Carbon::make($searchDateStart)->format('d-m-Y');
+      if ($searchDateStart) {
+        $dateStart = \Carbon\Carbon::make($searchDateStart)->format('d-m-Y');
+      }
+
+      if ($searchDateEnd) {
+        $dateEnd = \Carbon\Carbon::make($searchDateEnd)->format('d-m-Y');
+      }
+
+      $status = $request->status;
+
+      $data = Attendance::orderByDesc('attendance.updated_at')
+        ->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')
+
+        ->when($name, function ($query, $name) {
+          // dump('when name');
+          return $query->where('name', 'like', '%' . $name . '%');
+        })
+
+        ->when($dateStart && $dateEnd === '', function ($query) use ($dateStart) {
+          // dump('when date', $datetart);
+          return $query->where('date',  $dateStart);
+        })
+
+        ->when($dateStart && $dateEnd, function ($query) use ($dateStart, $dateEnd) {
+
+          return $query->whereBetween('date', [$dateStart, $dateEnd]);
+        })
+
+        ->when($timeStart && $timeEnd == null, function ($query) use ($timeStart) {
+          // dump('when date', $datetart);
+          return $query->where('Time', '>=',  $timeStart);
+        })
+
+        ->when($timeStart && $timeEnd, function ($query) use ($timeStart, $timeEnd) {
+
+          return $query->whereBetween('Time', [$timeStart, $timeEnd]);
+        })
+
+        ->when($status, function ($query, $status) {
+          // dump('when status');0
+          return $query->where('status', $status);
+        })
+        ->paginate(10)->withQueryString();
+
+      $data->searchName = $name;
+      $data->searchdateStart = $dateStart;
+      $data->searchdateEnd = $dateEnd;
+      $data->searchTimeto = $timeStart;
+      $data->searchTimein = $timeEnd;
+      $data->searchStatus = $status;
+
+      return view('fingpint.checkin', compact('data'));
+    } catch (Exception $e) {
+      $error = new Consolelog();
+      $error->user_id = Auth::user()->id;
+      $error->public = "attenDance";
+      $error->message = $e->getMessage();
+      $error->save();
+
+      return back()->withError($e->getMessage());
     }
-
-    if ($searchDateEnd) {
-      $dateEnd = \Carbon\Carbon::make($searchDateEnd)->format('d-m-Y');
-    }
-
-    $status = $request->status;
-
-    $data = Attendance::orderByDesc('attendance.updated_at')
-      ->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')
-
-      ->when($name, function ($query, $name) {
-        // dump('when name');
-        return $query->where('name', 'like', '%' . $name . '%');
-      })
-
-      ->when($dateStart && $dateEnd === '', function ($query) use ($dateStart) {
-        // dump('when date', $datetart);
-        return $query->where('date',  $dateStart);
-      })
-
-      ->when($dateStart && $dateEnd, function ($query) use ($dateStart, $dateEnd) {
-
-        return $query->whereBetween('date', [$dateStart, $dateEnd]);
-      })
-
-      ->when($timeStart && $timeEnd == null, function ($query) use ($timeStart) {
-        // dump('when date', $datetart);
-        return $query->where('Time', '>=',  $timeStart);
-      })
-
-      ->when($timeStart && $timeEnd, function ($query) use ($timeStart, $timeEnd) {
-
-        return $query->whereBetween('Time', [$timeStart, $timeEnd]);
-      })
-
-      ->when($status, function ($query, $status) {
-        // dump('when status');0
-        return $query->where('status', $status);
-      })
-      ->paginate(10)->withQueryString();
-
-    $data->searchName = $name;
-    $data->searchdateStart = $dateStart;
-    $data->searchdateEnd = $dateEnd;
-    $data->searchTimeto = $timeStart;
-    $data->searchTimein = $timeEnd;
-    $data->searchStatus = $status;
-
-    return view('fingpint.checkin', compact('data'));
   }
 
 
@@ -320,9 +425,8 @@ class FingerprintController extends Controller
     }
     $datastatusin = [['Task', 'Hours per Day']];
     $datastatusout = [['Task', 'Hours per Day1']];
-    $paginatein = Attendance::where([['status', "เข้า"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
-    $paginateout = Attendance::where([['status', "ออก"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
-
+    $paginatein = Attendance::where([['status', "เข้า"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
+    $paginateout = Attendance::where([['status', "ออก"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
     foreach ($timelist as $timeming) {
       $attendancein = Attendance::where([['status', "เข้า"], ['date', $date]])->whereBetween('Time', [$timeming[0], $timeming[1]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
       $attendanceout = Attendance::where([['status', "ออก"], ['date', $date]])->whereBetween('Time', [$timeming[0], $timeming[1]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
@@ -345,9 +449,6 @@ class FingerprintController extends Controller
 
     return view('fingpint.chartuser', ["data" => $status, 'paginate' => $paginateinstatus]);
   }
-
-
-
 
 
   public function getDate(Request $request)
@@ -391,8 +492,8 @@ class FingerprintController extends Controller
     }
     $datastatusin = [['Task', 'Hours per Day']];
     $datastatusout = [['Task', 'Hours per Day1']];
-    $paginatein = Attendance::where([['status', "เข้า"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
-    $paginateout = Attendance::where([['status', "ออก"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->paginate(5)->withQueryString();
+    $paginatein = Attendance::where([['status', "เข้า"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
+    $paginateout = Attendance::where([['status', "ออก"], ['date', $date]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
 
     foreach ($timelist as $timeming) {
       $attendancein = Attendance::where([['status', "เข้า"], ['date', $date]])->whereBetween('Time', [$timeming[0], $timeming[1]])->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
@@ -456,6 +557,14 @@ class FingerprintController extends Controller
 
     return view('fingpint.chartOne', ['dataChart' => $dataChart, 'name' => $name]);
   }
+
+  public function getposition(Request $request)
+  {
+    $position = Job_position::where("id_group", $request->id)->get();
+
+
+    return response()->json(["position" => $position]);
+  }
 }
 
 
@@ -465,6 +574,31 @@ class FingerprintController extends Controller
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//ค้นหาเเบบรายละเอียด
+
+// public function searchinterest(Request $request)
+  // {
+  //   $data = Fingerprint::where('interest', 'like', "%{$request->interest}%")->get('interest');
+
+  //   return response()->json($data, 200);
+  // }
 
 
 

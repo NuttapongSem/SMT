@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fingerprint as ModelsFingerprint;
 use App\Models\Models\Fingerprint;
 use Illuminate\Http\Request;
 
 class ContactControlloer extends Controller
 {
-    /**
-     * 
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
+  /**
+   * 
+   * Handle the incoming request.
+   *
+   * @param  \Illuminate\Http\Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function create(Request $request)
+  {
     return view('contact.index');
-    
-    }
-    public function index()
-    {
-        $data = Fingerprint::get();
+  }
+  public function index()
+  {
+    $data = ModelsFingerprint::get();
 
     foreach ($data as $value) {
       $value['imgPathFingerprint'] = 'http://127.0.0.1:8000/storage/uploads/image-fingerprint/' . $value->fingerprint;
@@ -29,6 +29,6 @@ class ContactControlloer extends Controller
     }
     // event(new DataUpdate($data));
 
-    return view('contact.index',$data);
-    }
+    return view('contact.index', $data);
+  }
 }

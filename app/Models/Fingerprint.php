@@ -14,13 +14,21 @@ class Fingerprint extends Model
 
     protected $fillable = [
         'name',
-        'age',
+        'group',
+        'jobposition',
+        'birthday',
         'interest',
-        'imguse',
+        'imguser',
         'fingerprint'
     ];
     public function attendance()
     {
-        return $this->hasMany(Attendance::class, 'fingerprint_id', 'id')->orderBy('created_at','DESC');
+        return $this->hasMany(Attendance::class, 'fingerprint_id', 'id')->orderBy('created_at', 'DESC');
+    }
+    public function nameposition()
+    {
+        $data = Group_position::where("id", $this->group)->first();
+
+        return $data->name;
     }
 }

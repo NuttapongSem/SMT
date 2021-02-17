@@ -60,7 +60,7 @@ class SuperadminController extends Controller
         if ($auth) {
             Auth::logout($auth);
             $auth->update(["type" => 0]);
-            Session::flash("save", "ไปดีๆนะ");
+            Session::flash("save", "ออกระบบเรียบร้อย");
             return view('login');
         } else {
             Session::flash("error", "อย่าพึ่งออกนะ");

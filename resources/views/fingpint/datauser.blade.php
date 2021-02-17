@@ -127,14 +127,17 @@
                 <thead style="background-color: #F3C35D;text-align : center">
 
                     <tr>
+                        <th scope="col-6 col-md-4" style="text-align : center">Porfile</th>
 
-                        <th scope="col-6 col-md-4" style="text-align : center">name</th>
+                        <th scope="col-6 col-md-4">name</th>
 
-                        <th scope="col-6 col-md-4">age</th>
+                        <th scope="col-6 col-md-4">group</th>
+
+                        <th scope="col-6 col-md-4">jobposition</th>
+
+                        <th scope="col-6 col-md-4">Birthday</th>
 
                         <th scope="col-6 col-md-4">interest</th>
-
-                        <th scope="col-6 col-md-4">Porfile</th>
 
                         <th scope="col-6 col-md-4">Edit</th>
 
@@ -148,12 +151,26 @@
                 <tbody style="vertical-align:middle">
                     @foreach($data as $row)
                     <tr>
+                        <td style="width: 200px;padding:20px">
+                            <img class="a" style="width: 100%;height: auto;" src="data:image/jpeg;base64,{{$row->imguser}}" alt="">
+                        </td>
+
                         <th scope="row" style="vertical-align:middle">
                             {{$row->name}}
                         </th>
+
                         <td style="vertical-align:middle">
-                            {{$row->age}}
+                            {{$row->group}}
                         </td>
+
+                        <td style="vertical-align:middle">
+                            {{$row->jobposition}}
+                        </td>
+
+                        <td style="vertical-align:middle">
+                            {{$row->birthday}}
+                        </td>
+
                         <td scope="row" style="vertical-align:middle">
                             <?php $arr = json_decode($row->interest) ?>
                             @foreach($arr as $interest)
@@ -165,9 +182,6 @@
                             @endforeach
                         </td>
 
-                        <td style="width: 200px;padding:20px">
-                            <img class="a" style="width: 100%;height: auto;" src="data:image/jpeg;base64,{{$row->imguser}}" alt="">
-                        </td>
 
                         <td style="vertical-align:middle">
                             <a href="{{url('/edit/'.$row->id)}}">
@@ -212,7 +226,6 @@
                     <i class="bi bi-arrow-left-circle"></i>
                 </button>
             </a>
-
 
         </div><br><br><br>
 

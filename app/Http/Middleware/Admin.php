@@ -19,13 +19,13 @@ class Admin
     public function handle($request, Closure $next)
     {
         $user = Auth::user();
-        
-        if( $user && $user->type === 1 ) {
-          
+
+        if ($user && $user->type === 1) {
+
             return $next($request);
         } else {
-            
-            Session::flash("error", "ไปล็อกอินดิ!!เห้ย");
+
+            Session::flash("error", "คุณยังไม่ได้Login");
             return redirect('/login');
             // abort(403, 'Unauthorized action.');
         }
