@@ -69,16 +69,18 @@
 
 
 <body>
-    @if (Session::has('save'))
+    @if (Session::has('delete'))
         <script language="javascript">
-            alert('{{ Session::get('save') }}')
+            alert('{{ Session::get('delete') }}')
 
         </script>
     @endif
 
     <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Information Leave</h2><br>
     <div class="container" style="background-color:#FDFDFD;"><br>
-        <div class="card">
+        <div class="card"><a href="/"><button type="button" class="btn btn-link"><i
+                        class="bi bi-arrow-left-circle-fill"></i></button>
+            </a>
             <div class="table-responsive-xl">
 
                 <h4 style="text-align: center">หนังสือขออนุญาตลาหยุด</h4>
@@ -87,7 +89,7 @@
                 <p style="text-align: left">เรียน ผู้บริหาร</p>
                 <br><br>
                 <p style="text-align: left">ข้าพเจ้า {{ $data->profiles->name }}</p>
-                <p style="text-align: left">พนักงานกลุ่ม {{ $data->profiles->groups->name }}</p>
+                <p style="text-align: left">พนักงานเเผนก {{ $data->profiles->groups->name }}</p>
                 <p style="text-align: left">พนักงานตำเเหน่ง {{ $data->profiles->jobpositions->name }}</p>
                 <p style="text-align: left">ขออนุญาติลาเพื่อ {{ $data->annotation }}</p>
                 <tr>
@@ -115,20 +117,16 @@
                             <i class="bi bi-x-circle"></i>
                         </button>
                     </a>
+
                 </td>
                 &nbsp;
                 <button
                     onclick="window.open('{{ url('/storage/exportPDF') . '/' . ($data->path_pdf ? $data->path_pdf : '') }}','_blank')"
-                    type="button" style="width:100px;" class="btn btn-info">Info</button>
+                    type="button" style="width:100px;" class="btn btn-info">PDF &nbsp;<i
+                        class="bi bi-book"></i></button>
             </div>
+
         </div>
-
-
-
-        {{-- <p style="cursor: pointer"><a
-                onclick="window.open('{{ url('/storage/exportPDF') . '/' . (count($row->leave) > 0 ? $row->leave[0]->path_pdf : '') }}','_blank')">{{ $row->leaveStatus }}</a>
-        </p> --}}
-
 
     </div>
 </body>

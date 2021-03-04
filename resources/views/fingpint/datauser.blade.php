@@ -115,21 +115,15 @@
                     <div>
                         Name::&#160;
                     </div>
-
-
                     <div>
-
                         <input type=" text" name="name" value="{{ $data->searchName }}" class="form-control"
                             id="floatingInput" style="width: 150px; height: 45px;">
-                        <!-- placeholder="D/M/Y" -->
                     </div>&#160;
 
                     <input class="btn btn-primary" type="submit" value="Submit" style="width:80px;height:35px">
 
                 </div><br>
             </form>
-
-
             <div class="table-responsive-xl">
 
                 <table class="table table-bordered" id="example" style="background-color:#FDFDFD;">
@@ -204,7 +198,6 @@
                                     </a>
 
                                 <td style="vertical-align:middle">
-
                                     <a href="{{ url('/delete/' . $row->id) }}"
                                         onclick="return confirm('delete confirm?')">
                                         <button type="button" style="width:100px;height:40px" class="btn btn-danger">ลบ
@@ -232,18 +225,14 @@
 
                 </table>
                 {{ $data->links('pagination::bootstrap-4') }}
-
             </div><br>
-
             <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
                 <a href="/">
                     <button type="/" class="btn btn-primary" style="width:150px;height:50px">
                         <i class="bi bi-arrow-left-circle"></i>
                     </button>
                 </a>
-
             </div><br><br><br>
-
         </div>
     </div>
 </body>

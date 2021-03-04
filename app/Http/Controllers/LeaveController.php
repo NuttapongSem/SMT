@@ -64,8 +64,9 @@ class LeaveController extends Controller
         DB::table('leave')
             ->where('id', $id)
             ->update(['path_pdf' => $file_name]);
-
-        return $pdf_viewer->stream();
+        $url = url('/') . '/storage/exportPDF/' . $file_name;
+        Session::flash('urlPDF', $url);
+        return redirect::route('index');
     }
     public function generatePDF($result, $id)
     {
@@ -177,11 +178,10 @@ class LeaveController extends Controller
         $data = Leave::find($id);
         if (isset($data)) {
             $data->delete();
-            Session::flash("delete_leave", "ลบเรียบร้อย");
+            Session::flash("delete", "ลบเรียบร้อย");
         } else {
-            Session::flash("delete_leave", "ไม่พบข้อมูล");
+            Session::flash("delete", "ไม่พบข้อมูล");
         }
-        return Redirect::back();
-
+        return redirect()->route('index');
     }
 }

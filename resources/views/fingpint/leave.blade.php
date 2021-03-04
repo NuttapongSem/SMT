@@ -9,22 +9,29 @@
     <meta name="author" content="Sheikh Heera" />
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap-responsive.css">
     <!-- CSS only -->
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <script src="https://unpkg.com/popper.js@1.14.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
@@ -274,26 +281,30 @@
                 right: calc(50% - 5px)
             }
         }
+
     </style>
 
 
     <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Leave</h2><br>
     <div class="container" style="background-color:#FDFDFD;"><br>
 
-        <form class="row g-3" enctype="multipart/form-data" class="container" method="post" action="{{url('/save-leave')}}" accept-charset="UTF-8">
+        <form class="row g-3" enctype="multipart/form-data" class="container" method="post"
+            action="{{ url('/save-leave') }}" accept-charset="UTF-8">
             @csrf
             <div class="md-form mx-6 ">
                 <div class="flex-row d-flex justify-content-center">
                     <div class="col-lg-6 col-11 px-1">
                         <label for="exampleFormControlInput1">Name</label>
-                        <select id="name_id" name="name_id" class="form-select form-select-lg mb-3 dropdown-group" aria-label=".form-select-lg example" style="text-align: center" width="330" required>
+                        <select id="name_id" name="name_id" class="form-select form-select-lg mb-3 dropdown-group"
+                            aria-label=".form-select-lg example" style="text-align: center" width="330" required>
                             <option selected></option>
-                            @foreach($list_fingerprint as $item)
-                            <option value="{{$item->id}}">{{$item->name}}</option>
+                            @foreach ($list_fingerprint as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                         <label class="form-label">Leave type</label>
-                        <select name="leave_type" class="form-select" aria-label="Default select example" style="width: 150px; height: 48px;" required>
+                        <select name="leave_type" class="form-select" aria-label="Default select example"
+                            style="width: 150px; height: 48px;" required>
                             <option selected>...</option>
                             <option value="ป่วย"> ป่วย</option>
                             <option value="กิจส่วนตัว">กิจส่วนตัว</option>
@@ -308,17 +319,19 @@
             <div class="flex-row d-flex justify-content-center">
                 <div class="col-lg-6 col-11 px-1">
                     <label for="exampleFormControlInput1">Group</label>
-                    <select id="groupposition" name="group" class="form-select form-select-lg mb-3 dropdown-group" aria-label=".form-select-lg example" style="text-align: center" width="330" required>
+                    <select id="groupposition" name="group" class="form-select form-select-lg mb-3 dropdown-group"
+                        aria-label=".form-select-lg example" style="text-align: center" width="330" required>
                         <option selected></option>
-                        @foreach($list_group as $item)
-                        <option value="{{$item->id}}">{{$item->name}}</option>
+                        @foreach ($list_group as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
                     <label for="exampleFormControlInput1">Jobposition</label>
-                    <select id="jobposition" name="jobposition" class="form-select form-select-lg mb-3 dropdown-group" aria-label=".form-select-lg example" style="text-align: center" width="330" >
+                    <select id="jobposition" name="jobposition" class="form-select form-select-lg mb-3 dropdown-group"
+                        aria-label=".form-select-lg example" style="text-align: center" width="330">
                         <option selected></option>
-                        @foreach($list_job as $item)
-                        <option value="{{$item->id}}">{{$item->name}}</option>
+                        @foreach ($list_job as $item)
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -327,7 +340,8 @@
                 <div class="flex-row d-flex justify-content-center">
                     <div class="col-lg-6 col-11 px-1">
                         <div class=" form-floating">
-                            <textarea name="annotation" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                            <textarea name="annotation" class="form-control" placeholder="Leave a comment here"
+                                id="floatingTextarea2" style="height: 100px"></textarea>
                             <label for="floatingTextarea2">Annotation</label>
                         </div>
                     </div>
@@ -337,9 +351,11 @@
                 <div class="flex-row d-flex justify-content-center">
                     <div class="col-lg-6 col-11 px-1">
                         <div class="input-group input-daterange">
-                            <input type="text" name="date_start" id="date_start" class="form-control text-left mr-2"> <label class="ml-3 form-control-placeholder" id="start-p" for="start">Start Date</label>
+                            <input type="text" name="date_start" id="date_start" class="form-control text-left mr-2">
+                            <label class="ml-3 form-control-placeholder" id="start-p" for="start">Start Date</label>
                             <span class="fa fa-calendar" id="date_start"></span>
-                            <input type="text" name="date_end" id="date_end" class="form-control text-left ml-2"> <label class="ml-3 form-control-placeholder" id="end-p" for="end">End Date</label>
+                            <input type="text" name="date_end" id="date_end" class="form-control text-left ml-2"> <label
+                                class="ml-3 form-control-placeholder" id="end-p" for="end">End Date</label>
                             <span class="fa fa-calendar" id="date_end"></span>
                         </div>
                     </div>
@@ -351,10 +367,11 @@
                         <label for="inputCity" class="form-label">Endorser</label>
                         <input name="endorser" type="text" class="form-control" id="inputendorser" style="width:300px;">
                         <label for="exampleFormControlInput1">PositionEndorser</label>
-                        <select id="position_endorser" name="position_endorser" class="form-select form-select-sm " aria-label=".form-select-sm example" style="width: 300px;height:45px" required>
+                        <select id="position_endorser" name="position_endorser" class="form-select form-select-sm "
+                            aria-label=".form-select-sm example" style="width: 300px;height:45px" required>
                             <option selected></option>
-                            @foreach($list_job as $item)
-                            <option value="{{$item->name}}">{{$item->name}}</option>
+                            @foreach ($list_job as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -384,7 +401,7 @@
 
         $.ajax({ //create an ajax request to display.php
             type: "GET",
-            url: "{{url('/get-position?id=')}}" + this.value,
+            url: "{{ url('/get-position?id=') }}" + this.value,
             data: {
                 id: this.value
             },
@@ -412,4 +429,5 @@
             disableTouchKeyboard: true
         });
     });
+
 </script>

@@ -8,6 +8,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Sarabun:ital,wght@0,100;0,200;0,300;0,400;1,100;1,200;1,300&display=swap"
         rel="stylesheet">
+
+
     <style>
         body {
             margin: 0;
@@ -62,7 +64,7 @@
             <td colspan="2" align="left">ข้าพเจ้า {{ $data->profiles->name }}</td>
         </tr>
         <tr>
-            <td colspan="2" align="left">พนักงานกลุ่ม {{ $data->profiles->groups->name }}</td>
+            <td colspan="2" align="left">พนักงานเเผนก {{ $data->profiles->groups->name }}</td>
         </tr>
         <tr>
             <td colspan="2" align="left">พนักงานตำเเหน่ง {{ $data->profiles->jobpositions->name }}</td>

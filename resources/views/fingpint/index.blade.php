@@ -132,6 +132,19 @@
     }
 
 </style>
+@if (Session::has('urlPDF'))
+    <script>
+        let PDF = '{{ Session::get('urlPDF') }}';
+        console.log(PDF);
+        if (PDF != null) {
+            window.open(PDF);
+
+        }
+
+    </script>
+    <?php Session::forget('urlPDF'); ?>
+
+@endif
 
 <body>
     @if (Session::has('save'))
@@ -289,8 +302,6 @@
                                         @if ($row->data_late)
                                             <p style="color:red">{{ $row->data_late }}</p>
                                         @else
-                                            {{ dd($row->no_late) }}
-
                                             <p>{{ $row->no_late }}</p>
                                         @endif
 

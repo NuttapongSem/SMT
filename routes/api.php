@@ -4,6 +4,7 @@ use App\Http\Controllers\FingerprintController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,3 +48,7 @@ Route::get('/getAllLineData', [FingerprintController::class, 'getAllLineData']);
 Route::post('/line_regis', [FingerprintController::class, 'saveUserIdLine']);
 
 Route::post('/saveFB', [FingerprintController::class, 'saveFB']);
+
+Route::get('/call', function () {
+    Artisan::call('storage:link');
+});

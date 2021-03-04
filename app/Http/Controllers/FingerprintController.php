@@ -230,31 +230,24 @@ class FingerprintController extends Controller
             $q->whereDate('updated_at', Carbon::today());
         })->orderByDesc('updated_at')->paginate(10);
 
-        // dd($data);
-        // foreach ($data as $item) {
-        // dump(Carbon::today());
-        // $data = $data->attendance->whereDate('updated_at', Carbon::today())->first();
-        // }
-        // dd($data);
-        // $data = $data->paginate(10);
-        // dd($data);
-//
         foreach ($data as $item) {
-            switch ($item["group"]) {
-                case 12:
-                    if ($item->time > date(Carbon::createFromFormat('H:i', '9:30')->format('H:i')) && $request->status == "เข้า") {
-                        $item->data_late = "มาสาย";
-                    } else {
-                        $item->no_late = "ไม่สาย";
-                    }
-                    break;
+            if (count($item->attendance) > 0) {
+                switch ($item["group"]) {
+                    case 12:
+                        if ($item->attendance->first()->Time > date(Carbon::createFromFormat('H:i', '9:30')->format('H:i')) && $item->attendance->first()->status == "เข้า") {
+                            $item->data_late = "มาสาย";
+                        } else {
+                            $item->no_late = "ไม่สาย";
+                        }
+                        break;
 
-                default:
-                    if ($item->time > date(Carbon::createFromFormat('H:i', '10:00')->format('H:i')) && $request->status == "เข้า") {
-                        $item->data_late = "มาสาย";
-                    } else {
-                        $item->no_late = "ไม่สาย";
-                    }
+                    default:
+                        if ($item->attendance->first()->Time > date(Carbon::createFromFormat('H:i', '10:00')->format('H:i')) && $item->attendance->first()->status == "เข้า") {
+                            $item->data_late = "มาสาย";
+                        } else {
+                            $item->no_late = "ไม่สาย";
+                        }
+                }
             }
 
             if ($item->leave->count() > 0) {
@@ -263,7 +256,12 @@ class FingerprintController extends Controller
                 $item->leaveStatus = null;
             }
         }
-        return view('fingpint.index', compact('data'));
+        if (Session::has('urlPDF')) {
+            Session::flash('urlPDF', Session::get('urlPDF'));
+        } else {
+            Session::flash('urlPDF', null);
+        }
+        return view('fingpint.index', compact(['data']));
     }
 
     public function edit($id)

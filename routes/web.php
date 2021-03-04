@@ -55,7 +55,7 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/checkin', [FingerprintController::class, 'Checkin']);
 
-    Route::get('/', [FingerprintController::class, 'index']);
+    Route::get('/', [FingerprintController::class, 'index'])->name("index");
 
     Route::get('/logout', [SuperadminController::class, 'logout']);
 
