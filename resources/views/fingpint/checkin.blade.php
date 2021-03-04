@@ -153,7 +153,7 @@
 
 
 
-                                <div class="md-form mx-5 my-1">
+                                <div class="md-form mx-5 ">
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="datepicker">DateStart</label>
@@ -216,7 +216,7 @@
                     <th scope="col-6 col-md-4">Date</th>
                     <th scope="col-6 col-md-4">Time</th>
                     <th scope="col-6 col-md-4">Status</th>
-                    <th scope="col-6 col-md-4">Late</th>
+                    <!-- <th scope="col-6 col-md-4">Late</th> -->
 
                 </tr>
             </thead>
@@ -238,9 +238,9 @@
                         <p>{{$row->status ?? '-' }}</p>
                     </td>
 
-                    <td>
+                    <!-- <td>
                         <p style="color:red;">{{$row->late ?? '-' }}</p>
-                    </td>
+                    </td> -->
 
 
                 </tr>

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Database\Factories\AttendanceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +10,7 @@ class Fingerprint extends Model
     use HasFactory;
 
     protected $table = 'fingerprint';
-
+    protected $with = ['jobpositions', 'groups'];
     protected $fillable = [
         'name',
         'group',
@@ -19,7 +18,7 @@ class Fingerprint extends Model
         'birthday',
         'interest',
         'imguser',
-        'fingerprint'
+        'fingerprint',
     ];
     public function attendance()
     {
@@ -30,5 +29,22 @@ class Fingerprint extends Model
         $data = Group_position::where("id", $this->group)->first();
 
         return $data->name;
+    }
+    public function birthdayformat()
+    {
+        $birthday = \Carbon\Carbon::make($this->birthday)->format('d-m-Y');
+        return $birthday;
+    }
+    public function leave()
+    {
+        return $this->hasMany(Leave::class, 'name_id', 'id')->orderBy('updated_at', 'DESC');
+    }
+    public function groups()
+    {
+        return $this->hasOne(Group_position::class, 'id', 'group');
+    }
+    public function jobpositions()
+    {
+        return $this->hasOne(Job_position::class, 'id', 'jobposition');
     }
 }

@@ -78,140 +78,162 @@
   </style>
 
 </head>
-<h3 class="card-header" style=" text-align: center; background-color: #F3C35D;">EditInformation</h2>
+<h3 class="card-header" style=" text-align: center; background-color: #F3C35D;">EditInformation</h3>
 
 
-  <br>
+<br>
 
-  <body>
-    <div class="container" style="background-color:#FDFDFD;">
+<body>
+  <div class="container" style="background-color:#FDFDFD;">
 
-      <style>
-        body {
-          background-color: lightgray;
-          ;
-        }
-      </style>
+    <style>
+      body {
+        background-color: lightgray;
+        ;
+      }
 
-      @if (Session::has('error'))
-      <script language="javascript">
-        alert('{{Session::get("error")}}')
-      </script>
+      .center_div {
+        margin: auto;
+        width: 90%;
+      }
+    </style>
 
-      @endif
+    @if (Session::has('error'))
+    <script language="javascript">
+      alert('{{Session::get("error")}}')
+    </script>
 
-      <form enctype="multipart/form-data" class="container" method="post" action="{{url('/save-edit')}}" accept-charset="UTF-8" style="background-color:#FDFDFD;">
+    @endif
 
-        @csrf
-        <input hidden value="{{$data->id}}" name="id" type="text" class="form-control" id="exampleFormControlInput1">
+    <form enctype="multipart/form-data" class="container" method="post" action="{{url('/save-edit')}}" accept-charset="UTF-8" style="background-color:#FDFDFD;">
 
-        <div class="table-responsive">
-          <div class="card-body">
+      @csrf
+      <input hidden value="{{$data->id}}" name="id" type="text" class="form-control" id="exampleFormControlInput1">
 
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Name</label>
-              <input value="{{$data->name}}" name="name" type="text" class="form-control" id="exampleFormControlInput1">
-            </div>
+      <div class="table-responsive"><br>
 
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Birthday</label>
-              <input id="datepicker0" name="birthday" value="{{$data->birthday}}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
-            </div>
-            <label for="exampleFormControlInput1">Group</label>
-            <select id="groupposition" name="group" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-              <option selected></option>
-              @foreach($position as $item)
-              <option value="{{$item->id}}">{{$item->name}}</option>
-              @endforeach
-            </select>
-
-            <label for="exampleFormControlInput1">JobPosition</label>
-            <select id="jobposition" name="jobposition" class="form-select form-select-sm" aria-label=".form-select-sm example">
-              <option selected></option>
-
-            </select><br>
-
-
-            <div class="form-group">
-              <label for="exampleFormControlSelect2">Interest</label><br>
-              <select id="selectpicker" class="selectpicker" multiple data-live-search="true" name="interest[]">
-                <option value="Photography">Photography</option>
-                <option value="Animals">Animals</option>
-                <option value="Camping">Camping</option>
-                <option value="Sport">Sport</option>
-                <option value="Game">Game</option>
-                <option value="Car">Car</option>
-                <option value="Science">Science</option>
-                <option value="Cooking">Cooking</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Profile </label><br>
-              <img id="profileImg" src="{{'data:image/webp;base64,' . $data->imguser}}" alt="" style="width: 200px;height: auto">
-              <input value="imguser" name="imguser" type="file" class="form-control" id="exampleFormControlInput1" onchange="readURL(this);">
-            </div>
-          </div>
-          <center><input type="submit" value="Submit" class="btn btn-primary" style="background-color: #006ABE;"></center>
+        <div class="center_div">
+          <label for="exampleFormControlInput1">Name</label><br>
+          <input value="{{$data->name}}" name="name" type="text" class="form-control" id="exampleFormControlInput1" width="300px" required>
         </div><br>
 
-      </form>
-    </div><br>
-    <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
-      <a href="/datauser">
-        <button type="/datauser" class="btn btn-primary" style="width:150px;height:50px">
-          <i class="bi bi-arrow-left-circle"></i>
-        </button>
-      </a>
-    </div>
+        <div class="center_div">
+          <label for="exampleFormControlInput1">Birthday</label>
+          <input id="datepicker0" name="birthday" value="{{$data->birthdayformat()}}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" required />
+        </div><br>
 
-  </body>
 
-  <script type="text/javascript">
-    $("#groupposition").change(function() {
-      $.ajax({ //create an ajax request to display.php
-        type: "GET",
-        url: "{{url('/get-position?id=')}}" + this.value,
-        data: {
-          id: this.value
-        },
-        success: function(data) {
-          console.log(data)
+        <div class="center_div">
+          <label for="exampleFormControlInput1">Group</label>
+          <select id="groupposition" name="group" class="form-select form-select-lg mb-3 dropdown-group" aria-label=".form-select-lg example" style="text-align: center" width="330" required>
+            <option selected></option>
+            @foreach($position as $item)
+            <option {{$item->id == $data->group ? 'selected':''}} value="{{$item->id}}">{{$item->name}}</option>
+            @endforeach
+          </select>
+        </div><br>
+        <br>
 
-          var select = document.getElementById("jobposition");
-          $("#jobposition").empty();
-          for (var i = 0; i < data.position.length; i++) {
-            let name = data.position[i].name;
-            let id = data.position[i].id;
-            let option = "<option value='" + name + "'>" + name + "</option>";
-            $("#jobposition").append(option);
-          }
+        <div class="center_div">
+          <label for="exampleFormControlInput1">JobPosition</label>
+          <select id="jobposition" name="jobposition" class="form-select form-select-sm " aria-label=".form-select-sm example" required>
+            <option selected></option>
+            @foreach($jobs as $item)
+            <option {{$item->name == $data->jobposition ? 'selected':''}} value="{{$item->id}}">{{$item->name}}</option>
+            @endforeach
+          </select>
+        </div><br><br>
+
+        <div class="center_div">
+          <div class="form-group">
+            <label for="exampleFormControlSelect2">Interest</label>
+            <br>
+            <select id="selectpicker" class="selectpicker" multiple data-live-search="true" name="interest[]" required>
+              <option value="Photography">Photography</option>
+              <option value="Animals">Animals</option>
+              <option value="Camping">Camping</option>
+              <option value="Sport">Sport</option>
+              <option value="Game">Game</option>
+              <option value="Car">Car</option>
+              <option value="Science">Science</option>
+              <option value="Cooking">Cooking</option>
+            </select>
+          </div>
+        </div>
+
+
+
+        <div class="form-grou center_div">
+          <label for="exampleFormControlInput1">Profile </label><br>
+          <img id="profileImg" src="{{'data:image/webp;base64,' . $data->imguser}}" alt="" style="width: 200px;height: auto"><br>
+          <input value="imguser" name="imguser" type="file" class="form-control" id="exampleFormControlInput1" onchange="readURL(this);">
+        </div><br>
+        <center><input type="submit" value="Submit" class="btn btn-primary" style="background-color: #006ABE;"></center>
+      </div><br>
+  </div>
+
+  </form><br>
+  <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
+    <a href="/datauser">
+      <button type="/datauser" class="btn btn-primary" style="width:150px;height:50px">
+        <i class="bi bi-arrow-left-circle"></i>
+      </button>
+    </a>
+  </div>
+  <br>
+</body>
+
+
+
+
+<script type="text/javascript">
+  $("#groupposition").change(function() {
+    $.ajax({ //create an ajax request to display.php
+      type: "GET",
+      url: "{{url('/get-position?id=')}}" + this.value,
+      data: {
+        id: this.value
+      },
+      success: function(data) {
+        console.log(data)
+
+        var select = document.getElementById("jobposition");
+        $("#jobposition").empty();
+        for (var i = 0; i < data.position.length; i++) {
+          let name = data.position[i].name;
+          let id = data.position[i].id;
+          let option = "<option value='" + id + "'>" + name + "</option>";
+          $("#jobposition").append(option);
         }
-
-
-      })
-    })
-
-
-    var dataOption = <?php echo json_encode($data->interest); ?>;
-    var jsonData = JSON.parse(dataOption)
-    let arr = [];
-    for (let i = 0; i < jsonData.length; i++) {
-      arr.push(jsonData[i]);
-    }
-    $('#selectpicker').selectpicker('val', arr);
-
-
-    function readURL(input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-          $('#profileImg').attr('src', e.target.result)
-        }
-        reader.readAsDataURL(input.files[0]);
       }
+
+
+    })
+  })
+
+
+
+
+  var dataOption = <?php echo json_encode($data->interest); ?>;
+  var jsonData = JSON.parse(dataOption)
+  let arr = [];
+  for (let i = 0; i < jsonData.length; i++) {
+    arr.push(jsonData[i]);
+  }
+  $('#selectpicker').selectpicker('val', arr);
+
+
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        $('#profileImg').attr('src', e.target.result)
+      }
+      reader.readAsDataURL(input.files[0]);
     }
-  </script>
-  <script>
-    $('#datepicker0').datepicker();
-  </script>
+  }
+</script>
+<script>
+  $('.dropdown-group').dropdown();
+  $('#datepicker0').datepicker();
+</script>

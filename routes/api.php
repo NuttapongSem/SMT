@@ -1,15 +1,10 @@
 <?php
 
 use App\Http\Controllers\FingerprintController;
-use App\Http\Controllers\LinenotifyController;
-use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\VideoController;
-use App\Models\Models\Fingerprint;
-use App\Models\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Psy\CodeCleaner\FunctionContextPass;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +15,7 @@ use Psy\CodeCleaner\FunctionContextPass;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
+ */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
@@ -46,3 +41,9 @@ Route::get('/allData', [FingerprintController::class, 'allData']);
 Route::post('/numview', [VideoController::class, 'numview']);
 
 Route::post('/save_logmobile', [FingerprintController::class, 'saveLogmobile']);
+
+Route::get('/getAllLineData', [FingerprintController::class, 'getAllLineData']);
+
+Route::post('/line_regis', [FingerprintController::class, 'saveUserIdLine']);
+
+Route::post('/saveFB', [FingerprintController::class, 'saveFB']);

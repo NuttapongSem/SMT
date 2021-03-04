@@ -3,8 +3,10 @@
 
 namespace App\Http\Services;
 
-
+use App\Models\Consolelog;
+use Exception;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -16,7 +18,7 @@ class LineService
     public function __construct()
     {
         $this->baseUrl = "https://notify-api.line.me/";
-        $this->token = "vJfNDiTd66ozx1Yb90IKiYr9JJVHBea5WV0VhBQONSX";
+        $this->token = "c6KTjSU6Vmb05BNZb7Yykg4j6wQtmiF8iBJ7O2nNSr0";
     }
 
     public function getHeader($args = null)
@@ -48,9 +50,12 @@ class LineService
         $response = Http::withHeaders($this->getHeader())->asForm()->post($this->getUrl($path), $payload);
         try {
             return $this->response($response);
-        } catch (HttpException $exception) {
-            Log::info($exception->getMessage());
-            throw $exception;
+        } catch (Exception $e) {
+            $error = new Consolelog();
+            $error->user_id = Auth::user()->id;
+            $error->public = "attenDance";
+            $error->message = $e->getMessage();
+            $error->save();
         }
     }
 

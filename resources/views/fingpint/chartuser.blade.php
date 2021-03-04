@@ -334,6 +334,7 @@
                         dataOut = [
                             ['Task', 'Hours per Day'],
                             ['No data', 1]
+
                         ]
                     }
 
@@ -417,7 +418,7 @@
             var options = {
                 title: 'Status(in)',
                 is3D: true,
-                // pieSliceText: 'value',
+                pieSliceText: 'value',
 
             };
 
@@ -455,7 +456,6 @@
     }
 
     function chart(data) {
-
         let status = data;
         let minTime;
         let maxTime;
@@ -546,7 +546,6 @@
                     chart(data.data);
                     chartIn(data.data.datastatusin);
                     chartOut(data.data.datastatusout)
-                    console.log(data.data)
                     let text = document.getElementById('datenow');
                     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
                     let d = data.data.datenow.split('-')

@@ -24,4 +24,10 @@ class Attendance extends Model
     {
         return $this->belongsTo(Fingerprint::class, 'fingerprint_id', 'id');
     }
+    public function getall()
+    {
+        $data = Fingerprint::where("id", $this->fingerprint_id)->first();
+
+        return $data;
+    }
 }
