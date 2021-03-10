@@ -86,4 +86,10 @@
     '300' => $fontDir . '/sarabun_300_c5b083aaea3a17a39e35102029018642',
     'normal' => $fontDir . '/sarabun_normal_e2d52e487586f9e40c0c11545790ca47',
   ),
+  'thsarabunnew' => array(
+    'normal' => $fontDir . '/thsarabunnew_normal_d19e62ec5b10a87356db45cd1aa553d4',
+    'bold' => $fontDir . '/thsarabunnew_bold_9b99b96a059c15ad3fe3c997802449a2',
+    'italic' => $fontDir . '/thsarabunnew_italic_c2e3938eafca8c62cb10447728d5caac',
+    'bold_italic' => $fontDir . '/thsarabunnew_bold_italic_30cdd94f609320f8762b3105292cf261',
+  ),
 ) ?>

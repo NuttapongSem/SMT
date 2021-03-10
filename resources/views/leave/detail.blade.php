@@ -11,6 +11,11 @@
 
 
     <style>
+        * {
+            font-family: 'THSarabunNew' !important;
+            font-size: 22px !important;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -36,6 +41,34 @@
             word-wrap: break-word;
         }
 
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: normal;
+            src: url("{{ public_path('font/fonts/THSarabunNew.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: normal;
+            font-weight: bold;
+            src: url("{{ public_path('font/fonts/THSarabunNew Bold.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: italic;
+            font-weight: normal;
+            src: url("{{ public_path('font/fonts/THSarabunNew Italic.ttf') }}") format('truetype');
+        }
+
+        @font-face {
+            font-family: 'THSarabunNew';
+            font-style: italic;
+            font-weight: bold;
+            src: url("{{ public_path('font/fonts/THSarabunNew BoldItalic.ttf') }}") format('truetype');
+        }
+
     </style>
 </head>
 
@@ -54,6 +87,7 @@
     <table width="100%">
         <tr>
             <td colspan="2" align="left">เรื่องขอลา {{ $data->leave_type }}</td>
+            <td colspan="2" align="left">หมายเหตุ {{ $data->day_leave }}</td>
         </tr>
         <tr>
             <td colspan="2" align="left">เรียน ผู้บริหาร</td>
@@ -93,16 +127,12 @@
                 (&nbsp;{{ $data->profiles->name }}&nbsp;)</td>
 
         </tr>
-    </table><br><br><br><br><br><br>
+    </table><br>
     <table width="100%">
         <tr>
             <td align="left"> ผู้รับรอง &nbsp;{{ $data->endorser }}</td>
         </tr>
-    </table>
-    <table width="100%">
-        <tr>
-            <td align=" left">(&nbsp;ตำเเหน่ง&nbsp;{{ $data->position_endorser }}&nbsp;)</td>
-        </tr>
+        <td align=" left">(&nbsp;ตำเเหน่ง&nbsp;{{ $data->position_endorser }}&nbsp;)</td>
     </table><br><br><br>
 
 </body>

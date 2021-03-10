@@ -282,7 +282,7 @@
                         var options = {
                             title: 'Status(in)',
                             is3D: true,
-                            // pieSliceText: 'value',
+                             pieSliceText: 'value',
 
                         };
 
@@ -292,7 +292,7 @@
                 </script>
             </div>
 
-            <div class="col-6 right" style="padding: 5rem;">
+            <div class="col-6 right" >
                 <div class="aside">
                     <table class=" table" id="rows_in">
                         <thead>
@@ -354,7 +354,7 @@
                 </script>
             </div>
 
-            <div class="col-6 right" style="padding: 5rem;">
+            <div class="col-6 right">
                 <div class="aside">
                     <table class=" table" id="rows_out">
                         <thead>

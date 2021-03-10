@@ -6,9 +6,7 @@ use App\Http\Services\LineService;
 use App\Models\Attendance;
 use App\Models\Fingerprint;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Request;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Redirect;
 
 class SendEmails extends Command
 {
@@ -54,28 +52,40 @@ class SendEmails extends Command
         $nowdate = Carbon::now()->format('d-m-Y');
         $Punctual = Attendance::where("late", "ตรงต่อเวลาจ้า")->where("date", $nowdate)->get();
         $notlate = count($Punctual);
+        //จำนวนคนที่ออกงาน
+        $nowdate = Carbon::now()->format('d-m-Y');
+        $Outjob = Attendance::where("late", "ออกก่อนเวลา")->where("date", $nowdate)->get();
+        $Outtime = count($Outjob);
         //จำนวนคนที่ไม่เข้างาน
         $number = $numuser - ($late + $notlate);
         $messagePunctual = "";
         $messageCon = "";
+        $messageOut = "";
         foreach ($Punctual as $notlateperson) {
-            $messagePunctual .= "ชื่อ" . " " .  $notlateperson->getall()->name . "\n" .
-                "กลุ่ม" . " " .  $notlateperson->getall()->nameposition() . "\n" .
-                "ตำเเหน่ง" . " " .  $notlateperson->getall()->jobposition  . "\n";
+            $messagePunctual .= "ชื่อ" . " " . $notlateperson->getall()->name . "\n" .
+            "กลุ่ม" . " " . $notlateperson->getall()->nameposition() . "\n" .
+            "ตำเเหน่ง" . " " . $notlateperson->getall()->jobpositions->name . "\n";
         }
         foreach ($concludelate as $lateperson) {
-            $messageCon .= "ชื่อ" . " " . $lateperson->getall()->name  . "\n" .
-                "กลุ่ม" . " " . $lateperson->getall()->nameposition()  . "\n" .
-                "ตำเเหน่ง" . " " . $lateperson->getall()->jobposition   . "\n";
+            $messageCon .= "ชื่อ" . " " . $lateperson->getall()->name . "\n" .
+            "กลุ่ม" . " " . $lateperson->getall()->nameposition() . "\n" .
+            "ตำเเหน่ง" . " " . $lateperson->getall()->jobpositions->name . "\n";
+        }
+        foreach ($Outjob as $lateperson) {
+            $messageOut .= "ชื่อ" . " " . $lateperson->getall()->name . "\n" .
+            "กลุ่ม" . " " . $lateperson->getall()->nameposition() . "\n" .
+            "ตำเเหน่ง" . " " . $lateperson->getall()->jobpositions->name . "\n";
         }
 
-        $message =  "\nสรุปการเข้างาน\nวันที่" . " " . $nowdate . "\n" .
+        $message = "\nสรุปการเข้างาน\nวันที่" . " " . $nowdate . "\n" .
             "จำนวนพนักงานทั่งหมด" . " " . $numuser . "\n" .
             "จำนวนพนักงานมาตรงต่อเวลา" . " " . $notlate . "\n" .
             $messagePunctual .
+            "จำนวนพนักงานออกก่อนเวลา" . " " . $Outtime . "\n" .
+            $messageOut .
             "จำนวนพนักงานมาสาย" . " " . $late . "\n" .
             $messageCon .
-            "จำนวนที่ไม่เข้างาน" . " " . $number  . "\n";
+            "จำนวนที่ไม่เข้างาน" . " " . $number . "\n";
         // echo ($message);
         $lineService = new LineService();
         $lineService->sendNotify($message);

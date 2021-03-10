@@ -285,7 +285,7 @@
     </style>
 
 
-    <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Leave</h2><br>
+    <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Note of Leave</h2><br>
     <div class="container" style="background-color:#FDFDFD;"><br>
 
         <form class="row g-3" enctype="multipart/form-data" class="container" method="post"
@@ -302,20 +302,39 @@
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
-                        <label class="form-label">Leave type</label>
-                        <select name="leave_type" class="form-select" aria-label="Default select example"
-                            style="width: 150px; height: 48px;" required>
-                            <option selected>...</option>
-                            <option value="ป่วย"> ป่วย</option>
-                            <option value="กิจส่วนตัว">กิจส่วนตัว</option>
-                            <option value="คลอดบุตร">คลอดบุตร</option>
-                            <option value="ขอลาอุปสมบท">อุปสมบท</option>
-                            <option value="ขอลาอุปสมบท">พักร้อน</option>
-                        </select>
+                    </div>
+                </div>&nbsp;
+                <div class="row">&nbsp;
+                    <div class="row justify-content-end">
+                        <div class="col-md-4">
+                            <label class="form-label">Leave type</label>
+                            <select name="leave_type" class="form-select" aria-label="Default select example"
+                                style="width: 150px; height: 48px;" required onchange="onChangeLeavetype(this)">
+                                <option selected>...</option>
+                                <option value="ป่วย"> ป่วย</option>
+                                <option value="กิจส่วนตัว">กิจส่วนตัว</option>
+                                <option value="คลอดบุตร">คลอดบุตร</option>
+                                <option value="ขอลาอุปสมบท">อุปสมบท</option>
+                                <option value="พักร้อน">พักร้อน</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <div id="day_leave">
+                                <label class="form-label">Day Leave</label>
+                                <select name="day_leave" class="form-select" aria-label="Default select example"
+                                    style="width: 200px; height: 48px;" required>
+                                    <option selected>ไม่ได้ระบุ</option>
+                                    <option value="ขอลาครึ่งวันช่วงเช้า"> ขอลาครึ่งวันช่วงเช้า</option>
+                                    <option value="ขอลาครึ่งวันช่วงบ่าย">ขอลาครึ่งวันช่วงบ่าย</option>
+                                    <option value="ขอลาทั่งวัน">ขอลาทั่งวัน</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
+
+
             <div class="flex-row d-flex justify-content-center">
                 <div class="col-lg-6 col-11 px-1">
                     <label for="exampleFormControlInput1">Group</label>
@@ -352,10 +371,12 @@
                     <div class="col-lg-6 col-11 px-1">
                         <div class="input-group input-daterange">
                             <input type="text" name="date_start" id="date_start" class="form-control text-left mr-2">
-                            <label class="ml-3 form-control-placeholder" id="start-p" for="start">Start Date</label>
+                            <label class="ml-3 form-control-placeholder" id="start-p" for="start">Start
+                                Date</label>
                             <span class="fa fa-calendar" id="date_start"></span>
-                            <input type="text" name="date_end" id="date_end" class="form-control text-left ml-2"> <label
-                                class="ml-3 form-control-placeholder" id="end-p" for="end">End Date</label>
+                            <input type="text" name="date_end" id="date_end" class="form-control text-left ml-2">
+                            <label class="ml-3 form-control-placeholder" id="end-p" for="end">End
+                                Date</label>
                             <span class="fa fa-calendar" id="date_end"></span>
                         </div>
                     </div>
@@ -421,6 +442,7 @@
 
     })
     $(document).ready(function() {
+        $('#day_leave').hide();
         $('.input-daterange').datepicker({
             format: 'dd-mm-yyyy',
             autoclose: true,
@@ -429,5 +451,18 @@
             disableTouchKeyboard: true
         });
     });
+
+    function onChangeLeavetype(val) {
+        switch (val.value) {
+            case 'กิจส่วนตัว':
+                $('#day_leave').show();
+                break;
+
+            default:
+                $('#day_leave').hide();
+                break;
+
+        }
+    }
 
 </script>

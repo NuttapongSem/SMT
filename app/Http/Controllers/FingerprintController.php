@@ -104,26 +104,33 @@ class FingerprintController extends Controller
             $datetiming = Attendance::where("date", $date_save->date)->where("fingerprint_id", $request->id)->first();
             if ($datetiming == null) {
                 if ($idgroup->group == 12) {
-                    if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:30')->format('H:i'))) && $request->status == "เข้า") {
+                    if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "สายเเลัวจ้า";
                         $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
                         $this->Line_Noti($message);
                     }
-                    if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:30')->format('H:i'))) && $request->status == "เข้า") {
+                    if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "ตรงต่อเวลาจ้า";
                     }
                 } else {
 
-                    if (($date_save->time > date(Carbon::createFromFormat('H:i', '10:00')->format('H:i'))) && $request->status == "เข้า") {
+                    if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "สายเเลัวจ้า";
                         $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
                         $this->Line_Noti($message);
                     }
-                    if (($date_save->time < date(Carbon::createFromFormat('H:i', '10:00')->format('H:i'))) && $request->status == "เข้า") {
+                    if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "ตรงต่อเวลาจ้า";
                     }
+
                 }
             }
+            if (($date_save->time < date(Carbon::createFromFormat('H:i', '18:00')->format('H:i'))) && $request->status == "ออก") {
+                $date_save->late = "ออกก่อนเวลา";
+                $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: ออกก่อนเวลา " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
+                $this->Line_Noti($message);
+            }
+
             $date_save->save();
 
             if ($date_save->late == "สายเเลัวจ้า") {
@@ -132,13 +139,19 @@ class FingerprintController extends Controller
 
                 return response()->json($res, 200);
             }
+            if ($date_save->late == "ออกก่อนเวลา") {
+
+                $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 2);
+
+                return response()->json($res, 200);
+            }
 
             $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 0);
             if ($date_save->status == 'ออก') {
                 $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3);
             }
-
             return response()->json($res, 200);
+
         } catch (Exception $e) {
             $error = new Consolelog();
             $error->user_id = Auth::user()->id;
@@ -189,6 +202,10 @@ class FingerprintController extends Controller
             $query = Fingerprint::where("id", $request->id)->first();
             $query->name = $request->name;
             $birthday = \Carbon\Carbon::make($request->birthday)->format('Y-m-d');
+            // dd($birthday);
+            // $birthday = \Carbon\Carbon::createFromFormat('Y-m-d', $this->birthday, '+7')->addYear(543)->format('d-m-Y');
+            // $birthday = $this->DateThai($birthday, "date");
+
             $query->birthday = $birthday;
 
             $arr = [];
@@ -242,10 +259,13 @@ class FingerprintController extends Controller
                         break;
 
                     default:
-                        if ($item->attendance->first()->Time > date(Carbon::createFromFormat('H:i', '10:00')->format('H:i')) && $item->attendance->first()->status == "เข้า") {
+                        if ($item->attendance->first()->Time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i')) && $item->attendance->first()->status == "เข้า") {
                             $item->data_late = "มาสาย";
                         } else {
                             $item->no_late = "ไม่สาย";
+                        }
+                        if ($item->attendance->first()->Time < date(Carbon::createFromFormat('H:i', '18:00')->format('H:i')) && $item->attendance->first()->status == "ออก") {
+                            $item->data_late = "ออกก่อนเวลา";
                         }
                 }
             }
@@ -310,7 +330,6 @@ class FingerprintController extends Controller
     {
         try {
             $name = $request->name;
-
             $data = Fingerprint::orderByDesc('created_at', )
 
                 ->when($name, function ($query, $name) {
@@ -575,7 +594,13 @@ class FingerprintController extends Controller
         $attendance = Attendance::where('fingerprint_id', $id)->orderBy('num')->get();
         $firstDate = new DateTime();
         $firstDate->setISODate($firstDate->format('Y'), $firstDate->format('W'));
-        $lastDate = new DateTime($attendance[sizeof($attendance) - 1]['date']);
+        $lastDate = null;
+        if (count($attendance) == 0) {
+            $lastDate = new DateTime();
+        } else {
+            $lastDate = new DateTime($attendance[sizeof($attendance) - 1]['date']);
+        }
+
         $lastDate->setISODate($lastDate->format('Y'), $lastDate->format('W'));
 
         $interval = $lastDate->diff($firstDate);
@@ -709,9 +734,11 @@ class FingerprintController extends Controller
     {
         $line_regis = line_regis::get();
         $date = \Carbon\Carbon::now()->format('d-m-Y');
-        $attendances = Attendance::where("date", $date)->join('fingerprint', 'attendance.fingerprint_id', '=', 'fingerprint.id')->get();
+        $attendances = Fingerprint::join('attendance', 'attendance.fingerprint_id', '=', 'fingerprint.id')->where("attendance.date", $date)->get();
+        $fingerpint_data = Fingerprint::get();
 
-        return response(["attendance" => $attendances, "line_regis" => $line_regis]);
+        return response(["attendance" => $attendances, "line_regis" => $line_regis, "fingerprint" => $fingerpint_data]);
+
     }
 
     public function saveFB(Request $request)
@@ -722,6 +749,7 @@ class FingerprintController extends Controller
 
         $data_fb->save();
     }
+
 }
 
 //ค้นหาเเบบรายละเอียด

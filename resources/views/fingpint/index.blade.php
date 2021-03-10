@@ -132,6 +132,12 @@
     }
 
 </style>
+@if (Session::has('deleteSucess'))
+    <script language="javascript">
+        alert('{{ Session::get('deleteSucess') }}')
+
+    </script>
+@endif
 @if (Session::has('urlPDF'))
     <script>
         let PDF = '{{ Session::get('urlPDF') }}';

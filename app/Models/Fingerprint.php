@@ -47,4 +47,5 @@ class Fingerprint extends Model
     {
         return $this->hasOne(Job_position::class, 'id', 'jobposition');
     }
+
 }

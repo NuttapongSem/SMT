@@ -69,23 +69,20 @@
 
 
 <body>
-    @if (Session::has('delete'))
-        <script language="javascript">
-            alert('{{ Session::get('delete') }}')
 
-        </script>
-    @endif
 
     <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Information Leave</h2><br>
     <div class="container" style="background-color:#FDFDFD;"><br>
-        <div class="card"><a href="/"><button type="button" class="btn btn-link"><i
-                        class="bi bi-arrow-left-circle-fill"></i></button>
+        <div class="card"><a href="/"><button type="button" class="btn btn-link"
+                    class="bi bi-arrow-left-circle-fill"></i></button>
             </a>
             <div class="table-responsive-xl">
-
                 <h4 style="text-align: center">หนังสือขออนุญาตลาหยุด</h4>
                 <p style="text-align: right">วันที่ {{ $data->date_now }}</p>
-                <p style="text-align: left">เรื่องขอลา{{ $data->leave_type }}</p>
+                <tr>
+                    <td style="text-align: left">เรื่องขอลา{{ $data->leave_type }}</td>
+                    <td style="text-align: left">หมายเหตุ&nbsp;{{ $data->day_leave }}</td>
+                </tr>
                 <p style="text-align: left">เรียน ผู้บริหาร</p>
                 <br><br>
                 <p style="text-align: left">ข้าพเจ้า {{ $data->profiles->name }}</p>
@@ -97,13 +94,8 @@
 
                     <td style="text-align: right">จนถึ่งวันที่{{ $data->date_end }}</td>
                 </tr><br><br><br><br><br><br>
-                <tr style="text-align:right">
-                    <td style=" text-align: right;padding-left: 80%;">ลงชื่อ &nbsp;
-                    </td><br>
-                    <td style="text-align: right;padding-right: 13%;"> (&nbsp;{{ $data->profiles->name }}&nbsp;)</td>
 
-                </tr>
-                <br><br><br><br><br><br><br>
+
                 <p>ผู้รับรอง &nbsp;{{ $data->endorser }}</p>
                 <p>(&nbsp;ตำเเหน่ง&nbsp;{{ $data->position_endorser }}&nbsp;)</p>
 
@@ -112,7 +104,8 @@
             <div style="text-align: center">
                 <td style="vertical-align:middle">
 
-                    <a href="{{ url('/delete-leave/' . $data->id) }}" onclick="return confirm('delete confirm?')">
+                    <a href="{{ url('/delete-leave/' . $data->name_id) }}"
+                        onclick="return confirm('delete confirm?')">
                         <button type="button" style="width:100px;" class="btn btn-danger">ลบ
                             <i class="bi bi-x-circle"></i>
                         </button>

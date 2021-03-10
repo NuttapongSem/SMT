@@ -12,11 +12,12 @@ class Group_position extends Model
     protected $table = 'group_position';
 
     protected $fillable = [
-        'name'
+        'name',
 
     ];
     public function job_position()
     {
         return $this->hasOne(Job_position::class, 'id_group', 'id');
     }
+
 }

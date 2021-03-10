@@ -170,7 +170,7 @@
                                 </td>
 
                                 <td style="vertical-align:middle">
-                                    {{ $row->jobposition }}
+                                    {{ $row->jobpositions->name }}
                                 </td>
 
                                 <td style="vertical-align:middle">

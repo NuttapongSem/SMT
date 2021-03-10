@@ -30,9 +30,9 @@ class LeaveController extends Controller
         $data_leave->name_id = $request->name_id;
         $data_leave->annotation = $request->annotation;
         $data_leave->leave_type = $request->leave_type;
+        $data_leave->day_leave = $request->day_leave;
         $data_leave->group = $request->group;
         $data_leave->jobposition = $request->jobposition;
-
         $data_leave->date_start = Carbon::make($request->date_start);
         $data_leave->date_end = Carbon::make($request->date_end);
         $data_leave->endorser = $request->endorser;
@@ -175,12 +175,11 @@ class LeaveController extends Controller
     }
     public function deleteLeave($id)
     {
-        $data = Leave::find($id);
+        $data = Leave::where('name_id', $id)->delete();
         if (isset($data)) {
-            $data->delete();
-            Session::flash("delete", "ลบเรียบร้อย");
+            Session::flash("deleteSucess", "ลบเรียบร้อย");
         } else {
-            Session::flash("delete", "ไม่พบข้อมูล");
+            Session::flash("deleteError", "ไม่พบข้อมูล");
         }
         return redirect()->route('index');
     }
