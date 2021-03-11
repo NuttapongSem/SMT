@@ -82,7 +82,7 @@ class SendEmails extends Command
             "จำนวนพนักงานมาตรงต่อเวลา" . " " . $notlate . "\n" .
             $messagePunctual .
             "จำนวนพนักงานออกก่อนเวลา" . " " . $Outtime . "\n" .
-            $messageOut .
+            $messageOut .                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
             "จำนวนพนักงานมาสาย" . " " . $late . "\n" .
             $messageCon .
             "จำนวนที่ไม่เข้างาน" . " " . $number . "\n";

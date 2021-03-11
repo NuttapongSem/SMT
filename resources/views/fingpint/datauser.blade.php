@@ -134,21 +134,21 @@
                         <tr>
                             <th scope="col-6 col-md-4" style="text-align : center">Porfile</th>
 
-                            <th scope="col-6 col-md-4" style="width:200px;">name</th>
+                            <th scope="col-6 col-md-4" style="width:200px;">ชื่อ</th>
 
-                            <th scope="col-6 col-md-4">group</th>
+                            <th scope="col-6 col-md-4">เเผนก</th>
 
-                            <th scope="col-6 col-md-4">jobposition</th>
+                            <th scope="col-6 col-md-4">ตำเเหน่ง</th>
 
-                            <th scope="col-6 col-md-4" style="width: 150px;">Birthday</th>
+                            <th scope="col-6 col-md-4" style="width: 150px;">วันเกิด</th>
 
-                            <th scope="col-6 col-md-4">interest</th>
+                            <th scope="col-6 col-md-4">สิ่งที่สนใจ</th>
 
-                            <th scope="col-6 col-md-4">Edit</th>
+                            <th scope="col-6 col-md-4">เเก้ไข</th>
 
-                            <th scope="col-6 col-md-4">Delete</th>
+                            <th scope="col-6 col-md-4">ลบ</th>
 
-                            <th scope="col-6 col-md-4">Chart</th>
+                            <th scope="col-6 col-md-4">กราฟ</th>
 
                         </tr>
                     </thead>
@@ -206,8 +206,8 @@
                                     </a>
                                 </td>
 
-                                <td style="vertical-align:middle">
-                                    <div class="text-center">
+                                <td style="vertical-align:middle ">
+                                    <div class="text-center" style="width: 150px">
                                         <a href=" {{ '/chartuser/' . $row->id }}">
                                             <button type="button" class="btn btn-info"><i
                                                     class="bi bi-graph-up"></i>&#160;Chartuser</button>

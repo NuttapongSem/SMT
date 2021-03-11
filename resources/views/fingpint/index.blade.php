@@ -230,18 +230,19 @@
 
 
             <a href="{{ url('/datauser') }}">
-                <button type="button" class="btn btn-danger mx-0" style="width:125px;height:35px;color:aliceblue"><i
-                        class="bi bi-journal-check"></i>&#160;Profile</button>
+                <button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i
+                        class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
             </a>
 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"
-                style="width:125px;height:35px;">
-                <i class="bi bi-hourglass-bottom"></i> Time attendance
+                style="width:200px;height:35px;">
+                <i class="bi bi-hourglass-bottom"></i>&#160; เวลา เข้า-ออก-ใบลา
             </button>
 
             <a href="chartuser">
-                <button type="button" class="btn btn-primary" data-toggle="modal" style="width:125px;height:35px;">
-                    <i class="bi bi-file-bar-graph-fill"></i>&#160;Chart
+                <button type="button" class="btn btn-primary" data-toggle="modal" style="width:150px;height:35px;">
+                    <i class="bi bi-file-bar-graph-fill"></i>&#160;
+                    แผนภาพกราฟ
                 </button>
             </a>
 
@@ -251,19 +252,20 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Chart</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">กราฟ</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <a href="{{ url('/checkin') }}">
                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                    style="width:125px;height:35px;background-color:#239B56;">&#160;Attendance</button>
+                                    style="width:200px;height:35px;background-color:#239B56;">เวลา เข้า-ออก
+                                    งานทั่งหมด</button>
                             </a>
                         </div>
                         <div class="modal-body">
                             <a href=" {{ url('/leave') }}" role="button" class="btn btn-secondary popover-test"
                                 title="Popover title" data-bs-content="Popover body content is set in this attribute."
-                                style="width:125px;height:35px;">Leave</a>
+                                style="width:125px;height:35px;">ใบลา</a>
                         </div>
                     </div>
                 </div>
@@ -275,13 +277,13 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr style=" background-color: #F3C35D;text-align : center">
-                                <th scope="col-6 col-md-4" style="text-align : center">Name</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">group</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">jobposition</th>
-                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">Time</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">Status</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">Late</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">Note</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">ชื่อ</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">เเผนก</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">ตำเเหน่ง</th>
+                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">เวลา</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">สถานะ</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">การเข้างาน</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">ใบลา</th>
                             </tr>
                         </thead>
                         <tbody>
