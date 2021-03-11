@@ -123,13 +123,13 @@
             <div class="table-responsive"><br>
 
                 <div class="center_div">
-                    <label for="exampleFormControlInput1">Name</label><br>
+                    <label for="exampleFormControlInput1">ชื่อ</label><br>
                     <input value="{{ $data->name }}" name="name" type="text" class="form-control"
                         id="exampleFormControlInput1" width="300px" required>
                 </div><br>
 
                 <div class="center_div">
-                    <label for="exampleFormControlInput1">Birthday</label>
+                    <label for="exampleFormControlInput1">วันเกิด</label>
                     <input id="datepicker0" name="birthdayShow" value="{{ $data->birthdayformat() }}"
                         readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;"
                         required />
@@ -139,8 +139,8 @@
 
 
                 <div class="center_div">
-                    <label for="exampleFormControlInput1">Group</label>
-                    <select id="groupposition" name="group" class="form-select form-select-lg mb-3 dropdown-group"
+                    <label for="exampleFormControlInput1">เเผนก</label>
+                    <select id="groupposition" name="group" class="form-select form-select-lg mb-3"
                         aria-label=".form-select-lg example" style="text-align: center" width="330" required>
                         <option selected></option>
                         @foreach ($position as $item)
@@ -152,7 +152,7 @@
                 <br>
 
                 <div class="center_div">
-                    <label for="exampleFormControlInput1">JobPosition</label>
+                    <label for="exampleFormControlInput1">ตำเเหน่ง</label>
                     <select id="jobposition" name="jobposition" class="form-select form-select-sm "
                         aria-label=".form-select-sm example" required>
                         <option selected></option>
@@ -166,7 +166,7 @@
 
                 <div class="center_div">
                     <div class="form-group">
-                        <label for="exampleFormControlSelect2">Interest</label>
+                        <label for="exampleFormControlSelect2">สิ่งที่สนใจ</label>
                         <br>
                         <select id="interest" class="selectpicker" multiple data-live-search="true" name="interest[]"
                             required>
@@ -185,7 +185,7 @@
 
 
                 <div class="form-grou center_div">
-                    <label for="exampleFormControlInput1">Profile </label><br>
+                    <label for="exampleFormControlInput1">ข้อมูลส่วนตัว</label><br>
                     <img id="profileImg" src="{{ 'data:image/webp;base64,' . $data->imguser }}" alt=""
                         style="width: 200px;height: auto"><br>
                     <input value="imguser" name="imguser" type="file" class="form-control" id="exampleFormControlInput1"

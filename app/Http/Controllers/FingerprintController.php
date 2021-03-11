@@ -40,6 +40,7 @@ class FingerprintController extends Controller
             $data_jobposition = $request->jobposition;
             $data_birthday = date('Y-m-d', strtotime($request->birthday));
             $data_fingerprint = $request->fingerprint;
+            $data_fingerprintnew = $request->fingerprintnew;
             $data_imguser = $request->imguser;
             $data_interest = $request->interest;
 
@@ -58,6 +59,7 @@ class FingerprintController extends Controller
                 $save_image->interest = json_encode($arr);
                 $save_image->birthday = $data_birthday;
                 $save_image->fingerprint = $data_fingerprint;
+                $save_image->fingerprintnew = $data_fingerprintnew;
                 $save_image->imguser = $data_imguser;
                 $save_image->group = $data_group;
                 $save_image->jobposition = $data_jobposition;
