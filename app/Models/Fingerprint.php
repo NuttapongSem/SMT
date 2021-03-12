@@ -19,7 +19,7 @@ class Fingerprint extends Model
         'interest',
         'imguser',
         'fingerprint',
-        'fingerprintnew',
+        'fore_fingerprint',
     ];
     public function attendance()
     {

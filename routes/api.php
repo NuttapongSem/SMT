@@ -47,7 +47,7 @@ Route::get('/getAllLineData', [FingerprintController::class, 'getAllLineData']);
 
 Route::post('/line_regis', [FingerprintController::class, 'saveUserIdLine']);
 
-Route::post('/saveFB', [FingerprintController::class, 'saveFB']);
+Route::post('/edit_fingerprint', [FingerprintController::class, 'editFingerprint']);
 
 Route::get('/call', function () {
     Artisan::call('storage:link');

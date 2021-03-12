@@ -100,6 +100,14 @@
             background-color: lightgray;
         }
 
+        .active-btn-save {
+            display: none;
+        }
+
+        .active-btn-edit {
+            display: none;
+        }
+
     </style>
 
 
@@ -211,7 +219,7 @@
             <thead style="background-color: #F3C35D;">
                 <tr style="text-align : center">
 
-                    <th scope="col-6 col-md-4">ชื่อ</th>
+                    <th scope="col-6 col-md-4" style="width:auto;">ชื่อ</th>
                     <th scope="col-6 col-md-4">วันที่</th>
                     <th scope="col-6 col-md-4">เวลา</th>
                     <th scope="col-6 col-md-4">สถานะ</th>
@@ -222,23 +230,23 @@
             </thead>
 
             <tbody>
-                @foreach ($data as $row)
+                @foreach ($data as $key => $row)
                     <tr style="text-align : center">
                         <th scope="row" style="vertical-align:middle">
                             {{ $row->name }}
                         </th>
-                        <td>
+                        <td style="vertical-align:middle">
                             {{ $row->date ?? '-' }}
                         </td>
-                        <td>
+                        <td style="vertical-align:middle">
                             {{ $row->Time ?? '-' }}
                         </td>
 
-                        <td>
+                        <td style="vertical-align:middle">
                             <p>{{ $row->status ?? '-' }}</p>
                         </td>
 
-                        <td>
+                        <td style="vertical-align:middle">
                             @if ($row->late == 'ออกก่อนเวลา' || $row->late == 'สายเเลัวจ้า')
                                 <p style="color:red">{{ $row->late }}</p>
                             @else
@@ -246,13 +254,19 @@
                             @endif
 
                         </td>
-                        <td>
+                        <td style="vertical-align:middle">
                             <div class="text-center">
-                                <textarea name="annotation" class="form-control" placeholder="ทำไมถึงสาย!!!!!"
-                                    id="floatingTextarea2" style="height: 100px"></textarea>
+                                <textarea id="note_{{ $key }}" name="note" class="form-control" readonly
+                                    style="height: 100px">{{ $row->note }}</textarea>
                                 <br>
-                                <input class="btn btn-primary" type="submit" value="Submit"
-                                    style="width:100px;height:40px">
+                                <button onclick="Note('{{ $key }}','{{ $row->num }}')" hidden
+                                    class="btn btn-primary " id="btn-save-{{ $key }}"
+                                    style="width:100px;height:40px" type="button">บันทึก
+                                </button>
+
+                                <button class="btn btn-success" id="btn-edit-{{ $key }}" type="button"
+                                    style="width:100px;height:40px" onclick="edit({{ $key }})">เเก้ไข
+                                </button>
                             </div>
                         </td>
 
@@ -290,6 +304,33 @@
             mode: '24hr'
         });
         $('#dropdown').dropdown();
+
+        function edit(key) {
+            document.getElementById("note_" + key).removeAttribute("readonly")
+            document.getElementById("btn-save-" + key).removeAttribute("hidden")
+            document.getElementById("btn-edit-" + key).setAttribute("hidden", "true", "false")
+        }
+
+        function Note(key, id) {
+            // console.log(id);
+            let msgs = document.getElementById("note_" + key).value;
+            $.ajax({ //create an ajax request to display.php
+                type: "POST",
+                url: "{{ url('/note') }}",
+                data: {
+                    msgs: msgs,
+                    id: id,
+                    noteid: key,
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function(massege) {
+                    document.getElementById("note_" + key).value = massege['note'];
+                    document.getElementById("note_" + key).readOnly = true
+                    document.getElementById("btn-save-" + key).hidden = true;
+                    document.getElementById("btn-edit-" + key).hidden = false;
+                }
+            });
+        }
 
     </script>
 

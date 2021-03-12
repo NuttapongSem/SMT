@@ -12,12 +12,12 @@ class Attendance extends Model
     protected $table = 'attendance';
     protected $primarykey = 'num';
     protected $fillable =
-    [
+        [
         'fingerpint_id',
         'date',
         'Time',
-        'status'
-
+        'status',
+        'note',
 
     ];
     public function fingerprint()

@@ -12,7 +12,6 @@ use App\Models\Job_position;
 use App\Models\Leave;
 use App\Models\line_regis;
 use App\Models\Log_mobile;
-use App\Models\secret_infos;
 use App\Models\Video;
 use Carbon\Carbon;
 use DateTime;
@@ -40,7 +39,7 @@ class FingerprintController extends Controller
             $data_jobposition = $request->jobposition;
             $data_birthday = date('Y-m-d', strtotime($request->birthday));
             $data_fingerprint = $request->fingerprint;
-            $data_fingerprintnew = $request->fingerprintnew;
+            $data_fore_fingerprint = $request->fore_fingerprint;
             $data_imguser = $request->imguser;
             $data_interest = $request->interest;
 
@@ -59,7 +58,7 @@ class FingerprintController extends Controller
                 $save_image->interest = json_encode($arr);
                 $save_image->birthday = $data_birthday;
                 $save_image->fingerprint = $data_fingerprint;
-                $save_image->fingerprintnew = $data_fingerprintnew;
+                $save_image->fore_fingerprint = $data_fore_fingerprint;
                 $save_image->imguser = $data_imguser;
                 $save_image->group = $data_group;
                 $save_image->jobposition = $data_jobposition;
@@ -180,10 +179,14 @@ class FingerprintController extends Controller
         $fingerpint_data = Fingerprint::get();
         $date_data = attendance::get();
         $video_data = Video::get();
+        $group_data = Group_position::get();
+        $job_data = Job_position::get();
         return response()->json([
             "finger_data" => $fingerpint_data,
             "date_data" => $date_data,
             "video_data" => $video_data,
+            "job_data" => $group_data,
+            "job_data" => $job_data,
         ]);
     }
 
@@ -204,9 +207,6 @@ class FingerprintController extends Controller
             $query = Fingerprint::where("id", $request->id)->first();
             $query->name = $request->name;
             $birthday = \Carbon\Carbon::make($request->birthday)->format('Y-m-d');
-            // dd($birthday);
-            // $birthday = \Carbon\Carbon::createFromFormat('Y-m-d', $this->birthday, '+7')->addYear(543)->format('d-m-Y');
-            // $birthday = $this->DateThai($birthday, "date");
 
             $query->birthday = $birthday;
 
@@ -217,7 +217,6 @@ class FingerprintController extends Controller
                     $arr[] = $item;
                 }
             }
-            // $query->age =  intval($request->age);
             $query->interest = json_encode($arr);
             $query->group = $request->group;
             $query->jobposition = $request->jobposition;
@@ -743,15 +742,34 @@ class FingerprintController extends Controller
 
     }
 
-    public function saveFB(Request $request)
+    public function Note(Request $request)
     {
-        $data_fb = new secret_infos();
-
-        $data_fb->secret = $request->secret;
-
-        $data_fb->save();
+        // $result = DB::table('attendance')->where('fingerprint_id', $request['id'])->orderByDesc('num')->update([
+        //     'note' => $request['msgs'],
+        // ]);
+        Attendance::where("num", $request["id"])->update(['note' => $request["msgs"]]);
+        $result = Attendance::where("num", $request["id"])->first();
+        return $result;
     }
 
+    public function editFingerprint(Request $request)
+    {
+        $save_fingerprint = Fingerprint::find($request->id);
+        if ($request->typeOfFingerprint == "foreFingerprint") {
+            $save_fingerprint->fore_fingerprint = $request->fingerprint;
+
+        } else {
+            $save_fingerprint->fingerprint = $request->fingerprint;
+        }
+        $save_fingerprint->save();
+    }
+
+    public function getGroup(){
+
+
+
+
+    }
 }
 
 //ค้นหาเเบบรายละเอียด

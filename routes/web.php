@@ -77,4 +77,6 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/delete-leave/{id}', [LeaveController::class, 'deleteLeave']);
 
+    Route::post('/note', [FingerprintController::class, 'Note']);
+
 });

@@ -157,7 +157,7 @@
                         aria-label=".form-select-sm example" required>
                         <option selected></option>
                         @foreach ($jobs as $item)
-                            <option {{ $item->name == $data->jobposition ? 'selected' : '' }}
+                            <option {{ $item->id == $data->jobposition ? 'selected' : '' }}
                                 value="{{ $item->id }}">
                                 {{ $item->name }}</option>
                         @endforeach
