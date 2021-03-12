@@ -26,8 +26,8 @@ class Admin
         } else {
 
             Session::flash("error", "คุณยังไม่ได้Login");
+            
             return redirect('/login');
-            // abort(403, 'Unauthorized action.');
         }
     }
 }
