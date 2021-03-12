@@ -49,6 +49,8 @@ Route::post('/line_regis', [FingerprintController::class, 'saveUserIdLine']);
 
 Route::post('/edit_fingerprint', [FingerprintController::class, 'editFingerprint']);
 
+Route::get('/getgroup-job', [FingerprintController::class, 'Getgroup_job']);
+
 Route::get('/call', function () {
     Artisan::call('storage:link');
 });
