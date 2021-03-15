@@ -34,7 +34,7 @@ class FingerprintController extends Controller
     public function save(Request $request)
     {
         try {
-            $save_image = new Fingerprint();
+            $data_save = new Fingerprint();
             $data_name = $request->name;
             $data_group = $request->group;
             $data_jobposition = $request->jobposition;
@@ -55,15 +55,15 @@ class FingerprintController extends Controller
             }
 
             if ($data_fingerprint && $data_imguser) {
-                $save_image->name = $data_name;
-                $save_image->interest = json_encode($arr);
-                $save_image->birthday = $data_birthday;
-                $save_image->fingerprint = $data_fingerprint;
-                $save_image->fingerprintnew = $data_fingerprintnew;
-                $save_image->imguser = $data_imguser;
-                $save_image->group = $data_group;
-                $save_image->jobposition = $data_jobposition;
-                $save_image->save();
+                $data_save->name = $data_name;
+                $data_save->interest = json_encode($arr);
+                $data_save->birthday = $data_birthday;
+                $data_save->fingerprint = $data_fingerprint;
+                $data_save->fingerprintnew = $data_fingerprintnew;
+                $data_save->imguser = $data_imguser;
+                $data_save->group = $data_group;
+                $data_save->jobposition = $data_jobposition;
+                $data_save->save();
                 return response()->json([
                     'status' => "success",
                 ], 200);
@@ -743,14 +743,6 @@ class FingerprintController extends Controller
 
     }
 
-    public function saveFB(Request $request)
-    {
-        $data_fb = new secret_infos();
-
-        $data_fb->secret = $request->secret;
-
-        $data_fb->save();
-    }
 
 }
 
