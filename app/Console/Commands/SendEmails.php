@@ -62,19 +62,19 @@ class SendEmails extends Command
         $messageCon = "";
         $messageOut = "";
         foreach ($Punctual as $notlateperson) {
-            $messagePunctual .= "ชื่อ" . " " . $notlateperson->getall()->name . "\n" .
-            "กลุ่ม" . " " . $notlateperson->getall()->nameposition() . "\n" .
-            "ตำเเหน่ง" . " " . $notlateperson->getall()->jobpositions->name . "\n";
+            $messagePunctual .= "ชื่อ" . " " . $notlateperson->getall()->name . "\n";
+            // "กลุ่ม" . " " . $notlateperson->getall()->nameposition() . "\n" .
+            // "ตำเเหน่ง" . " " . $notlateperson->getall()->jobpositions->name . "\n";
         }
         foreach ($concludelate as $lateperson) {
-            $messageCon .= "ชื่อ" . " " . $lateperson->getall()->name . "\n" .
-            "กลุ่ม" . " " . $lateperson->getall()->nameposition() . "\n" .
-            "ตำเเหน่ง" . " " . $lateperson->getall()->jobpositions->name . "\n";
+            $messageCon .= "ชื่อ" . " " . $lateperson->getall()->name . "\n";
+            // "กลุ่ม" . " " . $lateperson->getall()->nameposition() . "\n" .
+            // "ตำเเหน่ง" . " " . $lateperson->getall()->jobpositions->name . "\n";
         }
         foreach ($Outjob as $lateperson) {
-            $messageOut .= "ชื่อ" . " " . $lateperson->getall()->name . "\n" .
-            "กลุ่ม" . " " . $lateperson->getall()->nameposition() . "\n" .
-            "ตำเเหน่ง" . " " . $lateperson->getall()->jobpositions->name . "\n";
+            $messageOut .= "ชื่อ" . " " . $lateperson->getall()->name . "\n";
+            // "กลุ่ม" . " " . $lateperson->getall()->nameposition() . "\n" .
+            // "ตำเเหน่ง" . " " . $lateperson->getall()->jobpositions->name . "\n";
         }
 
         $message = "\nสรุปการเข้างาน\nวันที่" . " " . $nowdate . "\n" .
@@ -82,11 +82,11 @@ class SendEmails extends Command
             "จำนวนพนักงานมาตรงต่อเวลา" . " " . $notlate . "\n" .
             $messagePunctual .
             "จำนวนพนักงานออกก่อนเวลา" . " " . $Outtime . "\n" .
-            $messageOut .                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+            $messageOut .
             "จำนวนพนักงานมาสาย" . " " . $late . "\n" .
             $messageCon .
             "จำนวนที่ไม่เข้างาน" . " " . $number . "\n";
-        // echo ($message);
+        echo ($message);
         $lineService = new LineService();
         $lineService->sendNotify($message);
     }
