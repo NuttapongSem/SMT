@@ -764,7 +764,7 @@ class FingerprintController extends Controller
     {
         $group_data = Group_position::get();
         $job_data = Job_position::get();
-        return response()->json([
+        return response()->json([                                          
             "group_data" => $group_data,
             "job_data" => $job_data,
         ]);
@@ -837,6 +837,7 @@ class FingerprintController extends Controller
 //}
 
 // public function editData(Request $request)
+
 // {
 
 //   $query = ModelsFingerprint::where("id", $request->id)->first();
