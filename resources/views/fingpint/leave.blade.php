@@ -294,7 +294,7 @@
             <div class="md-form mx-6 ">
                 <div class="flex-row d-flex justify-content-center">
                     <div class="col-lg-6 col-11 px-1">
-                        <label for="exampleFormControlInput1">Name</label>
+                        <label for="exampleFormControlInput1">ชื่อ</label>
                         <select id="name_id" name="name_id" class="form-select form-select-lg mb-3 dropdown-group"
                             aria-label=".form-select-lg example" style="text-align: center" width="330" required>
                             <option selected></option>
@@ -307,7 +307,7 @@
                 <div class="row">&nbsp;
                     <div class="row justify-content-end">
                         <div class="col-md-4">
-                            <label class="form-label">Leave type</label>
+                            <label class="form-label">ประเภทการลา</label>
                             <select name="leave_type" class="form-select" aria-label="Default select example"
                                 style="width: 150px; height: 48px;" required onchange="onChangeLeavetype(this)">
                                 <option selected>...</option>
@@ -320,7 +320,7 @@
                         </div>
                         <div class="col-md-5">
                             <div id="day_leave">
-                                <label class="form-label">Day Leave</label>
+                                <label class="form-label">หมายเหตุ</label>
                                 <select name="day_leave" class="form-select" aria-label="Default select example"
                                     style="width: 200px; height: 48px;" required>
                                     <option selected>ไม่ได้ระบุ</option>
@@ -337,7 +337,7 @@
 
             <div class="flex-row d-flex justify-content-center">
                 <div class="col-lg-6 col-11 px-1">
-                    <label for="exampleFormControlInput1">Group</label>
+                    <label for="exampleFormControlInput1">เเผนก</label>
                     <select id="groupposition" name="group" class="form-select form-select-lg mb-3 dropdown-group"
                         aria-label=".form-select-lg example" style="text-align: center" width="330" required>
                         <option selected></option>
@@ -345,7 +345,7 @@
                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
-                    <label for="exampleFormControlInput1">Jobposition</label>
+                    <label for="exampleFormControlInput1">ตำเเหน่ง</label>
                     <select id="jobposition" name="jobposition" class="form-select form-select-lg mb-3 dropdown-group"
                         aria-label=".form-select-lg example" style="text-align: center" width="330">
                         <option selected></option>
@@ -361,7 +361,7 @@
                         <div class=" form-floating">
                             <textarea name="annotation" class="form-control" placeholder="Leave a comment here"
                                 id="floatingTextarea2" style="height: 100px"></textarea>
-                            <label for="floatingTextarea2">Annotation</label>
+                            <label for="floatingTextarea2">รายละเอียด</label>
                         </div>
                     </div>
                 </div><br><br>
@@ -371,11 +371,11 @@
                     <div class="col-lg-6 col-11 px-1">
                         <div class="input-group input-daterange">
                             <input type="text" name="date_start" id="date_start" class="form-control text-left mr-2">
-                            <label class="ml-3 form-control-placeholder" id="start-p" for="start">Start
+                            <label class="ml-3 form-control-placeholder" id="start-p" for="start">วันที่ตั่งเเต่
                                 Date</label>
                             <span class="fa fa-calendar" id="date_start"></span>
                             <input type="text" name="date_end" id="date_end" class="form-control text-left ml-2">
-                            <label class="ml-3 form-control-placeholder" id="end-p" for="end">End
+                            <label class="ml-3 form-control-placeholder" id="end-p" for="end">ถึงวันที่
                                 Date</label>
                             <span class="fa fa-calendar" id="date_end"></span>
                         </div>
@@ -385,9 +385,9 @@
             <div class="md-form mx-6 ">
                 <div class="flex-row d-flex justify-content-center">
                     <div class="col-lg-6 col-11 px-1">
-                        <label for="inputCity" class="form-label">Endorser</label>
+                        <label for="inputCity" class="form-label">ผู้รับรอง</label>
                         <input name="endorser" type="text" class="form-control" id="inputendorser" style="width:300px;">
-                        <label for="exampleFormControlInput1">PositionEndorser</label>
+                        <label for="exampleFormControlInput1">ตำเเหน่งผู้รับรอง</label>
                         <select id="position_endorser" name="position_endorser" class="form-select form-select-sm "
                             aria-label=".form-select-sm example" style="width: 300px;height:45px" required>
                             <option selected></option>

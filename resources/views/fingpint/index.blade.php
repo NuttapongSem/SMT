@@ -233,11 +233,8 @@
         </div>
 
         <div class="col-lg-4 col-6" style="text-align:center;">
-
             <h2>Information</h2>
         </div>
-
-
         <div class="col-lg-4 col-6" style="text-align: end;">
             <div class="row" id="nav1">
                 <div class=" col-10" style="padding-top: 5px;">
@@ -282,8 +279,6 @@
                 <br> <br> <br>
                 <a href="chartuser">แผนภาพกราฟ</a>
             </div>
-
-
             <div class=" table-responsive-xl" id="main">
                 <table class="table">
 
@@ -293,8 +288,7 @@
                                 <th scope="col-6 col-md-4" style="text-align : center">ชื่อ</th>
                                 <th scope="col-6 col-md-4" style="text-align : center">เเผนก</th>
                                 <th scope="col-6 col-md-4" style="text-align : center">ตำเเหน่ง</th>
-                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">เวลา
-                                </th>
+                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">เวลา</th>
                                 <th scope="col-6 col-md-4" style="text-align : center">สถานะ</th>
                                 <th scope="col-6 col-md-4" style="text-align : center">การเข้างาน</th>
                                 <th scope="col-6 col-md-4" style="text-align : center">ใบลา</th>
@@ -326,11 +320,8 @@
                                         @else
                                             <p>{{ $row->no_late }}</p>
                                         @endif
-
                                     </td>
                                     <td>
-
-
                                         @if ($row->leaveStatus)
                                             <a href="{{ url('/data-leave/' . $row->id) }}">
                                                 <button type="button" style="width:150px;height:auto"
@@ -345,17 +336,13 @@
                                                 </button>
                                             </a>
                                         @endif
-
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
-
                     </table>
                     {{ $data->links('pagination::bootstrap-4') }}
-
                 </table>
-
             </div><br>
         </div>
         <script>
