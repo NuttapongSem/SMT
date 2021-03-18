@@ -214,73 +214,71 @@
                     </div>
                 </div>
             </div>
+
+            <div class="table-responsive-xl">
+
+                <table class="table table-bordered"><br>
+                    <thead style="background-color: #F3C35D;">
+                        <tr style="text-align : center">
+
+                            <th scope="col-6 col-md-4" style="width:auto;">ชื่อ</th>
+                            <th scope="col-6 col-md-4">วันที่</th>
+                            <th scope="col-6 col-md-4">เวลา</th>
+                            <th scope="col-6 col-md-4">สถานะ</th>
+                            <th scope="col-6 col-md-4">การเข้างาน</th>
+                            <th scope="col-6 col-md-4">หมายเหตุ</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($data as $key => $row)
+                            <tr style="text-align : center">
+                                <th scope="row" style="vertical-align:middle">
+                                    {{ $row->name }}
+                                </th>
+                                <td style="vertical-align:middle">
+                                    {{ $row->date ?? '-' }}
+                                </td>
+                                <td style="vertical-align:middle">
+                                    {{ $row->Time ?? '-' }}
+                                </td>
+
+                                <td style="vertical-align:middle">
+                                    <p>{{ $row->status ?? '-' }}</p>
+                                </td>
+
+                                <td style="vertical-align:middle">
+                                    @if ($row->late == 'ออกก่อนเวลา' || $row->late == 'สายเเลัวจ้า')
+                                        <p style="color:red">{{ $row->late }}</p>
+                                    @else
+                                        <p style=>{{ $row->late }}</p>
+                                    @endif
+
+                                </td>
+                                <td style="vertical-align:middle">
+                                    <div class="text-center">
+                                        <textarea id="note_{{ $key }}" name="note" class="form-control"
+                                            readonly style="height: 100px">{{ $row->note }}</textarea>
+                                        <br>
+                                        <button onclick="Note('{{ $key }}','{{ $row->num }}')" hidden
+                                            class="btn btn-primary " id="btn-save-{{ $key }}"
+                                            style="width:100px;height:40px" type="button">บันทึก
+                                        </button>
+
+                                        <button class="btn btn-success" id="btn-edit-{{ $key }}" type="button"
+                                            style="width:100px;height:40px" onclick="edit({{ $key }})">เเก้ไข
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+            </div>
         </div>
-        <table class="table table-bordered"><br>
-            <thead style="background-color: #F3C35D;">
-                <tr style="text-align : center">
-
-                    <th scope="col-6 col-md-4" style="width:auto;">ชื่อ</th>
-                    <th scope="col-6 col-md-4">วันที่</th>
-                    <th scope="col-6 col-md-4">เวลา</th>
-                    <th scope="col-6 col-md-4">สถานะ</th>
-                    <th scope="col-6 col-md-4">การเข้างาน</th>
-                    <th scope="col-6 col-md-4">หมายเหตุ</th>
-
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach ($data as $key => $row)
-                    <tr style="text-align : center">
-                        <th scope="row" style="vertical-align:middle">
-                            {{ $row->name }}
-                        </th>
-                        <td style="vertical-align:middle">
-                            {{ $row->date ?? '-' }}
-                        </td>
-                        <td style="vertical-align:middle">
-                            {{ $row->Time ?? '-' }}
-                        </td>
-
-                        <td style="vertical-align:middle">
-                            <p>{{ $row->status ?? '-' }}</p>
-                        </td>
-
-                        <td style="vertical-align:middle">
-                            @if ($row->late == 'ออกก่อนเวลา' || $row->late == 'สายเเลัวจ้า')
-                                <p style="color:red">{{ $row->late }}</p>
-                            @else
-                                <p style=>{{ $row->late }}</p>
-                            @endif
-
-                        </td>
-                        <td style="vertical-align:middle">
-                            <div class="text-center">
-                                <textarea id="note_{{ $key }}" name="note" class="form-control" readonly
-                                    style="height: 100px">{{ $row->note }}</textarea>
-                                <br>
-                                <button onclick="Note('{{ $key }}','{{ $row->num }}')" hidden
-                                    class="btn btn-primary " id="btn-save-{{ $key }}"
-                                    style="width:100px;height:40px" type="button">บันทึก
-                                </button>
-
-                                <button class="btn btn-success" id="btn-edit-{{ $key }}" type="button"
-                                    style="width:100px;height:40px" onclick="edit({{ $key }})">เเก้ไข
-                                </button>
-                            </div>
-                        </td>
-
-                    </tr>
-
-                @endforeach
-
-            </tbody>
-
         </table>
         {{ $data->links('pagination::bootstrap-4') }}
         <br>
-
-
     </div><br>
     <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
         <a href="/">
@@ -289,7 +287,6 @@
             </button>
         </a>
     </div><br><br>
-
     <script>
         $('#datepicker1').datepicker();
 
@@ -310,7 +307,6 @@
             document.getElementById("btn-save-" + key).removeAttribute("hidden")
             document.getElementById("btn-edit-" + key).setAttribute("hidden", "true", "false")
         }
-
         function Note(key, id) {
             // console.log(id);
             let msgs = document.getElementById("note_" + key).value;

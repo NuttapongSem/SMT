@@ -57,6 +57,16 @@ class SendEmails extends Command
         $Outjob = Attendance::where("late", "ออกก่อนเวลา")->where("date", $nowdate)->get();
         $Outtime = count($Outjob);
         //จำนวนคนที่ไม่เข้างาน
+        $nowdate = Carbon::now()->format('d-m-Y');
+        $massegenotime = "";
+        foreach ($user as $U) {
+            $usernum = Attendance::where("date", $nowdate)->where("fingerprint_id", $U->id)->get();
+            if (count($usernum) == 0) {
+                $massegenotime .= "ชื่อ" . " " . $U->name . "\n";
+            }
+        }
+
+        //จำนวนคนที่ไม่เข้างาน {
         $number = $numuser - ($late + $notlate);
         $messagePunctual = "";
         $messageCon = "";
@@ -85,7 +95,7 @@ class SendEmails extends Command
             $messageOut .
             "จำนวนพนักงานมาสาย" . " " . $late . "\n" .
             $messageCon .
-            "จำนวนที่ไม่เข้างาน" . " " . $number . "\n";
+            "จำนวนที่ไม่เข้างาน" . " " . $number . "\n" . $massegenotime;
         echo ($message);
         $lineService = new LineService();
         $lineService->sendNotify($message);
