@@ -19,8 +19,17 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
-
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
+        integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
+        integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous">
+    </script>
     <style>
         html,
         body {
@@ -247,15 +256,59 @@
                                 <td style="vertical-align:middle">
                                     <p>{{ $row->status ?? '-' }}</p>
                                 </td>
-
                                 <td style="vertical-align:middle">
                                     @if ($row->late == 'ออกก่อนเวลา' || $row->late == 'สายเเลัวจ้า')
                                         <p style="color:red">{{ $row->late }}</p>
+                                        <div>
+                                            <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                data-target="#exampleModallat" onclick="Late('{{ $row->num }}')">
+                                                การอนุญาต
+                                            </button>
+                                        </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModallat" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">การได้รับอนุญาต
+                                                        </h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        {{-- <form action="/checkin?page=1" --}}
+                                                        {{-- action="{{ url('/save-ditLate') }}"> --}}
+                                                        <div class="text-center">
+                                                            <select class="form-select"
+                                                                aria-label="Default select example"
+                                                                id="accept{{ $key }}">
+                                                                <option selected="อนุญาติให้สาย">อนุญาตให้สาย
+                                                                </option>
+                                                                <option value="อนุญาติให้ออก่อน">อนุญาตให้ออกก่อน
+                                                                </option>
+                                                            </select>
+                                                        </div><br><br><br><br>
+                                                        <div class="text-center">
+                                                            <a class="btn btn-primary" href="checkin" role="button"><i
+                                                                    class="bi bi-arrow-left-circle-fill"></i></a>
+                                                            <input class="btn btn-primary" type="button" value="Submit"
+                                                                style="width:100px;height:40px"
+                                                                onclick="Late_confirm('{{ $key }}');">
+                                                        </div>
+                                                        {{-- </form> --}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @else
                                         <p style=>{{ $row->late }}</p>
                                     @endif
 
                                 </td>
+
                                 <td style="vertical-align:middle">
                                     <div class="text-center">
                                         <textarea id="note_{{ $key }}" name="note" class="form-control"
@@ -307,6 +360,7 @@
             document.getElementById("btn-save-" + key).removeAttribute("hidden")
             document.getElementById("btn-edit-" + key).setAttribute("hidden", "true", "false")
         }
+
         function Note(key, id) {
             // console.log(id);
             let msgs = document.getElementById("note_" + key).value;
@@ -324,6 +378,29 @@
                     document.getElementById("note_" + key).readOnly = true
                     document.getElementById("btn-save-" + key).hidden = true;
                     document.getElementById("btn-edit-" + key).hidden = false;
+                }
+            });
+        }
+
+        let id_accept = '';
+
+        function Late(id) {
+            id_accept = id;
+        }
+
+        function Late_confirm(key) {
+            let message = document.getElementById("accept" + key).options[document.getElementById("accept" + key)
+                .selectedIndex].text;
+            $.ajax({ //create an ajax request to display.php
+                type: "POST",
+                url: "{{ url('/note') }}",
+                data: {
+                    id_accept: id_accept,
+                    message_accept: message,
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function(massege) {
+                    window.location.reload();
                 }
             });
         }

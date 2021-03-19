@@ -744,7 +744,13 @@ class FingerprintController extends Controller
         // $result = DB::table('attendance')->where('fingerprint_id', $request['id'])->orderByDesc('num')->update([
         //     'note' => $request['msgs'],
         // ]);
-        Attendance::where("num", $request["id"])->update(['note' => $request["msgs"]]);
+        $id_accept = $request['id_accept'];
+        if ($id_accept) {
+            Attendance::where("num", $id_accept)->update(['late' => $request["message_accept"]]);
+            return true;
+        } else {
+            Attendance::where("num", $request["id"])->update(['note' => $request["msgs"]]);
+        }
         $result = Attendance::where("num", $request["id"])->first();
         return $result;
     }
@@ -764,10 +770,21 @@ class FingerprintController extends Controller
     {
         $group_data = Group_position::get();
         $job_data = Job_position::get();
-        return response()->json([                                          
+        return response()->json([
             "group_data" => $group_data,
             "job_data" => $job_data,
         ]);
+    }
+    public function editLate(Request $request)
+    {
+        $lateedit = Attendance::where("id", $request->id)->first();
+        $lateedit->late = $request->late;
+        return redirect('/checkin');
+    }
+    public function IdeditLate($id)
+    {
+        $lateedit = Attendance::where("id", $id)->first();
+        return view('fingpint.checkin', ["data" => $lateedit]);
     }
 }
 
