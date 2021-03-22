@@ -187,8 +187,6 @@
                                         @endif
                                     @endforeach
                                 </td>
-
-
                                 <td style="vertical-align:middle">
                                     <a href="{{ url('/edit/' . $row->id) }}">
                                         <button type="button" class="btn btn-secondary" class="btn btn-danger"
@@ -196,7 +194,6 @@
                                             <i class="bi bi-pencil-fill"></i>
                                         </button>
                                     </a>
-
                                 <td style="vertical-align:middle">
                                     <a href="{{ url('/delete/' . $row->id) }}"
                                         onclick="return confirm('delete confirm?')">
@@ -209,27 +206,24 @@
                                 <td style="vertical-align:middle ">
                                     <div class="text-center" style="width: 150px">
                                         <a href=" {{ '/chartuser/' . $row->id }}">
-                                            <button type="button" class="btn btn-info"><i
-                                                    class="bi bi-graph-up"></i>&#160;Chartuser</button>
+                                            <button type="button" class="btn btn-info">
+                                                <i class="bi bi-graph-up"></i>
+                                                &#160;Chartuser
+                                            </button>
                                         </a>
                                     </div>
-
                                 </td>
-
-
                             </tr>
-
                         @endforeach
-
                     </tbody>
-
                 </table>
                 {{ $data->links('pagination::bootstrap-4') }}
             </div><br>
             <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
                 <a href="/">
                     <button type="/" class="btn btn-primary" style="width:150px;height:50px">
-                        <i class="bi bi-arrow-left-circle"></i>
+                        <i class="bi bi-arrow-le
+                         ft-circle"></i>
                     </button>
                 </a>
             </div><br><br><br>

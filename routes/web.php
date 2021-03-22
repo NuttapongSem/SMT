@@ -79,4 +79,8 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::post('/note', [FingerprintController::class, 'Note']);
 
+    Route::post('/save-ditLate', [FingerprintController::class, 'editLate']);
+
+    Route::get('/get-id', [FingerprintController::class, 'IdeditLate']);
+
 });

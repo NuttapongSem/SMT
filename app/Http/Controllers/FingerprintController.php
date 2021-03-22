@@ -731,12 +731,11 @@ class FingerprintController extends Controller
 
     public function getAllLineData()
     {
-        $line_regis = line_regis::get();
         $date = \Carbon\Carbon::now()->format('d-m-Y');
-        $attendances = Fingerprint::join('attendance', 'attendance.fingerprint_id', '=', 'fingerprint.id')->where("attendance.date", $date)->get();
-        $fingerpint_data = Fingerprint::get();
+        $attendances = Fingerprint::join('attendance', 'attendance.fingerprint_id', '=', 'fingerprint.id')->where("attendance.date", $date)->orderByDesc("attendance.num")->get(["attendance.Time", "fingerprint.name", "fingerprint.jobposition", "attendance.late", "attendance.fingerprint_id", "attendance.status"]);
+        $fingerpint_data = Fingerprint::get(["name", "jobposition", "id"]);
 
-        return response(["attendance" => $attendances, "line_regis" => $line_regis, "fingerprint" => $fingerpint_data]);
+        return response()->json(["attendance" => $attendances, "fingerprint" => $fingerpint_data], 200);
 
     }
 
@@ -745,7 +744,13 @@ class FingerprintController extends Controller
         // $result = DB::table('attendance')->where('fingerprint_id', $request['id'])->orderByDesc('num')->update([
         //     'note' => $request['msgs'],
         // ]);
-        Attendance::where("num", $request["id"])->update(['note' => $request["msgs"]]);
+        $id_accept = $request['id_accept'];
+        if ($id_accept) {
+            Attendance::where("num", $id_accept)->update(['late' => $request["message_accept"]]);
+            return true;
+        } else {
+            Attendance::where("num", $request["id"])->update(['note' => $request["msgs"]]);
+        }
         $result = Attendance::where("num", $request["id"])->first();
         return $result;
     }
@@ -769,6 +774,17 @@ class FingerprintController extends Controller
             "group_data" => $group_data,
             "job_data" => $job_data,
         ]);
+    }
+    public function editLate(Request $request)
+    {
+        $lateedit = Attendance::where("id", $request->id)->first();
+        $lateedit->late = $request->late;
+        return redirect('/checkin');
+    }
+    public function IdeditLate($id)
+    {
+        $lateedit = Attendance::where("id", $id)->first();
+        return view('fingpint.checkin', ["data" => $lateedit]);
     }
 }
 
@@ -838,6 +854,7 @@ class FingerprintController extends Controller
 //}
 
 // public function editData(Request $request)
+
 // {
 
 //   $query = ModelsFingerprint::where("id", $request->id)->first();

@@ -35,7 +35,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
         integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
     </script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
         html,
@@ -92,46 +92,99 @@
 
         @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
 
+        #nav2 {
+            display: none;
+
+        }
+
+        #nav1 {
+            display: flex;
+        }
+
+        @media only screen and (max-width: 550px) {
+            #nav1 {
+                display: none;
+            }
+
+            #nav2 {
+                display: flex;
+            }
+        }
+
+
+        .block-1 {
+            width: 300px;
+            height: 120px;
+            margin: 10px;
+
+        }
+
+        .block-2 {
+            width: 300px;
+            height: 120px;
+            margin: 10px;
+
+        }
+
+        body {
+            font-family: "Lato", sans-serif;
+            transition: background-color .5s;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #2C3E50;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #ffffff;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover {
+            color: #40ee89;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        #main {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+
     </style>
 
 </head>
 
-<style>
-    #nav2 {
-        display: none;
 
-    }
-
-    #nav1 {
-        display: flex;
-    }
-
-    @media only screen and (max-width: 550px) {
-        #nav1 {
-            display: none;
-        }
-
-        #nav2 {
-            display: flex;
-        }
-    }
-
-
-    .block-1 {
-        width: 300px;
-        height: 120px;
-        margin: 10px;
-
-    }
-
-    .block-2 {
-        width: 300px;
-        height: 120px;
-        margin: 10px;
-
-    }
-
-</style>
 @if (Session::has('deleteSucess'))
     <script language="javascript">
         alert('{{ Session::get('deleteSucess') }}')
@@ -173,25 +226,20 @@
 
     </style>
 
-
     <div class="row card-header" style="background-color: #F3C35D;">
 
-        <div class="col-lg-4"></div>
-
-        <div class="col-lg-4 col-6" style="text-align:center;">
-
-            <h2>Information</h2>
+        <div class="col-lg-4">
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</i></span>
         </div>
 
+        <div class="col-lg-4 col-6" style="text-align:center;">
+            <h2>Information</h2>
+        </div>
         <div class="col-lg-4 col-6" style="text-align: end;">
-
             <div class="row" id="nav1">
-
                 <div class=" col-10" style="padding-top: 5px;">
                     ชื่อผู้ใช้ : {{ Auth::user()->name }}
-
                 </div>
-
                 <div class="col-2">
                     <a href="{{ url('/logout') }}">
                         <button type="button" style="width:50px;height:40px;background-color: #dc3545;color:aliceblue"
@@ -199,11 +247,8 @@
                             <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </a>
-
                 </div>
-
             </div>
-
             <div class="row" id="nav2">
                 <div class="col-12" style="text-align: end;">
                     <div class="dropdown">
@@ -217,19 +262,118 @@
                         </button>
                     </div>
                 </div>
-
             </div>
-
         </div>
-
     </div><br>
 
-    <div class="container" style="background-color:#FDFDFD;">
+    <div class="container">
 
         <div style="margin-top:1rem;margin-bottom:1rem;"><br>
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
+                <br> <br> <br>
+                <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
+                <br> <br> <br>
+                <a href=" {{ url('/leave') }}">ใบลา</a>
+                <br> <br> <br>
+                <a href="chartuser">แผนภาพกราฟ</a>
+            </div>
+            <div class=" table-responsive-xl" id="main">
+                <table class="table">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr style=" background-color: #F3C35D;text-align : center">
+                                <th scope="col-6 col-md-4" style="text-align : center">ชื่อ</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">เเผนก</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">ตำเเหน่ง</th>
+                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">เวลา</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">สถานะ</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">การเข้างาน</th>
+                                <th scope="col-6 col-md-4" style="text-align : center">ใบลา</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color:#FDFDFD;">
+                            @foreach ($data as $row)
+                                <tr style="text-align : center">
+
+                                    <th scope="row" style="text-align : center">
+                                        {{ $row->name }}
+                                    </th>
+                                    <td>
+                                        {{ $row->nameposition() }}
+                                    </td>
+                                    <td>
+                                        {{ $row->jobpositions->name }}
+                                    </td>
+                                    <td>
+                                        {{ count($row->attendance) > 0 ? $row->attendance->first()->updated_at : '-' }}
+                                    </td>
+                                    <td>
+                                        <p>{{ count($row->attendance) > 0 ? $row->attendance->first()->status : '-' }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        @if ($row->data_late)
+                                            <p style="color:red">{{ $row->data_late }}</p>
+                                        @else
+                                            <p>{{ $row->no_late }}</p>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($row->leaveStatus)
+                                            <a href="{{ url('/data-leave/' . $row->id) }}">
+                                                <button type="button" style="width:150px;height:auto"
+                                                    class="btn btn-success">{{ $row->leaveStatus }}
+                                                </button>
+                                            </a>
+                                        @else
+                                            <a href="#">
+                                                <button type="button" style="width:150px;height:auto"
+                                                    class="btn btn-secondary">
+                                                    ไม่มีใบลา&nbsp;<i class="bi bi-journal-x"></i>
+                                                </button>
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $data->links('pagination::bootstrap-4') }}
+                </table>
+            </div><br>
+        </div>
+        <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+                document.getElementById("main").style.marginLeft = "250px";
+                document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+                document.getElementById("main").style.marginLeft = "0";
+                document.body.style.backgroundColor = "white";
+            }
+
+        </script>
+</body>
+
+</html>
 
 
-            <a href="{{ url('/datauser') }}">
+
+
+
+
+{{-- ปุ่มเก่า เเละ Modal --}}
+{{-- <a href="{{ url('/datauser') }}">
+                    <button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i
+                            class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
+                </a> --}}
+{{-- <a href="{{ url('/datauser') }}">
                 <button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i
                         class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
             </a>
@@ -268,83 +412,5 @@
                                 style="width:125px;height:35px;">ใบลา</a>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class=" table-responsive-xl">
-                <table class="table">
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr style=" background-color: #F3C35D;text-align : center">
-                                <th scope="col-6 col-md-4" style="text-align : center">ชื่อ</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">เเผนก</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">ตำเเหน่ง</th>
-                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">เวลา</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">สถานะ</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">การเข้างาน</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">ใบลา</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $row)
-                                <tr style="text-align : center">
-
-                                    <th scope="row" style="text-align : center">
-                                        {{ $row->name }}
-                                    </th>
-                                    <td>
-                                        {{ $row->nameposition() }}
-                                    </td>
-                                    <td>
-                                        {{ $row->jobpositions->name }}
-                                    </td>
-                                    <td>
-                                        {{ count($row->attendance) > 0 ? $row->attendance->first()->updated_at : '-' }}
-                                    </td>
-                                    <td>
-                                        <p>{{ count($row->attendance) > 0 ? $row->attendance->first()->status : '-' }}
-                                        </p>
-                                    </td>
-                                    <td>
-                                        @if ($row->data_late)
-                                            <p style="color:red">{{ $row->data_late }}</p>
-                                        @else
-                                            <p>{{ $row->no_late }}</p>
-                                        @endif
-
-                                    </td>
-                                    <td>
-
-
-                                        @if ($row->leaveStatus)
-                                            <a href="{{ url('/data-leave/' . $row->id) }}">
-                                                <button type="button" style="width:150px;height:auto"
-                                                    class="btn btn-success">{{ $row->leaveStatus }}
-                                                </button>
-                                            </a>
-                                        @else
-                                            <a href="#">
-                                                <button type="button" style="width:150px;height:auto"
-                                                    class="btn btn-secondary">
-                                                    ไม่มีใบลา&nbsp;<i class="bi bi-journal-x"></i>
-                                                </button>
-                                            </a>
-                                        @endif
-
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-
-                    </table>
-                    {{ $data->links('pagination::bootstrap-4') }}
-
-                </table>
-
-            </div><br>
-        </div>
-
-</body>
-
-</html>
+                </div> --}}
+{{-- </div> --}}
