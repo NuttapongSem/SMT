@@ -106,24 +106,23 @@ class FingerprintController extends Controller
             if ($datetiming == null) {
                 if ($idgroup->group == 12) {
                     if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "สายเเลัวจ้า";
+                        $date_save->late = "สาย";
                         // $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
                         // $this->Line_Noti($message);
                     }
                     if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "ตรงต่อเวลาจ้า";
+                        $date_save->late = "ตรงต่อเวลา";
                     }
                 } else {
 
                     if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "สายเเลัวจ้า";
+                        $date_save->late = "สาย";
                         // $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
                         // $this->Line_Noti($message);
                     }
                     if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "ตรงต่อเวลาจ้า";
+                        $date_save->late = "ตรงต่อเวลา";
                     }
-
                 }
             }
             if (($date_save->time < date(Carbon::createFromFormat('H:i', '18:00')->format('H:i'))) && $request->status == "ออก") {
@@ -134,7 +133,7 @@ class FingerprintController extends Controller
 
             $date_save->save();
 
-            if ($date_save->late == "สายเเลัวจ้า") {
+            if ($date_save->late == "สาย") {
 
                 $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 1);
 
@@ -152,7 +151,6 @@ class FingerprintController extends Controller
                 $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3);
             }
             return response()->json($res, 200);
-
         } catch (Exception $e) {
             $error = new Consolelog();
             $error->user_id = Auth::user()->id;
@@ -245,6 +243,8 @@ class FingerprintController extends Controller
         $data = Fingerprint::with('leave')->with('attendance', function ($q) {
             $q->whereDate('updated_at', Carbon::today());
         })->orderByDesc('updated_at')->paginate(10);
+        // dd($data[1]->attendance->last());
+
 
         foreach ($data as $item) {
             if (count($item->attendance) > 0) {
@@ -258,6 +258,9 @@ class FingerprintController extends Controller
                         break;
 
                     default:
+                        if ($item->attendance->first()->status == "เข้า") {
+                            $item->attendance[0] = $item->attendance->last();
+                        }
                         if ($item->attendance->first()->Time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i')) && $item->attendance->first()->status == "เข้า") {
                             $item->data_late = "มาสาย";
                         } else {
@@ -329,7 +332,7 @@ class FingerprintController extends Controller
     {
         try {
             $name = $request->name;
-            $data = Fingerprint::orderByDesc('created_at', )
+            $data = Fingerprint::orderByDesc('created_at',)
 
                 ->when($name, function ($query, $name) {
                     return $query->where('name', 'like', '%' . $name . '%');
@@ -361,7 +364,7 @@ class FingerprintController extends Controller
             $timeEnd = $request->time_end;
             $dateStart = '';
             $dateEnd = '';
-
+            $late = $request->late;
             if ($searchDateStart) {
                 $dateStart = \Carbon\Carbon::make($searchDateStart)->format('d-m-Y');
             }
@@ -403,6 +406,11 @@ class FingerprintController extends Controller
                 ->when($status, function ($query, $status) {
                     // dump('when status');0
                     return $query->where('status', $status);
+                })
+
+                ->when($late == "late", function ($query, $status) {
+                    // dump('when status');0
+                    return $query->where('late', "สาย");
                 })
                 ->paginate(10)->withQueryString();
 
@@ -736,7 +744,6 @@ class FingerprintController extends Controller
         $fingerpint_data = Fingerprint::get(["name", "jobposition", "id"]);
 
         return response()->json(["attendance" => $attendances, "fingerprint" => $fingerpint_data], 200);
-
     }
 
     public function Note(Request $request)
@@ -760,7 +767,6 @@ class FingerprintController extends Controller
         $save_fingerprint = Fingerprint::find($request->id);
         if ($request->typeOfFingerprint == "foreFingerprint") {
             $save_fingerprint->fore_fingerprint = $request->fingerprint;
-
         } else {
             $save_fingerprint->fingerprint = $request->fingerprint;
         }

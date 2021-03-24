@@ -9,26 +9,20 @@
     <meta name="description" content="Simple CMS" />
     <meta name="author" content="Sheikh Heera" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"
-        id="bootstrap-css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"
-        integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous">
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"
-        integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous">
     </script>
     <style>
         html,
@@ -85,15 +79,12 @@
         .card-header {
             margin: 0 !important;
         }
-
     </style>
 
 
 </head>
-<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-    crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
 </script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -116,7 +107,6 @@
         .active-btn-edit {
             display: none;
         }
-
     </style>
 
 
@@ -134,8 +124,7 @@
 
             </div>
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -153,38 +142,43 @@
                                 </div>
                                 <div class="md-form mx-5 my-1">
                                     <label for="floatingInput">ชื่อ</label>
-                                    <input type="text" name="name" value="{{ $data->searchName }}"
-                                        class="form-control" id="floatingInput" placeholder="text">
+                                    <input type="text" name="name" value="{{ $data->searchName }}" class="form-control" id="floatingInput" placeholder="text">
 
                                 </div>
                                 <div class="md-form mx-5 my-1">
-
-                                    <label for="floatingInput">สถานะ</label>
-                                    <div class="input-group-prepend">
-                                        <select name="status" id="dropdown" class="custom-select" width="150px">
-                                            <option value=""></option>
-                                            <option value="เข้า">เข้า</option>
-                                            <option value="ออก">ออก</option>
-                                        </select>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label for="floatingInput">สถานะ</label>
+                                            <div class="input-group-prepend">
+                                                <select name="status" id="dropdown" class="custom-select" width="150px">
+                                                    <option value=""></option>
+                                                    <option value="เข้า">เข้า</option>
+                                                    <option value="ออก">ออก</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div style="margin-top: 20px;">
+                                                <input style="height: 20px;width: 20px;" type="checkbox" id="vehicle1" name="late" value="late">
+                                                <label style="font-size: 20px" for="vehicle1">สาย</label>
+                                            </div>
+                                        </div>
                                     </div>
+
+
                                 </div>
                                 <div class="md-form mx-5 ">
                                     <div class="row">
                                         <div class="col-6">
                                             <label for="datepicker">ตั่งเเต่วันที่</label>
                                             <!-- <input name="date_start" value="{{ $data->searchdateStart }}" readonly="readonly" data-open="picker2" class="datepicker form-control date-time picker-opener" autocomplete="off" style="background-color:#FDFDFD;"> -->
-                                            <input id="datepicker1" name="date_start"
-                                                value="{{ $data->searchdateStart }}" readonly="readonly"
-                                                class="form-control" autocomplete="off"
-                                                style="background-color:#FDFDFD;" />
+                                            <input id="datepicker1" name="date_start" value="{{ $data->searchdateStart }}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
                                         </div>
                                         <div class="col-6">
                                             <label for="datepicker">ถึงวันที่</label>
                                             <!-- <input name="date_end" value="{{ $data->searchdateEnd }}" readonly="readonly" data-open="picker2" class="datepicker form-control date-time picker-opener" autocomplete="off" style="background-color:#FDFDFD;"> -->
 
-                                            <input id="datepicker2" name="date_end" value="{{ $data->searchdateEnd }}"
-                                                readonly="readonly" class="form-control" autocomplete="off"
-                                                style="background-color:#FDFDFD;" />
+                                            <input id="datepicker2" name="date_end" value="{{ $data->searchdateEnd }}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
                                         </div>
                                     </div>
 
@@ -196,28 +190,22 @@
                                             <label for="floatingInput">เวลาตั่งเเต่</label>
                                             <!-- <input name="time_start" id="datetimepicker3" value="{{ $data->searchTimeto }}"> -->
 
-                                            <input id="timepicker1" name="time_start"
-                                                value="{{ $data->searchTimeto }}" class="form-control"
-                                                autocomplete="off" style="background-color:#FDFDFD;" />
+                                            <input id="timepicker1" name="time_start" value="{{ $data->searchTimeto }}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
                                         </div>
 
                                         <div class="col-6">
                                             <label for="floatingInput">ถึงเวลา</label>
                                             <!-- <input type="time" name="time_end" value="{{ $data->searchTimein }}" data-open="picker3" class="stepExample2 form-control date-time-2 picker-opener"> -->
 
-                                            <input id="timepicker2" name="time_end" value="{{ $data->searchTimein }}"
-                                                class="form-control" autocomplete="off"
-                                                style="background-color:#FDFDFD;" />
+                                            <input id="timepicker2" name="time_end" value="{{ $data->searchTimein }}" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" />
 
                                         </div>
                                     </div>
                                 </div><br>
                                 <div class="text-center">
-                                    <a class="btn btn-primary" href="checkin" role="button"><i
-                                            class="bi bi-arrow-left-circle-fill"></i></a>
+                                    <a class="btn btn-primary" href="checkin" role="button"><i class="bi bi-arrow-left-circle-fill"></i></a>
 
-                                    <input class="btn btn-primary" type="submit" value="Submit"
-                                        style="width:100px;height:40px">
+                                    <input class="btn btn-primary" type="submit" value="Submit" style="width:100px;height:40px">
                                 </div>
                         </div>
                     </div>
@@ -242,89 +230,77 @@
 
                     <tbody>
                         @foreach ($data as $key => $row)
-                            <tr style="text-align : center">
-                                <th scope="row" style="vertical-align:middle">
-                                    {{ $row->name }}
-                                </th>
-                                <td style="vertical-align:middle">
-                                    {{ $row->date ?? '-' }}
-                                </td>
-                                <td style="vertical-align:middle">
-                                    {{ $row->Time ?? '-' }}
-                                </td>
+                        <tr style="text-align : center">
+                            <th scope="row" style="vertical-align:middle">
+                                {{ $row->name }}
+                            </th>
+                            <td style="vertical-align:middle">
+                                {{ $row->date ?? '-' }}
+                            </td>
+                            <td style="vertical-align:middle">
+                                {{ $row->Time ?? '-' }}
+                            </td>
 
-                                <td style="vertical-align:middle">
-                                    <p>{{ $row->status ?? '-' }}</p>
-                                </td>
-                                <td style="vertical-align:middle">
-                                    @if ($row->late == 'ออกก่อนเวลา' || $row->late == 'สายเเลัวจ้า')
-                                        <p style="color:red">{{ $row->late }}</p>
-                                        <div>
-                                            <button type="button" class="btn btn-warning" data-toggle="modal"
-                                                data-target="#exampleModallat" onclick="Late('{{ $row->num }}')">
-                                                การอนุญาต
-                                            </button>
-                                        </div>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModallat" tabindex="-1"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">การได้รับอนุญาต
-                                                        </h5>
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        {{-- <form action="/checkin?page=1" --}}
-                                                        {{-- action="{{ url('/save-ditLate') }}"> --}}
-                                                        <div class="text-center">
-                                                            <select class="form-select"
-                                                                aria-label="Default select example"
-                                                                id="accept{{ $key }}">
-                                                                <option selected="อนุญาติให้สาย">อนุญาตให้สาย
-                                                                </option>
-                                                                <option value="อนุญาติให้ออก่อน">อนุญาตให้ออกก่อน
-                                                                </option>
-                                                            </select>
-                                                        </div><br><br><br><br>
-                                                        <div class="text-center">
-                                                            <a class="btn btn-primary" href="checkin" role="button"><i
-                                                                    class="bi bi-arrow-left-circle-fill"></i></a>
-                                                            <input class="btn btn-primary" type="button" value="Submit"
-                                                                style="width:100px;height:40px"
-                                                                onclick="Late_confirm('{{ $key }}');">
-                                                        </div>
-                                                        {{-- </form> --}}
-                                                    </div>
+                            <td style="vertical-align:middle">
+                                <p>{{ $row->status ?? '-' }}</p>
+                            </td>
+                            <td style="vertical-align:middle">
+                                @if ($row->late == 'ออกก่อนเวลา' || $row->late == 'สาย')
+                                <p style="color:red">{{ $row->late }}</p>
+                                <div>
+                                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModallat" onclick="Late('{{ $row->num }}')">
+                                        การอนุญาต
+                                    </button>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModallat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">การได้รับอนุญาต
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{-- <form action="/checkin?page=1" --}}
+                                                {{-- action="{{ url('/save-ditLate') }}"> --}}
+                                                <div class="text-center">
+                                                    <select class="form-select" aria-label="Default select example" id="accept{{ $key }}">
+                                                        <option selected="อนุญาติให้สาย">อนุญาตให้สาย
+                                                        </option>
+                                                        <option value="อนุญาติให้ออก่อน">อนุญาตให้ออกก่อน
+                                                        </option>
+                                                    </select>
+                                                </div><br><br><br><br>
+                                                <div class="text-center">
+                                                    <a class="btn btn-primary" href="checkin" role="button"><i class="bi bi-arrow-left-circle-fill"></i></a>
+                                                    <input class="btn btn-primary" type="button" value="Submit" style="width:100px;height:40px" onclick="Late_confirm('{{ $key }}');">
                                                 </div>
+                                                {{-- </form> --}}
                                             </div>
                                         </div>
-                                    @else
-                                        <p style=>{{ $row->late }}</p>
-                                    @endif
-
-                                </td>
-
-                                <td style="vertical-align:middle">
-                                    <div class="text-center">
-                                        <textarea id="note_{{ $key }}" name="note" class="form-control"
-                                            readonly style="height: 100px">{{ $row->note }}</textarea>
-                                        <br>
-                                        <button onclick="Note('{{ $key }}','{{ $row->num }}')" hidden
-                                            class="btn btn-primary " id="btn-save-{{ $key }}"
-                                            style="width:100px;height:40px" type="button">บันทึก
-                                        </button>
-
-                                        <button class="btn btn-success" id="btn-edit-{{ $key }}" type="button"
-                                            style="width:100px;height:40px" onclick="edit({{ $key }})">เเก้ไข
-                                        </button>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                                @else
+                                <p style=>{{ $row->late }}</p>
+                                @endif
+
+                            </td>
+
+                            <td style="vertical-align:middle">
+                                <div class="text-center">
+                                    <textarea id="note_{{ $key }}" name="note" class="form-control" readonly style="height: 100px">{{ $row->note }}</textarea>
+                                    <br>
+                                    <button onclick="Note('{{ $key }}','{{ $row->num }}')" hidden class="btn btn-primary " id="btn-save-{{ $key }}" style="width:100px;height:40px" type="button">บันทึก
+                                    </button>
+
+                                    <button class="btn btn-success" id="btn-edit-{{ $key }}" type="button" style="width:100px;height:40px" onclick="edit({{ $key }})">เเก้ไข
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
             </div>
@@ -404,7 +380,6 @@
                 }
             });
         }
-
     </script>
 
 </body>

@@ -46,11 +46,11 @@ class SendEmails extends Command
         $numuser = count($user);
         //จำนวนคนมาสาย
         $nowdate = Carbon::now()->format('d-m-Y');
-        $concludelate = Attendance::where("late", "สายเเลัวจ้า")->where("date", $nowdate)->get();
+        $concludelate = Attendance::where("late", "สาย")->where("date", $nowdate)->get();
         $late = count($concludelate);
         //จำนวนคนมาทำงานปกติ
         $nowdate = Carbon::now()->format('d-m-Y');
-        $Punctual = Attendance::where("late", "ตรงต่อเวลาจ้า")->where("date", $nowdate)->get();
+        $Punctual = Attendance::where("late", "ตรงต่อเวลา")->where("date", $nowdate)->get();
         $notlate = count($Punctual);
         //จำนวนคนที่ออกงาน
         $nowdate = Carbon::now()->format('d-m-Y');
@@ -96,8 +96,13 @@ class SendEmails extends Command
             "จำนวนพนักงานมาสาย" . " " . $late . "\n" .
             $messageCon .
             "จำนวนที่ไม่เข้างาน" . " " . $number . "\n" . $massegenotime;
-        echo ($message);
-        $lineService = new LineService();
-        $lineService->sendNotify($message);
+
+        if (Carbon::now()->format('D') != "Sat" && Carbon::now()->format('D') != "Sun") {
+            $lineService = new LineService();
+            $lineService->sendNotify($message);
+        }
+        // echo ($message);
+        // $lineService = new LineService();
+        // $lineService->sendNotify($message);
     }
 }
