@@ -107,8 +107,8 @@ class FingerprintController extends Controller
                 if ($idgroup->group == 12) {
                     if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "สาย";
-                        // $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                        // $this->Line_Noti($message);
+                        $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
+                        $this->Line_Noti($message);
                     }
                     if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "ตรงต่อเวลา";
@@ -117,8 +117,8 @@ class FingerprintController extends Controller
 
                     if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "สาย";
-                        // $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                        // $this->Line_Noti($message);
+                        $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
+                        $this->Line_Noti($message);
                     }
                     if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "ตรงต่อเวลา";
@@ -126,12 +126,19 @@ class FingerprintController extends Controller
                 }
             }
             if (($date_save->time < date(Carbon::createFromFormat('H:i', '18:00')->format('H:i'))) && $request->status == "ออก") {
+
+
                 $date_save->late = "ออกก่อนเวลา";
-                // $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: ออกก่อนเวลา " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                // $this->Line_Noti($message);
+                $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: ออกก่อนเวลา " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
+                $this->Line_Noti($message);
             }
 
-            $date_save->save();
+            $statusIn =
+                Attendance::where("date", $date_save->date)->where("fingerprint_id", $request->id)->get();
+            if (count($statusIn) != 0 || $date_save->status == "เข้า") {
+
+                $date_save->save();
+            }
 
             if ($date_save->late == "สาย") {
 
@@ -148,6 +155,12 @@ class FingerprintController extends Controller
 
             $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 0);
             if ($date_save->status == 'ออก') {
+
+                if (count($statusIn) == 0) {
+                    $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 4);
+
+                    return response()->json($res, 200);
+                }
                 $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3);
             }
             return response()->json($res, 200);
