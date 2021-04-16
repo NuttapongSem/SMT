@@ -249,8 +249,8 @@
                     <tbody style="background-color:#FDFDFD;">
 
                         @foreach ($data as $row)
-                        <tr style="text-align : center">
-                            <td>{{ $row->name }}</td>
+                        <tr style="text-align : center; font-size: 20px;line-height: 30px">
+                            <th>{{ $row->name }}</th>
                             <td>{{ $row->jobpositions->name }}</td>
                             <td>{{ $row->getNormal() }}</td>
                             <td>{{ $row->getLate() }}</td>
