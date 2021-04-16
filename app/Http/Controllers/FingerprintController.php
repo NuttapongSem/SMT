@@ -108,7 +108,7 @@ class FingerprintController extends Controller
                     if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "สาย";
                         $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                        $this->Line_Noti($message);
+                        // $this->Line_Noti($message);
                     }
                     if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "ตรงต่อเวลา";
@@ -118,7 +118,7 @@ class FingerprintController extends Controller
                     if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "สาย";
                         $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                        $this->Line_Noti($message);
+                        // $this->Line_Noti($message);
                     }
                     if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                         $date_save->late = "ตรงต่อเวลา";
@@ -130,7 +130,7 @@ class FingerprintController extends Controller
 
                 $date_save->late = "ออกก่อนเวลา";
                 $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: ออกก่อนเวลา " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                $this->Line_Noti($message);
+                // $this->Line_Noti($message);
             }
 
             $statusIn =
@@ -254,10 +254,9 @@ class FingerprintController extends Controller
     {
 
         $data = Fingerprint::with('leave')->with('attendance', function ($q) {
-            $q->whereDate('updated_at', Carbon::today());
+            $q->whereDate('created_at', Carbon::today());
         })->orderByDesc('updated_at')->paginate(10);
         // dd($data[1]->attendance->last());
-
 
         foreach ($data as $item) {
             if (count($item->attendance) > 0) {
