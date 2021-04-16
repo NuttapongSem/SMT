@@ -169,51 +169,29 @@
                 font-size: 18px;
             }
         }
+
+        body {
+            background-color: lightgray;
+        }
     </style>
 
 </head>
 
-
-@if (Session::has('deleteSucess'))
-<script language="javascript">
-    alert('{{ Session::get('
-        deleteSucess ') }}')
-</script>
-@endif
-@if (Session::has('urlPDF'))
-<script>
-    let PDF = '{{ Session::get('
-    urlPDF ') }}';
-    console.log(PDF);
-    if (PDF != null) {
-        window.open(PDF);
-
-    }
-</script>
-<?php Session::forget('urlPDF'); ?>
-
-@endif
-
 <body>
-    @if (Session::has('save'))
-    <script language="javascript">
-        alert('{{ Session::get('
-            save ') }}')
-    </script>
 
-    @endif
-    <style>
-        body {
-            background-color: lightgray;
-            ;
-        }
 
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-    </style>
-
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
+        <br> <br> <br>
+        <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
+        <br> <br> <br>
+        <a href=" {{ url('/leave') }}">ใบลา</a>
+        <br> <br> <br>
+        <a href="chartuser">แผนภาพกราฟ</a>
+        <br> <br> <br>
+        <a href="summary">สรุปการทำงาน</a>
+    </div>
     <div class="row card-header" style="background-color: #F3C35D;">
 
         <div class="col-lg-4">
@@ -255,80 +233,35 @@
     <div class="container">
 
         <div style="margin-top:1rem;margin-bottom:1rem;"><br>
-            <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
-                <br> <br> <br>
-                <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
-                <br> <br> <br>
-                <a href=" {{ url('/leave') }}">ใบลา</a>
-                <br> <br> <br>
-                <a href="chartuser">แผนภาพกราฟ</a>
-                <br> <br> <br>
-                <a href="summary">สรุปการทำงาน</a>
-            </div>
-            <div class=" table-responsive-xl" id="main">
-                <table class="table">
 
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr style=" background-color: #F3C35D;text-align : center">
-                                <th scope="col-6 col-md-4" style="text-align : center">ชื่อ</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">เเผนก</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">ตำเเหน่ง</th>
-                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">เวลา</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">สถานะ</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">การเข้างาน</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">ใบลา</th>
-                            </tr>
-                        </thead>
-                        <tbody style="background-color:#FDFDFD;">
-                            @foreach ($data as $row)
-                            <tr style="text-align : center">
+            <div class="table-responsive-xl" id="main">
+                <table class="table table-bordered table-border-width">
+                    <thead>
+                        <tr style="background-color: #F3C35D;text-align : center">
+                            <th>ชื่อ</th>
+                            <th>ตำเเหน่ง</th>
+                            <th>ปกติ</th>
+                            <th>สาย</th>
+                            <th>สายแบบอนุญาต</th>
+                            <th>รวม</th>
+                        </tr>
+                    </thead>
+                    <tbody style="background-color:#FDFDFD;">
 
-                                <th scope="row" style="text-align : center">
-                                    {{ $row->name }}
-                                </th>
-                                <td>
-                                    {{ $row->nameposition() }}
-                                </td>
-                                <td>
-                                    {{ $row->jobpositions->name }}
-                                </td>
-                                <td>
-                                    {{ count($row->attendance) > 0 ? $row->attendance->first()->updated_at : '-' }}
-                                </td>
-                                <td>
-                                    <p>{{ count($row->attendance) > 0 ? $row->attendance->first()->status : '-' }}
-                                    </p>
-                                </td>
-                                <td>
-                                    @if ($row->data_late)
-                                    <p style="color:red">{{ $row->data_late }}</p>
-                                    @else
-                                    <p>{{ $row->no_late }}</p>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($row->leaveStatus)
-                                    <a href="{{ url('/data-leave/' . $row->id) }}">
-                                        <button type="button" style="width:150px;height:auto" class="btn btn-success">{{ $row->leaveStatus }}
-                                        </button>
-                                    </a>
-                                    @else
-                                    <a href="#">
-                                        <button type="button" style="width:150px;height:auto" class="btn btn-secondary">
-                                            ไม่มีใบลา&nbsp;<i class="bi bi-journal-x"></i>
-                                        </button>
-                                    </a>
-                                    @endif
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links('pagination::bootstrap-4') }}
+                        @foreach ($data as $row)
+                        <tr style="text-align : center">
+                            <td>{{ $row->name }}</td>
+                            <td>{{ $row->jobpositions->name }}</td>
+                            <td>{{ $row->getNormal() }}</td>
+                            <td>{{ $row->getLate() }}</td>
+                            <td>{{ $row->getApprove() }}</td>
+                            <td>{{ $row->getNormal() +  $row->getLate() + $row->getApprove() }}</td>
+                        </tr>
+                        @endforeach
+
+                    </tbody>
                 </table>
+                {{ $data->links('pagination::bootstrap-4') }}
             </div><br>
         </div>
         <script>
@@ -341,54 +274,9 @@
             function closeNav() {
                 document.getElementById("mySidenav").style.width = "0";
                 document.getElementById("main").style.marginLeft = "0";
-                document.body.style.backgroundColor = "white";
+                document.body.style.backgroundColor = "lightgray";
             }
         </script>
 </body>
 
 </html>
-
-
-
-
-
-
-{{-- ปุ่มเก่า เเละ Modal --}}
-{{-- <a href="{{ url('/datauser') }}">
-<button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
-</a> --}}
-{{-- <a href="{{ url('/datauser') }}">
-<button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
-</a>
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:200px;height:35px;">
-    <i class="bi bi-hourglass-bottom"></i>&#160; เวลา เข้า-ออก-ใบลา
-</button>
-
-<a href="chartuser">
-    <button type="button" class="btn btn-primary" data-toggle="modal" style="width:150px;height:35px;">
-        <i class="bi bi-file-bar-graph-fill"></i>&#160;
-        แผนภาพกราฟ
-    </button>
-</a>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">กราฟ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <a href="{{ url('/checkin') }}">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" style="width:200px;height:35px;background-color:#239B56;">เวลา เข้า-ออก
-                        งานทั่งหมด</button>
-                </a>
-            </div>
-            <div class="modal-body">
-                <a href=" {{ url('/leave') }}" role="button" class="btn btn-secondary popover-test" title="Popover title" data-bs-content="Popover body content is set in this attribute." style="width:125px;height:35px;">ใบลา</a>
-            </div>
-        </div>
-    </div> --}}
-    {{-- </div> --}}

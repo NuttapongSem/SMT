@@ -83,4 +83,5 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::get('/get-id', [FingerprintController::class, 'IdeditLate']);
 
+    Route::get('/summary', [FingerprintController::class, 'summary']);
 });

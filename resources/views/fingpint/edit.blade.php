@@ -9,23 +9,19 @@
     <meta name="author" content="Sheikh Heera" />
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
     <!-- CSS only -->
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
     <script src="https://unpkg.com/popper.js@1.14.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
     <style>
@@ -80,7 +76,6 @@
             border-collapse: collapse;
             border-spacing: 0;
         }
-
     </style>
 
 </head>
@@ -102,50 +97,42 @@
                 margin: auto;
                 width: 90%;
             }
-
         </style>
 
         @if (Session::has('error'))
-            <script language="javascript">
-                alert('{{ Session::get('error') }}')
-
-            </script>
+        <script language="javascript">
+            alert("{{ Session::get('error') }}")
+        </script>
 
         @endif
 
-        <form enctype="multipart/form-data" class="container" method="post" action="{{ url('/save-edit') }}"
-            accept-charset="UTF-8" style="background-color:#FDFDFD;">
+        <form enctype="multipart/form-data" class="container" method="post" action="{{ url('/save-edit') }}" accept-charset="UTF-8" style="background-color:#FDFDFD;">
 
             @csrf
-            <input hidden value="{{ $data->id }}" name="id" type="text" class="form-control"
-                id="exampleFormControlInput1">
+            <input hidden value="{{ $data->id }}" name="id" type="text" class="form-control" id="exampleFormControlInput1">
 
             <div class="table-responsive"><br>
 
                 <div class="center_div">
                     <label for="exampleFormControlInput1">ชื่อ</label><br>
-                    <input value="{{ $data->name }}" name="name" type="text" class="form-control"
-                        id="exampleFormControlInput1" width="300px" required>
+                    <input value="{{ $data->name }}" name="name" type="text" class="form-control" id="exampleFormControlInput1" width="300px" required>
                 </div><br>
 
                 <div class="center_div">
                     <label for="exampleFormControlInput1">วันเกิด</label>
-                    <input id="datepicker0" name="birthdayShow" value="{{ $data->birthdayformat() }}"
-                        readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;"
-                        required />
-                    <input hidden id="datepicker0" name="birthday" value="{{ $data->birthday }}" readonly="readonly"
-                        class="form-control" autocomplete="off" style="background-color:#FDFDFD;" required />
+                    <input id="datepicker0" name="birthdayShow" value="{{ $data->birthdayformat() }}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" required />
+                    <input hidden id="datepicker0" name="birthday" value="{{ $data->birthday }}" readonly="readonly" class="form-control" autocomplete="off" style="background-color:#FDFDFD;" required />
                 </div><br>
 
 
                 <div class="center_div">
                     <label for="exampleFormControlInput1">เเผนก</label>
-                    <select id="groupposition" name="group" class="form-select form-select-lg mb-3"
-                        aria-label=".form-select-lg example" style="text-align: center" width="330" required>
+                    <select id="groupposition" name="group" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="text-align: center" width="330" required>
                         <option selected></option>
                         @foreach ($position as $item)
-                            <option {{ $item->id == $data->group ? 'selected' : '' }} value="{{ $item->id }}">
-                                {{ $item->name }}</option>
+                        <option {{ $item->id == $data->group ? 'selected' : '' }} value="{{ $item->id }}">
+                            {{ $item->name }}
+                        </option>
                         @endforeach
                     </select>
                 </div><br>
@@ -153,13 +140,12 @@
 
                 <div class="center_div">
                     <label for="exampleFormControlInput1">ตำเเหน่ง</label>
-                    <select id="jobposition" name="jobposition" class="form-select form-select-sm "
-                        aria-label=".form-select-sm example" required>
+                    <select id="jobposition" name="jobposition" class="form-select form-select-sm " aria-label=".form-select-sm example" required>
                         <option selected></option>
                         @foreach ($jobs as $item)
-                            <option {{ $item->id == $data->jobposition ? 'selected' : '' }}
-                                value="{{ $item->id }}">
-                                {{ $item->name }}</option>
+                        <option {{ $item->id == $data->jobposition ? 'selected' : '' }} value="{{ $item->id }}">
+                            {{ $item->name }}
+                        </option>
                         @endforeach
                     </select>
                 </div><br><br>
@@ -168,8 +154,7 @@
                     <div class="form-group">
                         <label for="exampleFormControlSelect2">สิ่งที่สนใจ</label>
                         <br>
-                        <select id="interest" class="selectpicker" multiple data-live-search="true" name="interest[]"
-                            required>
+                        <select id="interest" class="selectpicker" multiple data-live-search="true" name="interest[]" required>
                             <option value="Photography">Photography</option>
                             <option value="Animals">Animals</option>
                             <option value="Camping">Camping</option>
@@ -186,10 +171,8 @@
 
                 <div class="form-grou center_div">
                     <label for="exampleFormControlInput1">ข้อมูลส่วนตัว</label><br>
-                    <img id="profileImg" src="{{ 'data:image/webp;base64,' . $data->imguser }}" alt=""
-                        style="width: 200px;height: auto"><br>
-                    <input value="imguser" name="imguser" type="file" class="form-control" id="exampleFormControlInput1"
-                        onchange="readURL(this);">
+                    <img id="profileImg" src="{{ 'data:image/webp;base64,' . $data->imguser }}" alt="" style="width: 200px;height: auto"><br>
+                    <input value="imguser" name="imguser" type="file" class="form-control" id="exampleFormControlInput1" onchange="readURL(this);">
                 </div><br>
                 <center><input type="submit" value="Submit" class="btn btn-primary" style="background-color: #006ABE;">
                 </center>
@@ -235,7 +218,9 @@
         })
     })
 
-    var dataOption = {!! json_encode($data->interest) !!};
+    var dataOption = {
+        !!json_encode($data - > interest) !!
+    };
     console.log(dataOption)
     var jsonData = JSON.parse(dataOption)
     let arr = [];
@@ -254,10 +239,8 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-
 </script>
 <script>
     $('.dropdown-group').dropdown();
     $('#datepicker0').datepicker();
-
 </script>

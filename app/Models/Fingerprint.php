@@ -48,5 +48,16 @@ class Fingerprint extends Model
     {
         return $this->hasOne(Job_position::class, 'id', 'jobposition');
     }
-
+    public function getLate()
+    {
+        return Attendance::where("fingerprint_id", $this->id)->where("late", "สาย")->get()->count();
+    }
+    public function getNormal()
+    {
+        return Attendance::where("fingerprint_id", $this->id)->where("late", "ตรงต่อเวลา")->get()->count();
+    }
+    public function getApprove()
+    {
+        return Attendance::where("fingerprint_id", $this->id)->where("late", "อนุญาตให้สาย")->get()->count();
+    }
 }

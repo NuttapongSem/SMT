@@ -804,6 +804,12 @@ class FingerprintController extends Controller
         $lateedit = Attendance::where("id", $id)->first();
         return view('fingpint.checkin', ["data" => $lateedit]);
     }
+
+    public function summary()
+    {
+        $data = Fingerprint::paginate(10);
+        return view('fingpint.summary', compact(['data']));
+    }
 }
 
 //ค้นหาเเบบรายละเอียด
