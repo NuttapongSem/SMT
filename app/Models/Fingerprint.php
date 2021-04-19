@@ -61,4 +61,8 @@ class Fingerprint extends Model
     {
         return Attendance::where("fingerprint_id", $this->id)->where("late", "อนุญาตให้สาย")->get()->count();
     }
+    public function lineUser()
+    {
+        return $this->hasOne(TokenLine::class, 'fingerprint_id', 'id');
+    }
 }

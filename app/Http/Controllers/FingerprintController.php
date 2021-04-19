@@ -91,10 +91,17 @@ class FingerprintController extends Controller
     public function attenDance(Request $request)
     {
         try {
+
             $date_save = new Attendance();
 
             $now_date = Carbon::now();
-            $date_save->fingerprint_id = $request->id;
+            if ($request->id) {
+                $date_save->fingerprint_id = $request->id;
+            }
+            if ($request->input("user_line_id")) {
+                $token = TokenLine::where("user_line_id", $request->input("user_line_id"))->first();
+                $date_save->fingerprint_id = $token->fingerprint_id;
+            }
             $date_save->date = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date, '+7')->format('d-m-Y'));
             $date_save->time = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date)->format('H:i'));
             $date_save->status = $request->status;
@@ -345,7 +352,7 @@ class FingerprintController extends Controller
     {
         try {
             $name = $request->name;
-            $data = Fingerprint::orderByDesc('created_at',)
+            $data = Fingerprint::with("lineUser")->orderByDesc('created_at',)
 
                 ->when($name, function ($query, $name) {
                     return $query->where('name', 'like', '%' . $name . '%');
@@ -812,13 +819,25 @@ class FingerprintController extends Controller
         return view('fingpint.summary', compact(['data']));
     }
 
-    public function keyGen()
+    public function saveLineId(Request $request)
     {
-        $tokens = TokenLine::get();
-        return view('fingpint.keyGen', ["tokens" => $tokens]);
+        $token = TokenLine::where("token", $request->input("token"))->first();
+
+        if ($token) {
+            $token->user_line_id = $request->input("user_line_id");
+            $token->save();
+            return response()->json($token, 200);
+        }
+        return response()->json("token not found", 400);
     }
 
-    public function randomKey()
+    // public function keyGen()
+    // {
+    //     $tokens = TokenLine::get();
+    //     return view('fingpint.keyGen', ["tokens" => $tokens]);
+    // }
+
+    public function randomKey(Request $request)
     {
         while (true == true) {
 
@@ -826,35 +845,37 @@ class FingerprintController extends Controller
             $char = chr(mt_rand(97, 122)) . chr(mt_rand(97, 122));
             $token = new TokenLine();
             $token->token = $char . $fourRandomDigit;
-            $tokenData = Tokenline::where("token", $token->token)->get();
-            if ($tokenData->count() == 0) {
-                $token->save();
-                break;
-            }
+            $token->fingerprint_id = $request->input("fingerprint_id");
+            $token->save();
+            return response()->json($token, 200);
         }
-        $tokens = TokenLine::get();
         // return response()->json($char . $fourRandomDigit, 200);
-        return response()->json(["tokens" => $tokens, "token" => $token], 200);
+        return response()->json(["token" => $token], 200);
     }
 
-    public function deleteLineToken(Request $request)
-    {
-        $token = TokenLine::where("token", $request->input("token"))->first();
-        if ($token) {
-            $token->delete();
-            return response()->json("delete success", 200);
-        } else {
-            return response()->json("no item to delete", 400);
-        }
-        // return response()->json($token->count(), 200);
-    }
-    public function editLineId(Request $request)
-    {
-        $user = Fingerprint::where("id", $request->input("id"))->first();
-        $user->line_id = $request->input("user_id");
-        $user->save();
-        return response()->json("success", 200);
-    }
+    // public function deleteLineToken(Request $request)
+    // {
+    //     $token = TokenLine::where("token", $request->input("token"))->first();
+    //     if ($token) {
+    //         $token->delete();
+    //         return response()->json("delete success", 200);
+    //     } else {
+    //         return response()->json("no item to delete", 400);
+    //     }
+    //     // return response()->json($token->count(), 200);
+    // }
+    // public function editLineId(Request $request)
+    // {
+    //     $token = TokenLine::where("token", $request->input("token"))->first();
+    //     if ($token) {
+
+    //         $user = Fingerprint::where("id", $request->input("id"))->first();
+    //         $user->line_id = $request->input("user_id");
+    //         $user->save();
+    //         return response()->json("success", 200);
+    //     }
+    //     return response()->json("Token is wrong");
+    // }
 }
 
 //ค้นหาเเบบรายละเอียด

@@ -55,6 +55,4 @@ Route::get('/call', function () {
     Artisan::call('storage:link');
 });
 
-Route::post('/deleteLineToken', [FingerprintController::class, 'deleteLineToken']);
-
-Route::post("/editLineId", [FingerprintController::class, 'editLineId']);
+Route::post("saveLineId", [FingerprintController::class, "saveLineId"]);

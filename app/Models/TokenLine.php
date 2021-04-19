@@ -11,6 +11,8 @@ class TokenLine extends Model
     public $timestamps = false;
     protected $table = 'token_line';
     protected $fillable = [
-        'token'
+        'token',
+        'fingerprint_id',
+        'user_line_id'
     ];
 }
