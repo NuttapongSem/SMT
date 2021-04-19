@@ -84,4 +84,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/get-id', [FingerprintController::class, 'IdeditLate']);
 
     Route::get('/summary', [FingerprintController::class, 'summary']);
+
+    Route::get('/keyGen', [FingerprintController::class, 'keyGen']);
+
+    Route::post('/generateKey', [FingerprintController::class, 'randomKey']);
 });

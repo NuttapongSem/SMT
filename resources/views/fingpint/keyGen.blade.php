@@ -25,7 +25,9 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
         html,
@@ -169,51 +171,31 @@
                 font-size: 18px;
             }
         }
+
+        body {
+            background-color: lightgray;
+        }
     </style>
 
 </head>
 
-
-@if (Session::has('deleteSucess'))
-<script language="javascript">
-    alert('{{ Session::get('
-        deleteSucess ') }}')
-</script>
-@endif
-@if (Session::has('urlPDF'))
-<script>
-    let PDF = '{{ Session::get('
-    urlPDF ') }}';
-    console.log(PDF);
-    if (PDF != null) {
-        window.open(PDF);
-
-    }
-</script>
-<?php Session::forget('urlPDF'); ?>
-
-@endif
-
 <body>
-    @if (Session::has('save'))
-    <script language="javascript">
-        alert('{{ Session::get('
-            save ') }}')
-    </script>
 
-    @endif
-    <style>
-        body {
-            background-color: lightgray;
-            ;
-        }
 
-        table {
-            border-collapse: collapse;
-            border-spacing: 0;
-        }
-    </style>
-
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="{{ url('/') }}">หน้าหลัก</a>
+        <hr>
+        <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
+        <hr>
+        <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
+        <hr>
+        <a href=" {{ url('/leave') }}">ใบลา</a>
+        <hr>
+        <a href="chartuser">แผนภาพกราฟ</a>
+        <hr>
+        <a href="summary">สรุปการทำงาน</a>
+    </div>
     <div class="row card-header" style="background-color: #F3C35D;">
 
         <div class="col-lg-4">
@@ -255,86 +237,32 @@
     <div class="container">
 
         <div style="margin-top:1rem;margin-bottom:1rem;"><br>
-
-            <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="{{ url('/') }}">หน้าหลัก</a>
-                <hr>
-                <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
-                <hr>
-                <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
-                <hr>
-                <a href=" {{ url('/leave') }}">ใบลา</a>
-                <hr>
-                <a href="chartuser">แผนภาพกราฟ</a>
-                <hr>
-                <a href="summary">สรุปการทำงาน</a>
-                <hr>
-                <a href="keyGen">Line Register</a>
+            <div style="text-align: right;">
+                <button class="btn btn-primary" onclick="genKey()"><i class="fas fa-plus"></i> Generate new key</button>
             </div>
-            <div class=" table-responsive-xl" id="main">
-                <table class="table">
+            <div id="listKey" style="height: 30em; background-color: white; text-align: center;overflow: scroll;" class="table-responsive-xl my-2 p-3" id="main">
+                @foreach ($tokens as $token)
+                <div class='row'>
+                    <div class='col'>
+                        {{ $token->token }}
+                        <hr>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            <div style="text-align: center;">
+                <button class="btn btn-primary" onclick="window.history.back()">back</button>
+            </div>
+        </div>
 
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr style=" background-color: #F3C35D;text-align : center">
-                                <th scope="col-6 col-md-4" style="text-align : center">ชื่อ</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">เเผนก</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">ตำเเหน่ง</th>
-                                <th scope="col-6 col-md-4" style="text-align : center" style="width: 150px;">เวลา</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">สถานะ</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">การเข้างาน</th>
-                                <th scope="col-6 col-md-4" style="text-align : center">ใบลา</th>
-                            </tr>
-                        </thead>
-                        <tbody style="background-color:#FDFDFD;">
-                            @foreach ($data as $row)
-                            <tr style="text-align : center">
-
-                                <th scope="row" style="text-align : center">
-                                    {{ $row->name }}
-                                </th>
-                                <td>
-                                    {{ $row->nameposition() }}
-                                </td>
-                                <td>
-                                    {{ $row->jobpositions->name }}
-                                </td>
-                                <td>
-                                    {{ count($row->attendance) > 0 ? $row->attendance->first()->updated_at : '-' }}
-                                </td>
-                                <td>
-                                    <p>{{ count($row->attendance) > 0 ? $row->attendance->first()->status : '-' }}
-                                    </p>
-                                </td>
-                                <td>
-                                    @if ($row->data_late)
-                                    <p style="color:red">{{ $row->data_late }}</p>
-                                    @else
-                                    <p>{{ $row->no_late }}</p>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($row->leaveStatus)
-                                    <a href="{{ url('/data-leave/' . $row->id) }}">
-                                        <button type="button" style="width:150px;height:auto" class="btn btn-success">{{ $row->leaveStatus }}
-                                        </button>
-                                    </a>
-                                    @else
-                                    <a href="#">
-                                        <button type="button" style="width:150px;height:auto" class="btn btn-secondary">
-                                            ไม่มีใบลา&nbsp;<i class="bi bi-journal-x"></i>
-                                        </button>
-                                    </a>
-                                    @endif
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $data->links('pagination::bootstrap-4') }}
-                </table>
-            </div><br>
+        <!-- Toast -->
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">key is copied</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
         </div>
         <script>
             function openNav() {
@@ -348,52 +276,51 @@
                 document.getElementById("main").style.marginLeft = "0";
                 document.body.style.backgroundColor = "lightgray";
             }
+
+            function genKey() {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('/generateKey') }}",
+                    success: function(response) {
+                        let input = document.createElement("input");
+                        input.id = "keyInput"
+                        input.value = response.token.token;
+                        input.type = 'text';
+                        input.className = 'swal-content__input';
+                        swal({
+                            title: "New key is",
+                            content: input,
+                            buttons: {
+                                copy: "copy",
+                                cancel: "close"
+                            },
+                            icon: "success",
+                        }).then(value => {
+                            switch (value) {
+                                case "copy":
+                                    input.select();
+                                    document.execCommand("copy");
+                                    document.getElementById("liveToast").className = "toast show"
+                                    setTimeout(() => {
+                                        document.getElementById("liveToast").className = "toast hide"
+                                    }, 2000)
+                                    break;
+                            }
+
+                        })
+                        $("#listKey").empty()
+                        let tokens = response.tokens
+
+                        for (let index in tokens) {
+                            let col = "<div class='row'> <div class='col'>" + tokens[index].token + "<hr> </div> </div>"
+                            $("#listKey").append(col)
+                        }
+
+                    }
+                });
+
+            }
         </script>
 </body>
 
 </html>
-
-
-
-
-
-
-{{-- ปุ่มเก่า เเละ Modal --}}
-{{-- <a href="{{ url('/datauser') }}">
-<button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
-</a> --}}
-{{-- <a href="{{ url('/datauser') }}">
-<button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
-</a>
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:200px;height:35px;">
-    <i class="bi bi-hourglass-bottom"></i>&#160; เวลา เข้า-ออก-ใบลา
-</button>
-
-<a href="chartuser">
-    <button type="button" class="btn btn-primary" data-toggle="modal" style="width:150px;height:35px;">
-        <i class="bi bi-file-bar-graph-fill"></i>&#160;
-        แผนภาพกราฟ
-    </button>
-</a>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">กราฟ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <a href="{{ url('/checkin') }}">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" style="width:200px;height:35px;background-color:#239B56;">เวลา เข้า-ออก
-                        งานทั่งหมด</button>
-                </a>
-            </div>
-            <div class="modal-body">
-                <a href=" {{ url('/leave') }}" role="button" class="btn btn-secondary popover-test" title="Popover title" data-bs-content="Popover body content is set in this attribute." style="width:125px;height:35px;">ใบลา</a>
-            </div>
-        </div>
-    </div> --}}
-    {{-- </div> --}}

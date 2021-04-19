@@ -182,14 +182,16 @@
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="{{ url('/') }}">หน้าหลัก</a>
+        <hr>
         <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
-        <br> <br> <br>
+        <hr>
         <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
-        <br> <br> <br>
+        <hr>
         <a href=" {{ url('/leave') }}">ใบลา</a>
-        <br> <br> <br>
+        <hr>
         <a href="chartuser">แผนภาพกราฟ</a>
-        <br> <br> <br>
+        <hr>
         <a href="summary">สรุปการทำงาน</a>
     </div>
     <div class="row card-header" style="background-color: #F3C35D;">
@@ -199,7 +201,7 @@
         </div>
 
         <div class="col-lg-4 col-6" style="text-align:center;">
-            <h2>Information</h2>
+            <h2>Summary</h2>
         </div>
         <div class="col-lg-4 col-6" style="text-align: end;">
             <div class="row" id="nav1">

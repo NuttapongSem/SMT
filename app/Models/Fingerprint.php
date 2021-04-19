@@ -20,6 +20,7 @@ class Fingerprint extends Model
         'imguser',
         'fingerprint',
         'fore_fingerprint',
+        'line_id',
     ];
     public function attendance()
     {

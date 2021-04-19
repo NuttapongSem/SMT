@@ -54,3 +54,7 @@ Route::get('/getgroup-job', [FingerprintController::class, 'Getgroup_job']);
 Route::get('/call', function () {
     Artisan::call('storage:link');
 });
+
+Route::post('/deleteLineToken', [FingerprintController::class, 'deleteLineToken']);
+
+Route::post("/editLineId", [FingerprintController::class, 'editLineId']);

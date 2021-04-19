@@ -12,6 +12,7 @@ use App\Models\Job_position;
 use App\Models\Leave;
 use App\Models\line_regis;
 use App\Models\Log_mobile;
+use App\Models\TokenLine;
 use App\Models\Video;
 use Carbon\Carbon;
 use DateTime;
@@ -809,6 +810,50 @@ class FingerprintController extends Controller
     {
         $data = Fingerprint::paginate(10);
         return view('fingpint.summary', compact(['data']));
+    }
+
+    public function keyGen()
+    {
+        $tokens = TokenLine::get();
+        return view('fingpint.keyGen', ["tokens" => $tokens]);
+    }
+
+    public function randomKey()
+    {
+        while (true == true) {
+
+            $fourRandomDigit = mt_rand(1000, 9999);
+            $char = chr(mt_rand(97, 122)) . chr(mt_rand(97, 122));
+            $token = new TokenLine();
+            $token->token = $char . $fourRandomDigit;
+            $tokenData = Tokenline::where("token", $token->token)->get();
+            if ($tokenData->count() == 0) {
+                $token->save();
+                break;
+            }
+        }
+        $tokens = TokenLine::get();
+        // return response()->json($char . $fourRandomDigit, 200);
+        return response()->json(["tokens" => $tokens, "token" => $token], 200);
+    }
+
+    public function deleteLineToken(Request $request)
+    {
+        $token = TokenLine::where("token", $request->input("token"))->first();
+        if ($token) {
+            $token->delete();
+            return response()->json("delete success", 200);
+        } else {
+            return response()->json("no item to delete", 400);
+        }
+        // return response()->json($token->count(), 200);
+    }
+    public function editLineId(Request $request)
+    {
+        $user = Fingerprint::where("id", $request->input("id"))->first();
+        $user->line_id = $request->input("user_id");
+        $user->save();
+        return response()->json("success", 200);
     }
 }
 
