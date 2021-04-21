@@ -95,100 +95,100 @@ class FingerprintController extends Controller
 
     public function attenDance(Request $request)
     {
-        try {
+        // try {
 
-            $date_save = new Attendance();
-
-            $now_date = Carbon::now();
-            if ($request->id) {
-                $date_save->fingerprint_id = $request->id;
-            }
-            if ($request->input("user_line_id")) {
-                $token = TokenLine::where("user_line_id", $request->input("user_line_id"))->first();
-                $date_save->fingerprint_id = $token->fingerprint_id;
-                $dataBeacon = Device::where("device_id", $request->input("device_id"))->first();
-                if ($dataBeacon) {
-                    $date_save->location = $dataBeacon->location;
-                }
-            }
-            $date_save->date = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date, '+7')->format('d-m-Y'));
-            $date_save->time = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date)->format('H:i'));
-            $date_save->status = $request->status;
-            $dateFormat = $this->DateThai($date_save->date, "dateEng");
-
-            event(new DataUpdate($request->id));
-            $idgroup = Fingerprint::where('id', $date_save->fingerprint_id)->first();
-            $idgroup->touch();
-            $datetiming = Attendance::where("date", $date_save->date)->where("fingerprint_id", $date_save->fingerprint_id)->first();
-            if ($datetiming == null) {
-                if ($idgroup->group == 12) {
-                    if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "สาย";
-                        $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                        // $this->Line_Noti($message);
-                    }
-                    if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "ตรงต่อเวลา";
-                    }
-                } else {
-
-                    if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "สาย";
-                        $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                        // $this->Line_Noti($message);
-                    }
-                    if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
-                        $date_save->late = "ตรงต่อเวลา";
-                    }
-                }
-            }
-            if (($date_save->time < date(Carbon::createFromFormat('H:i', '18:00')->format('H:i'))) && $request->status == "ออก") {
-
-
-                $date_save->late = "ออกก่อนเวลา";
-                $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: ออกก่อนเวลา " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                // $this->Line_Noti($message);
-            }
-
-            $statusIn =
-                Attendance::where("date", $date_save->date)->where("fingerprint_id", $date_save->fingerprint_id)->get();
-            if (count($statusIn) != 0 || $date_save->status == "เข้า") {
-
-                $date_save->save();
-            }
-
-            if ($date_save->late == "สาย") {
-
-                $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 1);
-
-                return response()->json($res, 200);
-            }
-            if ($date_save->late == "ออกก่อนเวลา") {
-
-                $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 2);
-
-                return response()->json($res, 200);
-            }
-
-            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 0);
-            if ($date_save->status == 'ออก') {
-
-                if (count($statusIn) == 0) {
-                    $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 4);
-
-                    return response()->json($res, 200);
-                }
-                $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3);
-            }
-            return response()->json($res, 200);
-        } catch (Exception $e) {
-            $error = new Consolelog();
-            $error->user_id = Auth::user()->id;
-            $error->public = "attenDance";
-            $error->message = $e->getMessage();
-            $error->save();
-            return back()->withError($e->getMessage());
+        $date_save = new Attendance();
+        $dataBeacon = null;
+        $now_date = Carbon::now();
+        if ($request->id) {
+            $date_save->fingerprint_id = $request->id;
         }
+        if ($request->input("user_line_id")) {
+            $token = TokenLine::where("user_line_id", $request->input("user_line_id"))->first();
+            $date_save->fingerprint_id = $token->fingerprint_id;
+            $dataBeacon = Device::where("device_id", $request->input("device_id"))->first();
+            if ($dataBeacon) {
+                $date_save->location = $dataBeacon->location;
+            }
+        }
+        $date_save->date = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date, '+7')->format('d-m-Y'));
+        $date_save->time = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date)->format('H:i'));
+        $date_save->status = $request->status;
+        $dateFormat = $this->DateThai($date_save->date, "dateEng");
+
+        event(new DataUpdate($request->id));
+        $idgroup = Fingerprint::where('id', $date_save->fingerprint_id)->first();
+        $idgroup->touch();
+        $datetiming = Attendance::where("date", $date_save->date)->where("fingerprint_id", $date_save->fingerprint_id)->first();
+        if ($datetiming == null) {
+            if ($idgroup->group == 12) {
+                if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
+                    $date_save->late = "สาย";
+                    $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
+                    // $this->Line_Noti($message);
+                }
+                if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
+                    $date_save->late = "ตรงต่อเวลา";
+                }
+            } else {
+
+                if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
+                    $date_save->late = "สาย";
+                    $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
+                    // $this->Line_Noti($message);
+                }
+                if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
+                    $date_save->late = "ตรงต่อเวลา";
+                }
+            }
+        }
+        if (($date_save->time < date(Carbon::createFromFormat('H:i', '18:00')->format('H:i'))) && $request->status == "ออก") {
+
+
+            $date_save->late = "ออกก่อนเวลา";
+            $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: ออกก่อนเวลา " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
+            // $this->Line_Noti($message);
+        }
+
+        $statusIn =
+            Attendance::where("date", $date_save->date)->where("fingerprint_id", $date_save->fingerprint_id)->get();
+        if (count($statusIn) != 0 || $date_save->status == "เข้า") {
+
+            $date_save->save();
+        }
+
+        if ($date_save->late == "สาย") {
+
+            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 1, "location" => $dataBeacon ? $dataBeacon->location : "");
+
+            return response()->json($res, 200);
+        }
+        if ($date_save->late == "ออกก่อนเวลา") {
+
+            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 2, "location" => $dataBeacon ? $dataBeacon->location : "");
+
+            return response()->json($res, 200);
+        }
+
+        $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 0, "location" => $dataBeacon ? $dataBeacon->location : "");
+        if ($date_save->status == 'ออก') {
+
+            if (count($statusIn) == 0) {
+                $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 4, "location" => $dataBeacon ? $dataBeacon->location : "");
+
+                return response()->json($res, 200);
+            }
+            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3, "location" => $dataBeacon ? $dataBeacon->location : "");
+        }
+        return response()->json($res, 200);
+        // } catch (Exception $e) {
+        // $error = new Consolelog();
+        // $error->user_id = Auth::user()->id;
+        // $error->public = "attenDance";
+        // $error->message = $e->getMessage();
+        // $error->save();
+        // return back()->withError($e->getMessage());
+        // }
     }
 
     public function saveLogmobile(request $request)
