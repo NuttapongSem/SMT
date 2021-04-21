@@ -390,7 +390,7 @@
 
     <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
 
-        <a href="checkin">
+        <a href="/">
             <button type="checkin" class="btn btn-primary" style="width:150px;height:50px">
                 <i class="bi bi-arrow-left-circle"></i>
             </button>

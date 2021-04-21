@@ -6,6 +6,7 @@ use App\Events\DataUpdate;
 use App\Http\Services\LineService;
 use App\Models\Attendance;
 use App\Models\Consolelog;
+use App\Models\Device;
 use App\Models\Fingerprint;
 use App\Models\Group_position;
 use App\Models\Job_position;
@@ -21,6 +22,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use ReverseRegex\Generator\Scope;
+use ReverseRegex\Lexer;
+use ReverseRegex\Parser;
+use ReverseRegex\Random\SimpleRandom;
 
 class FingerprintController extends Controller
 {
@@ -101,6 +106,10 @@ class FingerprintController extends Controller
             if ($request->input("user_line_id")) {
                 $token = TokenLine::where("user_line_id", $request->input("user_line_id"))->first();
                 $date_save->fingerprint_id = $token->fingerprint_id;
+                $dataBeacon = Device::where("device_id", $request->input("device_id"))->first();
+                if ($dataBeacon) {
+                    $date_save->location = $dataBeacon->location;
+                }
             }
             $date_save->date = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date, '+7')->format('d-m-Y'));
             $date_save->time = date(Carbon::createFromFormat('Y-m-d H:i:s', $now_date)->format('H:i'));
@@ -108,9 +117,9 @@ class FingerprintController extends Controller
             $dateFormat = $this->DateThai($date_save->date, "dateEng");
 
             event(new DataUpdate($request->id));
-            $idgroup = Fingerprint::where('id', $request->id)->first();
+            $idgroup = Fingerprint::where('id', $date_save->fingerprint_id)->first();
             $idgroup->touch();
-            $datetiming = Attendance::where("date", $date_save->date)->where("fingerprint_id", $request->id)->first();
+            $datetiming = Attendance::where("date", $date_save->date)->where("fingerprint_id", $date_save->fingerprint_id)->first();
             if ($datetiming == null) {
                 if ($idgroup->group == 12) {
                     if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
@@ -142,7 +151,7 @@ class FingerprintController extends Controller
             }
 
             $statusIn =
-                Attendance::where("date", $date_save->date)->where("fingerprint_id", $request->id)->get();
+                Attendance::where("date", $date_save->date)->where("fingerprint_id", $date_save->fingerprint_id)->get();
             if (count($statusIn) != 0 || $date_save->status == "เข้า") {
 
                 $date_save->save();
@@ -831,11 +840,12 @@ class FingerprintController extends Controller
         return response()->json("token not found", 400);
     }
 
-    // public function keyGen()
-    // {
-    //     $tokens = TokenLine::get();
-    //     return view('fingpint.keyGen', ["tokens" => $tokens]);
-    // }
+    public function keyGen()
+    {
+        $devices = Device::get();
+
+        return view('fingpint.keyGen', ["devices" => $devices]);
+    }
 
     public function randomKey(Request $request)
     {
@@ -851,6 +861,25 @@ class FingerprintController extends Controller
         }
         // return response()->json($char . $fourRandomDigit, 200);
         return response()->json(["token" => $token], 200);
+    }
+
+    public function randomID(Request $request)
+    {
+        while (true == true) {
+            $str = mt_rand();
+            $result = substr(md5($str), 0, 12);
+
+            $device = Device::where("device_id", $result)->first();
+            if (!$device) {
+                $device = new Device();
+                $device->device_id = $result;
+                $device->location = $request->input("location");
+                $device->save();
+                $devices = Device::get();
+
+                return response()->json(compact('device', 'devices'), 200);
+            }
+        }
     }
 
     // public function deleteLineToken(Request $request)

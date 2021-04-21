@@ -296,7 +296,7 @@
                                     <button onclick="Note('{{ $key }}','{{ $row->num }}')" hidden class="btn btn-primary " id="btn-save-{{ $key }}" style="width:100px;height:40px" type="button">บันทึก
                                     </button>
 
-                                    <button class="btn btn-success" id="btn-edit-{{ $key }}" type="button" style="width:100px;height:40px" onclick="edit({{ $key }})">เเก้ไข
+                                    <button class="btn btn-success" id="btn-edit-{{ $key }}" type="button" style="width:100px;height:40px" onclick="edit('{{ $key }}')">เเก้ไข
                                     </button>
                                 </div>
                             </td>

@@ -238,16 +238,31 @@
 
         <div style="margin-top:1rem;margin-bottom:1rem;"><br>
             <div style="text-align: right;">
-                <button class="btn btn-primary" onclick="genKey()"><i class="fas fa-plus"></i> Generate new key</button>
+                <button class="btn btn-primary" onclick="inputDialog()"><i class="fas fa-plus"></i> Generate new key</button>
             </div>
-            <div id="listKey" style="height: 30em; background-color: white; text-align: center;overflow: scroll;" class="table-responsive-xl my-2 p-3" id="main">
-                @foreach ($tokens as $token)
-                <div class='row'>
+            <div class="table-responsive-xl" style="text-align: center">
+                <div class="row">
                     <div class='col'>
-                        {{ $token->token }}
-                        <hr>
+                        <h3>Device ID</h3>
+                    </div>
+                    <div class='col'>
+                        <h3>Location</h3>
                     </div>
                 </div>
+            </div>
+            <div id="listKey" style="height: 30em; background-color: white; text-align: center;overflow: scroll;" class="table-responsive-xl my-2 p-3" id="main">
+
+                @foreach ($devices as $device)
+                <div class='row'>
+                    <div class='col'>
+                        {{ $device->device_id }}
+                    </div>
+                    <div class='col'>
+                        {{ $device->location }}
+                    </div>
+                </div>
+                <hr>
+
                 @endforeach
             </div>
             <div style="text-align: center;">
@@ -277,42 +292,58 @@
                 document.body.style.backgroundColor = "lightgray";
             }
 
-            function genKey() {
+            function inputDialog() {
+                let input = document.createElement("input");
+                swal("Enter device location:", {
+                        content: "input",
+                        buttons: true,
+                    })
+                    .then((value) => {
+                        genKey(value)
+                    });
+            }
+
+            function genKey(location) {
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('/generateKey') }}",
+                    url: "{{ url('/generateID') }}",
+                    data: {
+                        location: location
+                    },
                     success: function(response) {
+                        console.log(response.device.device_id)
                         let input = document.createElement("input");
                         input.id = "keyInput"
-                        input.value = response.token.token;
+                        input.value = response.device.device_id;
                         input.type = 'text';
                         input.className = 'swal-content__input';
                         swal({
-                            title: "New key is",
-                            content: input,
-                            buttons: {
-                                copy: "copy",
-                                cancel: "close"
-                            },
-                            icon: "success",
-                        }).then(value => {
-                            switch (value) {
-                                case "copy":
-                                    input.select();
-                                    document.execCommand("copy");
-                                    document.getElementById("liveToast").className = "toast show"
-                                    setTimeout(() => {
-                                        document.getElementById("liveToast").className = "toast hide"
-                                    }, 2000)
-                                    break;
-                            }
+                                title: "Device ID at " + response.device.location,
+                                content: input,
+                                buttons: {
+                                    copy: "copy",
+                                    cancel: "close"
+                                },
+                                icon: "success",
+                            })
+                            .then(value => {
+                                switch (value) {
+                                    case "copy":
+                                        input.select();
+                                        document.execCommand("copy");
+                                        document.getElementById("liveToast").className = "toast show"
+                                        setTimeout(() => {
+                                            document.getElementById("liveToast").className = "toast hide"
+                                        }, 2000)
+                                        break;
+                                }
 
-                        })
+                            })
                         $("#listKey").empty()
-                        let tokens = response.tokens
+                        let devices = response.devices
 
-                        for (let index in tokens) {
-                            let col = "<div class='row'> <div class='col'>" + tokens[index].token + "<hr> </div> </div>"
+                        for (let index in devices) {
+                            let col = "<div class='row'> <div class='col'>" + devices[index].device_id + "</div> <div class='col'>" + devices[index].location + "</div> </div> <hr>"
                             $("#listKey").append(col)
                         }
 

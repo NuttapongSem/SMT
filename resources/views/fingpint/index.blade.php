@@ -176,29 +176,30 @@
 
 @if (Session::has('deleteSucess'))
 <script language="javascript">
-    alert('{{ Session::get('
-        deleteSucess ') }}')
+    alert("{{ Session::get('deleteSucess') }}")
 </script>
 @endif
 @if (Session::has('urlPDF'))
 <script>
-    let PDF = '{{ Session::get('
-    urlPDF ') }}';
+    let PDF = "{{ Session::get('urlPDF') }}";
     console.log(PDF);
     if (PDF != null) {
         window.open(PDF);
 
     }
 </script>
-<?php Session::forget('urlPDF'); ?>
+<?php
+
+
+$request->session()->forget('key');
+('urlPDF'); ?>
 
 @endif
 
 <body>
     @if (Session::has('save'))
     <script language="javascript">
-        alert('{{ Session::get('
-            save ') }}')
+        alert("{{ Session::get('save') }}")
     </script>
 
     @endif

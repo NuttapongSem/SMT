@@ -87,8 +87,7 @@
 <body>
     @if (Session::has('save'))
     <script language="javascript">
-        alert('{{ Session::get('
-            save ') }}')
+        alert("{{ Session::get('save ') }}");
     </script>
     @endif
 
@@ -227,8 +226,7 @@
             <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
                 <a href="/">
                     <button type="/" class="btn btn-primary" style="width:150px;height:50px">
-                        <i class="bi bi-arrow-le
-                         ft-circle"></i>
+                        <i class="bi bi-arrow-left-circle"></i>
                     </button>
                 </a>
             </div><br><br><br>
@@ -236,7 +234,6 @@
     </div>
     <script>
         function getToken(key, id) {
-            // alert(key);
             $.ajax({
                 type: "POST",
                 url: "{{ url('/generateKey') }}",
@@ -244,10 +241,8 @@
                     fingerprint_id: id
                 },
                 success: function(response) {
-                    // console.log(response);
                     let p = document.getElementById("p_" + key)
                     p.innerHTML = response.token
-                    // console.log(response.token)
                 }
             });
         }
