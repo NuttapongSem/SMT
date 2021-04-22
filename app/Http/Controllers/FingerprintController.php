@@ -104,6 +104,20 @@ class FingerprintController extends Controller
             $date_save->fingerprint_id = $request->id;
         }
         if ($request->input("user_line_id")) {
+            $check = $request->input("status");
+
+            // เช็คเพื่อ reply บอทบนไลน์
+            if ($check == "check") {
+                if ($this->checkAttedance($request->input("user_line_id"), "ออก")) {
+                    return response()->json(["status" => false], 200);
+                }
+                return response()->json(["status" => true], 200);
+            }
+
+
+            if ($this->checkAttedance($request->input("user_line_id"), $check)) {
+                return response()->json(["status" => false], 200);
+            }
             $token = TokenLine::where("user_line_id", $request->input("user_line_id"))->first();
             $date_save->fingerprint_id = $token->fingerprint_id;
             $dataBeacon = Device::where("device_id", $request->input("device_id"))->first();
@@ -878,6 +892,17 @@ class FingerprintController extends Controller
                 return response()->json(compact('device', 'devices'), 200);
             }
         }
+    }
+    public function checkAttedance($user_line_id, $status)
+    {
+        $user = TokenLine::where("user_line_id", $user_line_id)->first();
+        $today = Carbon::now()->format("d-m-Y");
+        $attendance = Attendance::where("fingerprint_id", $user->fingerprint_id)->where("date", $today)->where("status", $status)->first();
+        // return true if has one in attendance model
+        if ($attendance) {
+            return true;
+        }
+        return false;
     }
 
     // public function deleteLineToken(Request $request)
