@@ -321,7 +321,6 @@ class FingerprintController extends Controller
 
             $query = Fingerprint::where("id", $id)->first();
             $position = Group_position::with('job_position')->get();
-
             $jobs = Job_position::where("id_group", $query->group)->get();
             return view('fingpint.edit', ["data" => $query, 'data_list', 'position' => $position, "jobs" => $jobs]);
         } catch (Exception $e) {

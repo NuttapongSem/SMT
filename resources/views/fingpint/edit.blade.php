@@ -174,12 +174,14 @@
                     <img id="profileImg" src="{{ 'data:image/webp;base64,' . $data->imguser }}" alt="" style="width: 200px;height: auto"><br>
                     <input value="imguser" name="imguser" type="file" class="form-control" id="exampleFormControlInput1" onchange="readURL(this);">
                 </div><br>
-                <center><input type="submit" value="Submit" class="btn btn-primary" style="background-color: #006ABE;">
-                </center>
-            </div><br>
-    </div>
+                <div style="text-align:center;">
+                    <input type="submit" value="Submit" class="btn btn-primary" style="background-color: #006ABE;">
+                </div>
 
-    </form><br>
+            </div><br>
+
+        </form><br>
+    </div>
     <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
         <a href="/datauser">
             <button type="/datauser" class="btn btn-primary" style="width:150px;height:50px">
@@ -218,17 +220,10 @@
         })
     })
 
-    var dataOption = {
-        !!json_encode($data - > interest) !!
-    };
+    var dataOption = '<?php echo json_encode($data["interest"]); ?>'
     console.log(dataOption)
-    var jsonData = JSON.parse(dataOption)
-    let arr = [];
-    for (let i = 0; i < jsonData.length; i++) {
-        arr.push(jsonData[i]);
-    }
-    console.log(arr)
-    $('#interest').selectpicker('val', arr);
+    var jsonData = JSON.parse('<?php echo $data["interest"]; ?>')
+    $('#interest').selectpicker('val', jsonData);
 
     function readURL(input) {
         if (input.files && input.files[0]) {

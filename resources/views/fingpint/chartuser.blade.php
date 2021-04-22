@@ -532,10 +532,6 @@
         var myBarChart = Chart.Line(canvas, config);
     }
 
-    // function setRows(val) {
-    //     console.log(val)
-    // }
-
     $(document).ready(function() {
         $("#date").change(function() {
 
