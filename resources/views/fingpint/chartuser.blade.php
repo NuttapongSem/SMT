@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+    <link rel="stylesheet" href="sidenav.css">
     <style>
         body {
             margin: 3rem auto;
@@ -167,11 +167,32 @@
 
 
 
+    <div style="background-color: #F3C35D" class="row">
+        <div class="col-md-1"><span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</i></span></div>
+        <div class="col-md" style="text-align: center;">
+            <h2>Dashboard</h2>
+        </div>
+    </div>
 
-    <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Dashboard</h2><br>
 
-    <div class="container" style="background-color:#FDFDFD;"><br>
-
+    <div class="container" style="background-color:#FDFDFD;">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="{{ url('/') }}">หน้าหลัก</a>
+            <hr>
+            <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
+            <hr>
+            <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
+            <hr>
+            <a href=" {{ url('/leave') }}">ใบลา</a>
+            <hr>
+            <a href="chartuser">แผนภาพกราฟ</a>
+            <hr>
+            <a href="summary">สรุปการทำงาน</a>
+            <hr>
+            <a href="keyGen">Generate Device ID</a>
+        </div>
+        <script src="sidenav.js"></script>
 
         <div style="text-align: center;justify-content: center;display:flex;align-items: center;">
             <h4>Date ::&#160</h4>

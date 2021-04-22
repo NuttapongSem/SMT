@@ -24,6 +24,8 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="sidenav.css">
+
     <style>
         html,
         body {
@@ -109,13 +111,48 @@
         }
     </style>
 
+    <div class="row card-header" style="background-color: #F3C35D;">
 
+        <div class="col-lg-4">
+            <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</i></span>
+        </div>
 
+        <div class="col-lg-4 col-6" style="text-align:center;">
+            <h2>Attendance Log</h2>
+        </div>
+        <div class="col-lg-4 col-6" style="text-align: end;">
+            <div class="row" id="nav1">
+                <div class=" col-10" style="padding-top: 5px;">
+                    ชื่อผู้ใช้ : {{ Auth::user()->name }}
+                </div>
+                <div class="col-2">
+                    <a href="{{ url('/logout') }}">
+                        <button type="button" style="width:50px;height:40px;background-color: #dc3545;color:aliceblue" class="btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-
-
-    <h2 class="card-header" style="background-color: #F3C35D;text-align : center">Attendance</h2><br>
     <div class="container" style="background-color:#FDFDFD;">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="{{ url('/') }}">หน้าหลัก</a>
+            <hr>
+            <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
+            <hr>
+            <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
+            <hr>
+            <a href=" {{ url('/leave') }}">ใบลา</a>
+            <hr>
+            <a href="chartuser">แผนภาพกราฟ</a>
+            <hr>
+            <a href="summary">สรุปการทำงาน</a>
+            <hr>
+            <a href="keyGen">Generate Device ID</a>
+        </div>
         <div class="table-responsive-xl"><br>
             <div>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -316,6 +353,7 @@
             </button>
         </a>
     </div><br><br>
+    <script src="sidenav.js"></script>
     <script>
         $('#datepicker1').datepicker();
 

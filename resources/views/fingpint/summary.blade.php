@@ -25,6 +25,8 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="sidenav.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
@@ -121,40 +123,6 @@
             transition: background-color .5s;
         }
 
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #2C3E50;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #ffffff;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidenav a:hover {
-            color: #40ee89;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
         #main {
             transition: margin-left .5s;
             padding: 16px;
@@ -180,20 +148,7 @@
 <body>
 
 
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="{{ url('/') }}">หน้าหลัก</a>
-        <hr>
-        <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
-        <hr>
-        <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
-        <hr>
-        <a href=" {{ url('/leave') }}">ใบลา</a>
-        <hr>
-        <a href="chartuser">แผนภาพกราฟ</a>
-        <hr>
-        <a href="summary">สรุปการทำงาน</a>
-    </div>
+
     <div class="row card-header" style="background-color: #F3C35D;">
 
         <div class="col-lg-4">
@@ -233,6 +188,23 @@
     </div><br>
 
     <div class="container">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="{{ url('/') }}">หน้าหลัก</a>
+            <hr>
+            <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
+            <hr>
+            <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
+            <hr>
+            <a href=" {{ url('/leave') }}">ใบลา</a>
+            <hr>
+            <a href="chartuser">แผนภาพกราฟ</a>
+            <hr>
+            <a href="summary">สรุปการทำงาน</a>
+            <hr>
+            <a href="keyGen">Generate Device ID</a>
+        </div>
+        <script src="sidenav.js"></script>
 
         <div style="margin-top:1rem;margin-bottom:1rem;"><br>
 
@@ -266,19 +238,6 @@
                 {{ $data->links('pagination::bootstrap-4') }}
             </div><br>
         </div>
-        <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-                document.getElementById("main").style.marginLeft = "250px";
-                document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-            }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-                document.getElementById("main").style.marginLeft = "0";
-                document.body.style.backgroundColor = "lightgray";
-            }
-        </script>
 </body>
 
 </html>

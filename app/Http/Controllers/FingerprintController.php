@@ -252,7 +252,6 @@ class FingerprintController extends Controller
             }
 
             $query->save();
-            $data = Fingerprint::get();
 
             Session::flash("save", "เเก้ไขเรียบร้อย");
             return redirect('/datauser');

@@ -25,6 +25,7 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
     </script>
+    <link rel="stylesheet" href="sidenav.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
@@ -121,39 +122,7 @@
             transition: background-color .5s;
         }
 
-        .sidenav {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #2C3E50;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
 
-        .sidenav a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #ffffff;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidenav a:hover {
-            color: #40ee89;
-        }
-
-        .sidenav .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
 
         #main {
             transition: margin-left .5s;
@@ -251,28 +220,29 @@ $request->session()->forget('key');
                 </div>
             </div>
         </div>
-    </div><br>
+    </div>
 
     <div class="container">
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="{{ url('/') }}">หน้าหลัก</a>
+            <hr>
+            <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
+            <hr>
+            <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
+            <hr>
+            <a href=" {{ url('/leave') }}">ใบลา</a>
+            <hr>
+            <a href="chartuser">แผนภาพกราฟ</a>
+            <hr>
+            <a href="summary">สรุปการทำงาน</a>
+            <hr>
+            <a href="keyGen">Generate Device ID</a>
+        </div>
+        <script src="sidenav.js"></script>
 
         <div style="margin-top:1rem;margin-bottom:1rem;"><br>
 
-            <div id="mySidenav" class="sidenav">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="{{ url('/') }}">หน้าหลัก</a>
-                <hr>
-                <a href="{{ url('/datauser') }}">ข้อมูลส่วนตัว</a>
-                <hr>
-                <a href="{{ url('/checkin') }}">เวลาเข้า,ออกงาน</a>
-                <hr>
-                <a href=" {{ url('/leave') }}">ใบลา</a>
-                <hr>
-                <a href="chartuser">แผนภาพกราฟ</a>
-                <hr>
-                <a href="summary">สรุปการทำงาน</a>
-                <hr>
-                <a href="keyGen">Line Register</a>
-            </div>
             <div class=" table-responsive-xl" id="main">
                 <table class="table">
 
@@ -337,64 +307,6 @@ $request->session()->forget('key');
                 </table>
             </div><br>
         </div>
-        <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-                document.getElementById("main").style.marginLeft = "250px";
-                document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-            }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-                document.getElementById("main").style.marginLeft = "0";
-                document.body.style.backgroundColor = "lightgray";
-            }
-        </script>
 </body>
 
 </html>
-
-
-
-
-
-
-{{-- ปุ่มเก่า เเละ Modal --}}
-{{-- <a href="{{ url('/datauser') }}">
-<button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
-</a> --}}
-{{-- <a href="{{ url('/datauser') }}">
-<button type="button" class="btn btn-danger mx-0" style="width:150px;height:35px;color:aliceblue"><i class="bi bi-journal-check"></i>&#160;ข้อมูลส่วนตัว</button>
-</a>
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" style="width:200px;height:35px;">
-    <i class="bi bi-hourglass-bottom"></i>&#160; เวลา เข้า-ออก-ใบลา
-</button>
-
-<a href="chartuser">
-    <button type="button" class="btn btn-primary" data-toggle="modal" style="width:150px;height:35px;">
-        <i class="bi bi-file-bar-graph-fill"></i>&#160;
-        แผนภาพกราฟ
-    </button>
-</a>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">กราฟ</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <a href="{{ url('/checkin') }}">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" style="width:200px;height:35px;background-color:#239B56;">เวลา เข้า-ออก
-                        งานทั่งหมด</button>
-                </a>
-            </div>
-            <div class="modal-body">
-                <a href=" {{ url('/leave') }}" role="button" class="btn btn-secondary popover-test" title="Popover title" data-bs-content="Popover body content is set in this attribute." style="width:125px;height:35px;">ใบลา</a>
-            </div>
-        </div>
-    </div> --}}
-    {{-- </div> --}}
