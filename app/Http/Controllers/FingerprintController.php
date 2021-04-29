@@ -109,14 +109,14 @@ class FingerprintController extends Controller
             // เช็คเพื่อ reply บอทบนไลน์
             if ($check == "check") {
                 if ($this->checkAttedance($request->input("user_line_id"), "ออก")) {
-                    return response()->json(["status" => false], 200);
+                    return response()->json(["isRepeat" => true], 200);
                 }
-                return response()->json(["status" => true], 200);
+                return response()->json(["isRepeat" => false], 200);
             }
 
 
             if ($this->checkAttedance($request->input("user_line_id"), $check)) {
-                return response()->json(["status" => false], 200);
+                return response()->json(["isRepeat" => false], 200);
             }
             $token = TokenLine::where("user_line_id", $request->input("user_line_id"))->first();
             $date_save->fingerprint_id = $token->fingerprint_id;
@@ -139,7 +139,7 @@ class FingerprintController extends Controller
                 if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                     $date_save->late = "สาย";
                     $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                    // $this->Line_Noti($message);
+                    $this->Line_Noti($message);
                 }
                 if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:00')->format('H:i'))) && $request->status == "เข้า") {
                     $date_save->late = "ตรงต่อเวลา";
@@ -149,7 +149,7 @@ class FingerprintController extends Controller
                 if (($date_save->time > date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                     $date_save->late = "สาย";
                     $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: สาย " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-                    // $this->Line_Noti($message);
+                    $this->Line_Noti($message);
                 }
                 if (($date_save->time < date(Carbon::createFromFormat('H:i', '9:15')->format('H:i'))) && $request->status == "เข้า") {
                     $date_save->late = "ตรงต่อเวลา";
@@ -161,7 +161,7 @@ class FingerprintController extends Controller
 
             $date_save->late = "ออกก่อนเวลา";
             $message = "\n" . "ชื่อ:" . " " . $idgroup->name . "\n" . "กลุ่ม:" . " " . $idgroup->nameposition() . "\nสถานะ: ออกก่อนเวลา " . "\nวันที่:" . $dateFormat . " " . "\nเวลา:" . $date_save->time;
-            // $this->Line_Noti($message);
+            $this->Line_Noti($message);
         }
 
         $statusIn =
@@ -173,26 +173,26 @@ class FingerprintController extends Controller
 
         if ($date_save->late == "สาย") {
 
-            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 1, "location" => $dataBeacon ? $dataBeacon->location : "");
+            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 1, "location" => $dataBeacon ? $dataBeacon->location : "", "isRepeat" => false);
 
             return response()->json($res, 200);
         }
         if ($date_save->late == "ออกก่อนเวลา") {
 
-            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 2, "location" => $dataBeacon ? $dataBeacon->location : "");
+            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 2, "location" => $dataBeacon ? $dataBeacon->location : "", "isRepeat" => false);
 
             return response()->json($res, 200);
         }
 
-        $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 0, "location" => $dataBeacon ? $dataBeacon->location : "");
+        $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 0, "location" => $dataBeacon ? $dataBeacon->location : "", "isRepeat" => false);
         if ($date_save->status == 'ออก') {
 
             if (count($statusIn) == 0) {
-                $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 4, "location" => $dataBeacon ? $dataBeacon->location : "");
+                $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 4, "location" => $dataBeacon ? $dataBeacon->location : "", "isRepeat" => false);
 
                 return response()->json($res, 200);
             }
-            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3, "location" => $dataBeacon ? $dataBeacon->location : "");
+            $res = (object) array('id' => 0, "date" => 0, "time" => 0, "status" => 3, "location" => $dataBeacon ? $dataBeacon->location : "", "isRepeat" => false);
         }
         return response()->json($res, 200);
         // } catch (Exception $e) {
